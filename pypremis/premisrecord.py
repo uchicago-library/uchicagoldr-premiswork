@@ -253,6 +253,27 @@ class LinkingObjectIdentifier(object):
         pass
 
 
+class EventIdentifier(object):
+    def __init__(self):
+        self.root = ET.element('eventIdentifier')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_eventIdentifierType(self, eventIdentifierType):
+        pass
+
+    def get_eventIdentifierType(self):
+        pass
+
+    def set_eventIdentifierValue(self, eventIdentifierValue):
+        pass
+
+    def get_eventIdentifierValue(self):
+        pass
+
+
 class LinkingEventIdentifier(object):
     def __init__(self):
         self.root = ET.element('linkingEventIdentifier')
@@ -927,8 +948,125 @@ class PremisEvent(object):
     def __repr__(self):
         return ET.tostring(self.root, encoding="unicode")
 
+    def set_eventIdentifier(self, eventIdentifier):
+        pass
 
-class PremisEntity(object):
+    def get_eventIdentifier(self):
+        pass
+
+    def set_eventType(self, eventType):
+        pass
+
+    def get_eventType(self):
+        pass
+
+    def set_eventDateTime(self, eventDateTime):
+        pass
+
+    def get_eventDateTime(self):
+        pass
+
+    def set_eventOutcomeInformation(self, eventOutcomeInformation):
+        pass
+
+    def set_linkingAgentIdentifier(self, linkingAgentIdentifier):
+        pass
+
+    def get_linkingAgentIdentifier(self):
+        pass
+
+    def add_linkingAgentIdentifier(self, linkingAgentIdentifier):
+        pass
+
+    def set_linkingObjectIdentifier(self, linkingObjectIdentifier):
+        pass
+
+    def get_linkingObjectIdentifier(self):
+        pass
+
+    def add_linkingObjectIdentifier(self, linkingObjectIdentifier):
+        pass
+
+
+class EventOutcomeInformation(object):
+    def __init__(self):
+        self.root = ET.element('eventOutcomeInformation')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_eventOutcome(self, eventOutcome):
+        pass
+
+    def get_eventOutcome(self):
+        pass
+
+    def set_eventDetailInformation(self, eventDetailInformation):
+        pass
+
+    def get_eventDetailInformation(self):
+        pass
+
+    def add_eventDetailInformation(self, eventDetailInformation):
+        pass
+
+    def set_eventOutcomeDetail(self, eventOutcomeDetail):
+        pass
+
+    def get_eventOutcomeDetail(self):
+        pass
+
+
+class EventDetailInformation(object):
+    def __init__(self):
+        self.root = ET.element('eventDetailInformation')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_eventDetail(self, eventDetail):
+        pass
+
+    def get_eventDetail(self):
+        pass
+
+    def set_eventDetailExtension(self, eventDetailExtension):
+        pass
+
+    def get_eventDetailExtension(self):
+        pass
+
+    def add_eventDetailExtension(self, eventDetailExtension):
+        pass
+
+
+class EventOutcomeDetail(object):
+    def __init__(self):
+        self.root = ET.element('eventOutcomeDetail')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_eventOutcomeDetailNote(self, eventOutcomeDetailNote):
+        pass
+
+    def get_eventOutcomeDetailNote(self):
+        pass
+
+    def set_eventOutcomeDetailExtension(self, eventOutcomeDetailExtension):
+        pass
+
+    def get_eventOutcomeDetailExtension(self):
+        pass
+
+    def add_eventOutcomeDetailExtension(self, eventOutcomeDetailExtension):
+        pass
+
+
+class PremisAgent(object):
     def __init__(self):
         pass
         self.root = ET.element('entity')
