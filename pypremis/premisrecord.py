@@ -1203,8 +1203,572 @@ class LinkingEntityAgentIdentifier(object):
 
 class PremisRights(object):
     def __init__(self):
-        pass
         self.root = ET.element('rights')
+        pass
 
     def __repr__(self):
         return ET.tostring(self.root, encoding="unicode")
+
+    def set_rightsStatement(self, rightsStatement):
+        pass
+
+    def get_rightsStatement(self):
+        pass
+
+    def add_rightsStatement(self, rightsStatement):
+        pass
+
+    def set_rightsExtension(self, rightsExtension):
+        pass
+
+    def get_rightsExtension(self):
+        pass
+
+    def add_rightsExtension(self, rightsExtension):
+        pass
+
+
+class RightsStatement(object):
+    def __init__(self):
+        self.root = ET.element('rightsStatement')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_rightsStatementIdentifier(self, rightsStatementIdentifier):
+        pass
+
+    def get_rightsStatementIdentifier(self):
+        pass
+
+    def set_rightsBasis(self, rightsBasis):
+        pass
+
+    def get_rightsBasis(self):
+        pass
+
+    def set_copyrightInformation(self, copyrightInformation):
+        pass
+
+    def get_copyrightInformation(self):
+        pass
+
+    def set_licenseInformation(self, licenseInformation):
+        pass
+
+    def get_licenseInformation(self):
+        pass
+
+    def set_statuteInformation(self, statuteInformation):
+        pass
+
+    def get_statuteInformation(self):
+        pass
+
+    def add_statuteInformation(self, statuteInformation):
+        pass
+
+    def set_otherRightsInformation(self, otherRightsInformation):
+        pass
+
+    def get_otherRightsInformation(self):
+        pass
+
+    def set_rightsGranted(self, rightsGranted):
+        pass
+
+    def get_rightsGranted(self):
+        pass
+
+    def add_rightsGranted(self, rightsGranted):
+        pass
+
+    def set_linkingObjectIdentifier(self, linkingObjectIdentifier):
+        pass
+
+    def get_linkingObjectIdentifier(self):
+        pass
+
+    def add_linkingObjectIdentifier(self, linkingObjectIdentifier):
+        pass
+
+    def set_linkingAgentIdentifier(self, linkingAgentIdentifier):
+        pass
+
+    def get_linkingAgentIdentifier(self):
+        pass
+
+    def add_linkingAgentIdentifier(self, linkingAgentIdentifier):
+        pass
+
+
+class RightsGranted(object):
+    def __init__(self):
+        self.root = ET.element('rightsGranted')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_act(self, act):
+        pass
+
+    def get_act(self):
+        pass
+
+    def set_restriction(self, restriction):
+        pass
+
+    def get_restriction(self):
+        pass
+
+    def add_restriction(self, restriction):
+        pass
+
+    def set_termOfGrant(self, termOfGrant):
+        pass
+
+    def get_termOfGrant(self):
+        pass
+
+    def set_termOfRestriction(self, termOfRestriction):
+        pass
+
+    def get_termOfRestriction(self):
+        pass
+
+    def set_rightsGrantedNote(self, rightsGrantedNote):
+        pass
+
+    def get_rightsGrantedNote(self):
+        pass
+
+    def add_rightsGrantedNote(self, rightsGrantedNote):
+        pass
+
+
+class TermOfRestriction(object):
+    def __init__(self):
+        self.root = ET.element('termOfRestriction')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_startDate(self, startDate):
+        pass
+
+    def get_startDate(self):
+        pass
+
+    def set_endDate(self, endDate):
+        pass
+
+    def get_endDate(self):
+        pass
+
+
+class TermOfGrant(object):
+    def __init__(self):
+        self.root = ET.element('termOfGrant')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_startDate(self, startDate):
+        pass
+
+    def get_startDate(self):
+        pass
+
+    def set_endDate(self, endDate):
+        pass
+
+    def get_endDate(self):
+        pass
+
+
+class OtherRightsInformation(object):
+    def __init__(self):
+        self.root = ET.element('otherRightsInformation')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_otherRightsDocumentationIdentifier(self, otherRightsDocumentationIdentifier):
+        pass
+
+    def get_otherRightsDocumentationIdentifier(self):
+        pass
+
+    def set_otherRightsBasis(self, otherRightsBasis):
+        pass
+
+    def get_otherRightsBasis(self):
+        pass
+
+    def set_otherRightsApplicableDates(self, otherRightsApplicableDates):
+        pass
+
+    def get_otherRightsApplicableDates(self):
+        pass
+
+    def set_otherRightsNote(self, otherRightsNote):
+        pass
+
+    def get_otherRightsNote(self):
+        pass
+
+    def add_otherRightsNote(self):
+        pass
+
+
+class OtherRightsApplicableDates(object):
+    def __init__(self):
+        self.root = ET.element('otherRightsApplicableDates')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_startDate(self, startDate):
+        pass
+
+    def get_startDate(self):
+        pass
+
+    def set_endDate(self, endDate):
+        pass
+
+    def get_endDate(self):
+        pass
+
+
+class OtherRightsDocumentationIdentifier(object):
+    def __init__(self):
+        self.root = ET.element('otherRightsDocumentationIdentifier')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_otherRightsDocumentationIdentifierType(self, otherRightsDocumentationIdentifierType):
+        pass
+
+    def get_otherRightsDocumentationIdentifierType(self):
+        pass
+
+    def set_otherRightsDocumentationIdentifierValue(self, otherRightsDocumentationIdentifierValue):
+        pass
+
+    def set_otherRightsDocumentationRole(self, otherRightsDocumentationRole):
+        pass
+
+    def get_otherRightsDocumentationRole(self):
+        pass
+
+
+class StatuteInformation(object):
+    def __init__(self):
+        self.root = ET.element('statuteInformation')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_statuteJurisdiction(self, statuteJurisdiction):
+        pass
+
+    def get_statuteJurisdiction(self):
+        pass
+
+    def set_statuteCitation(self, statuteCitation):
+        pass
+
+    def get_statuteCitation(self):
+        pass
+
+    def set_statuteInformationDeterminationDate(self, statuteInformationDeterminationDate):
+        pass
+
+    def get_statuteInformationDeterminationDate(self):
+        pass
+
+    def set_statuteNote(self, statuteNote):
+        pass
+
+    def get_statuteNote(self):
+        pass
+
+    def add_statuteNote(self, statuteNote):
+        pass
+
+    def set_statuteDocumentationIdentifier(self, statuteDocumentationIdentifier):
+        pass
+
+    def get_statuteDocumentationIdentifier(self):
+        pass
+
+    def add_statuteDocumentationIdentifier(self, statuteDocumentationIdentifier):
+        pass
+
+    def set_statuteApplicableDates(self, statuteApplicableDates):
+        pass
+
+    def get_statuteApplicableDates(self):
+        pass
+
+
+class StatuteApplicableDates(object):
+    def __init__(self):
+        self.root = ET.element('statuteApplicableDates')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicde')
+
+    def set_startDate(self, startDate):
+        pass
+
+    def get_startDate(self):
+        pass
+
+    def set_endDate(self, endDate):
+        pass
+
+    def get_endDate(self):
+        pass
+
+
+class StatuteDocumentationIdentifier(object):
+    def __init__(self):
+        self.root = ET.element('statuteDocumentationIdentifier')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_statuteDocumentationIdentifierType(self, statuteDocumentationIdentifierType):
+        pass
+
+    def get_statuteDocumentationIdentifierType(self):
+        pass
+
+    def set_statuteDocumentationIdentifierValue(self, statuteDocumentationIdentifierValue):
+        pass
+
+    def get_statuteDocumentationIdentifierValue(self):
+        pass
+
+    def set_statuteDocumentationRole(self, statuteDocumentationRole):
+        pass
+
+    def get_statuteDocumentationRole(self):
+        pass
+
+
+class LicenseInformation(object):
+    def __init__(self):
+        self.root = ET.element('licenseInformation')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_licenseDocumentationIdentifier(self, licenseDocumentationIdentifier):
+        pass
+
+    def get_licenseDocumentationIdentifier(self):
+        pass
+
+    def add_licenseDocumentationIdentifier(self, licenseDocumentationIdentifier):
+        pass
+
+    def set_licenseTerms(self, licenseTerms):
+        pass
+
+    def get_licenseTerms(self):
+        pass
+
+    def set_licenseNote(self, licenseNote):
+        pass
+
+    def get_licenseNote(self):
+        pass
+
+    def set_licenseApplicableDates(self, licenseApplicationDates):
+        pass
+
+    def get_licenseApplicableDates(self):
+        pass
+
+
+class LicenseApplicableDates(object):
+    def __init__(self):
+        self.root = ET.element('licenseApplicableDates')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_startDate(self, startDate):
+        pass
+
+    def get_startDate(self):
+        pass
+
+    def set_endDate(self, endDate):
+        pass
+
+    def get_endDate(self, endDate):
+        pass
+
+
+class LicenseDocumentationIdentifier(object):
+    def __init__(self):
+        self.root = ET.element('licenseInformation')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_licenseDocumentationIdentifierType(self, licenseDocumentationIdentifierType):
+        pass
+
+    def get_licenseDocumentationIdentifierType(self):
+        pass
+
+    def set_licenseDocumentationIdentifierValue(self, licenseDocumentationIdentifierValue):
+        pass
+
+    def get_licenseDocumentationIdentifierValue(self):
+        pass
+
+    def set_licenseDocumentationRole(self, licenseDocumentationRole):
+        pass
+
+    def get_licenseDocumentationRole(self):
+        pass
+
+
+class CopyrightInformation(object):
+    def __init__(self):
+        self.root = ET.element('copyrightInformation')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_copyrightStatus(self, copyrightStatus):
+        pass
+
+    def get_copyrightStatus(self):
+        pass
+
+    def set_copyrightJurisdiction(self, copyrightJurisdiction):
+        pass
+
+    def get_copyrightJurisdiction(self):
+        pass
+
+    def set_copyrightStatusDeterminationDate(self, copyrightStatusDeterminationDate):
+        pass
+
+    def get_copyrightStatusDeterminationDate(self):
+        pass
+
+    def set_copyrightNote(self, copyrightNote):
+        pass
+
+    def get_copyrightNote(self):
+        pass
+
+    def add_copyrightNote(self, copyrightNote):
+        pass
+
+    def set_copyrightDocumentationIdentifier(self, copyrightDocumentationIdentifier):
+        pass
+
+    def get_copyrightDocumentationIdentifier(self):
+        pass
+
+    def add_copyrightDocumentationIdentifier(self, copyrightDocumentationIdentifier):
+        pass
+
+    def set_copyrightApplicableDates(self, copyrightApplicableDates):
+        pass
+
+    def get_copyrightApplicableDates(self):
+        pass
+
+
+class CopyrightApplicableDates(object):
+    def __init__(self):
+        self.root = ET.element('copyrightApplicableDates')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_startDate(self, startDate):
+        pass
+
+    def get_startDate(self):
+        pass
+
+    def set_endDate(self, endDate):
+        pass
+
+    def get_endDate(self):
+        pass
+
+
+class CopyrightDocumentationIdentifier(object):
+    def __init__(self):
+        self.root = ET.element('copyrightDocumentationIdentifier')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_copyrightDocumentationIdentifierType(self, copyrightDocumentationIdentifierType):
+        pass
+
+    def get_copyrightDocumentationIdentifierType(self):
+        pass
+
+    def set_copyrightDocumentationIdentifierValue(self, copyrightDocumentationIdentifierValue):
+        pass
+
+    def get_copyrightDocumentationIdentifierValue(self):
+        pass
+
+    def set_copyrightDocumentationRole(self, copyrightDocumentationRole):
+        pass
+
+    def get_copyrightDocumentationRole(self):
+        pass
+
+
+class RightsStatementIdentifier(object):
+    def __init__(self):
+        self.root = ET.element('rightsStatementIdentifier')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_rightsStatementIdentifierType(self, rightsStatementIdentifierType):
+        pass
+
+    def get_rightsStatementIdentifierType(self):
+        pass
+
+    def set_rightsStatementIdentifierValue(self, rightsStatementIdentifierValue):
+        pass
+
+    def get_rightsStatementIdentifierValue(self):
+        pass
