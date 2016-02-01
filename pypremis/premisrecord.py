@@ -223,7 +223,37 @@ class ObjectIdentifier(object):
         pass
 
 
-class ObjectLinkingEventIdentifier(object):
+class LinkingObjectIdentifier(object):
+    def __init__(self):
+        self.root = ET.element('linkingObjectIdentifier')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_linkingObjectIdentifierType(self, linkingObjectIdentifierType):
+        pass
+
+    def get_linkingObjectIdentifierType(self):
+        pass
+
+    def set_linkingObjectIdentifierValue(self, linkingObjectIdentifierValue):
+        pass
+
+    def get_linkingObjectIdentifierValue(self):
+        pass
+
+    def set_linkingObjectRole(self, linkingObjectRole):
+        pass
+
+    def get_linkingObjectRole(self):
+        pass
+
+    def add_linkingObjectRole(self, linkingObjectRole):
+        pass
+
+
+class LinkingEventIdentifier(object):
     def __init__(self):
         self.root = ET.element('linkingEventIdentifier')
         pass
@@ -244,7 +274,7 @@ class ObjectLinkingEventIdentifier(object):
         pass
 
 
-class ObjectLinkingRightsStatementIdentifier(object):
+class LinkingRightsStatementIdentifier(object):
     def __init__(self):
         self.root = ET.element('linkingRightsStatementIdentifier')
         pass
@@ -905,6 +935,132 @@ class PremisEntity(object):
 
     def __repr__(self):
         return ET.tostring(self.root, encoding="unicode")
+
+    def set_agentIdentifier(self, agentIdentifier):
+        pass
+
+    def get_agentIdentifier(self):
+        pass
+
+    def add_agentIdentifier(self, agentIdentifier):
+        pass
+
+    def set_agentName(self, agentName):
+        pass
+
+    def get_agentName(self):
+        pass
+
+    def add_agentName(self, agentName):
+        pass
+
+    def set_agentType(self, agentType):
+        pass
+
+    def get_agentType(self):
+        pass
+
+    def set_agentVersion(self, agentVersion):
+        pass
+
+    def get_agentVersion(self):
+        pass
+
+    def set_agentNote(self, agentNote):
+        pass
+
+    def get_agentNote(self):
+        pass
+
+    def add_agentNote(self, agentNote):
+        pass
+
+    def set_agentExtension(self, agentExtension):
+        pass
+
+    def get_agentExtension(self):
+        pass
+
+    def add_agentExtension(self, agentExtension):
+        pass
+
+    def set_linkingEventIdentifier(self, linkingEventIdentifier):
+        pass
+
+    def get_linkingEventIdentifier(self):
+        pass
+
+    def add_linkingEventIdentifier(self, linkingEventIdentifier):
+        pass
+
+    def set_linkingRightsStatementIdentifier(self, linkingRightsStatementIdentifier):
+        pass
+
+    def get_linkingRightsStatementIdentifier(self):
+        pass
+
+    def add_linkingRightsStatementIdentifier(self, linkingRightsStatementIdentifier):
+        pass
+
+    def set_linkingEnvironmentIdentifier(self, linkingEnvironmentIdentifier):
+        pass
+
+    def get_linkingEnvironmentIdentifier(self):
+        pass
+
+    def add_linkingEnvironmentIdentifier(self, linkingEnvironmentIdentifier):
+        pass
+
+
+class LinkingEnvironmentIdentifier(object):
+    def __init__(self):
+        self.root = ET.element('linkingEnvironmentIdentifier')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_linkingEnvironmentIdentifierType(self, linkingEnvironmentIdentifierType):
+        pass
+
+    def get_linkingEnvironmentIdentifierType(self):
+        pass
+
+    def set_linkingEnvironmentIdentifierValue(self, linkingEnvironmentIdentifierValue):
+        pass
+
+    def get_linkingEnvironmentIdentifierValue(self):
+        pass
+
+    def set_linkingEnvironmentRole(self, linkingEnvironmentRole):
+        pass
+
+    def get_linkingEnvironmentRole(self):
+        pass
+
+    def add_linkingEnvironmentRole(self, linkingEnvironmentRole):
+        pass
+
+
+class LinkingEntityAgentIdentifier(object):
+    def __init__(self):
+        self.root = ET.element('agentIdentifier')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding="unicode")
+
+    def set_agentIdentifierType(self, agentIdentifierType):
+        pass
+
+    def get_agentIdentifierType(self):
+        pass
+
+    def set_agentIdentifierValue(self, agentIdentifierValue):
+        pass
+
+    def get_agentIdentifierValue(self):
+        pass
 
 
 class PremisRights(object):
