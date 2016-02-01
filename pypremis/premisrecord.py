@@ -72,16 +72,13 @@ class PremisObject(object):
     def __repr__(self):
         return ET.tostring(self.root, encoding="unicode")
 
-    def set_objectIdentifierType(self, objectIdentifierType):
+    def set_objectIdentifier(self, objectIdentifier):
         pass
 
-    def get_objectIdentifierType(self):
+    def get_objectIdentifier(self):
         pass
 
-    def set_objectIdentifierValue(self, objectIdentifierValue):
-        pass
-
-    def get_objectIdentifierValue(self):
+    def add_objectIdentifier(self, objectIdentifier):
         pass
 
     def set_objectCategory(self, objectCategory):
@@ -96,16 +93,25 @@ class PremisObject(object):
     def get_preservationLevel(self):
         pass
 
+    def add_preservationLevel(self, preservationLevel):
+        pass
+
     def set_significantProperties(self, significantProperties):
         pass
 
     def get_significantProperties(self):
         pass
 
+    def add_significantProperties(self, significantProperties):
+        pass
+
     def set_objectCharacteristics(self, objectCharacteristics):
         pass
 
     def get_objectCharacteristics(self):
+        pass
+
+    def add_objectCharacteristics(self, objectCharacteristics):
         pass
 
     def set_originalName(self, originalName):
@@ -120,16 +126,25 @@ class PremisObject(object):
     def get_storage(self):
         pass
 
+    def add_storage(self, storage):
+        pass
+
     def set_signatureInformation(self, signatureInformation):
         pass
 
     def get_signatureInformation(self):
         pass
 
+    def add_signatureInformation(self, signatureInformation):
+        pass
+
     def set_environmentFunction(self, environmentFunction):
         pass
 
-    def get_environmentFunction(self, environmentFunction):
+    def get_environmentFunction(self):
+        pass
+
+    def add_environmentFunction(self, environmentFunction):
         pass
 
     def set_environmentDesignation(self, environmentDesignation):
@@ -138,10 +153,16 @@ class PremisObject(object):
     def get_environmentDesignation(self):
         pass
 
+    def add_environmentDesignation(self, environmentDesignation):
+        pass
+
     def set_environmentRegistry(self, environmentRegistry):
         pass
 
     def get_environmentRegistry(self):
+        pass
+
+    def add_environmentRegistry(self, environmentRegistry):
         pass
 
     def set_environmentExtension(self, environmentExtension):
@@ -150,10 +171,16 @@ class PremisObject(object):
     def get_environmentExtension(self):
         pass
 
+    def add_environmentExtension(self):
+        pass
+
     def set_relationship(self, relationship):
         pass
 
     def get_relationship(self):
+        pass
+
+    def add_relationship(self, relationship):
         pass
 
     def set_linkingEventIdentifier(self, linkingEventIdentifier):
@@ -162,10 +189,37 @@ class PremisObject(object):
     def get_linkingEventIdentifier(self):
         pass
 
+    def add_linkingEventIdentifier(self, linkingEventIdentifier):
+        pass
+
     def set_linkingRightsStatementIdentifier(self, linkingRightsStatementIdentifier):
         pass
 
     def get_linkingRightsStatementIdentifier(self):
+        pass
+
+    def add_linkingRightsStatementIdentifier(self, linkingRightsStatementIdentifier):
+        pass
+
+
+class ObjectIdentifier(object):
+    def __init__(self):
+        self.root = ET.element('objectIdentifier')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_objectIdentifierType(self, objectIdentifierType):
+        pass
+
+    def get_objectIdentifierType(self):
+        pass
+
+    def set_objectIdentifierValue(self, objectIdentifierValue):
+        pass
+
+    def get_objectIdentifierValue(self):
         pass
 
 
@@ -237,16 +291,25 @@ class ObjectRelationship(object):
     def get_relatedObjectIdentifier(self):
         pass
 
+    def add_relatedObjectIdentifier(self, relatedObjectIdentifier):
+        pass
+
     def set_relatedEventIdentifier(self, relatedEventIdentifer):
         pass
 
-    def get_relatedEventIdentifer(self):
+    def get_relatedEventIdentifier(self):
+        pass
+
+    def add_relatedEventIdentifier(self, relatedEventIdentifier):
         pass
 
     def set_relatedEnvironmentPurpose(self, relatedEnvironmentPurpose):
         pass
 
     def get_relatedEnvironmentPurpose(self):
+        pass
+
+    def add_relatedEnvironmentPurpose(self):
         pass
 
     def set_relatedEnvironmentCharacteristic(self, relatedEnvironmentCharacteristic):
@@ -369,10 +432,16 @@ class ObjectEnvironmentDesignation(object):
     def get_environmentDesignationNote(self):
         pass
 
+    def add_environmentDesignationNote(self, environmentDesignationNote):
+        pass
+
     def set_environmentDesignationExtension(self, environmentDesignationExtension):
         pass
 
     def get_environmentDesignationExtension(self):
+        pass
+
+    def add_environmentDesignationExtension(self, environmentDesignationExtension):
         pass
 
 
@@ -411,10 +480,16 @@ class ObjectSignatureInformation(object):
     def get_signature(self):
         pass
 
+    def add_signature(self, signature):
+        pass
+
     def set_signatureInformationExtension(self, signatureInformationExtension):
         pass
 
     def get_signatureInformationExtension(self):
+        pass
+
+    def add_signatureInformationExtension(self, signatureInformationExtension):
         pass
 
 
@@ -457,6 +532,9 @@ class ObjectSignatureInformationSignature(object):
         pass
 
     def set_signatureProperties(self, signatureProperties):
+        pass
+
+    def add_signatureProperties(self, signatureProperties):
         pass
 
     def get_signatureProperties(self):
@@ -531,6 +609,9 @@ class ObjectCharacteristics(object):
     def get_fixity(self):
         pass
 
+    def add_fixity(self, fixity):
+        pass
+
     def set_size(self, size):
         pass
 
@@ -543,16 +624,25 @@ class ObjectCharacteristics(object):
     def get_format(self):
         pass
 
-    def set_creatingApplication(self, creationApplication):
+    def add_format(self, format):
+        pass
+
+    def set_creatingApplication(self, creatingApplication):
         pass
 
     def get_creatingApplication(self):
+        pass
+
+    def add_creatingApplication(self, creatingApplication):
         pass
 
     def set_inhibitors(self, inhibitors):
         pass
 
     def get_inhibitors(self):
+        pass
+
+    def add_inhibitors(self, inhibitors):
         pass
 
     def set_objectCharacteristicsExtension(self, objectCharacteristicsExtension):
@@ -577,6 +667,9 @@ class ObjectCharacteristicsInhibitors(object):
         pass
 
     def set_inhibitorTarget(self, inhibitorTarget):
+        pass
+
+    def add_inhibitorTarget(self, inhibitorTarget):
         pass
 
     def get_inhibitorTarget(self):
@@ -619,6 +712,9 @@ class ObjectCharacteristicsCreatingApplication(object):
         pass
 
     def get_creatingApplicationExtension(self):
+        pass
+
+    def add_creatingApplicationExtension(self, creatingApplicationExtension):
         pass
 
 
@@ -750,6 +846,9 @@ class ObjectSignificantProperties(object):
     def get_significantPropertiesExtension(self):
         pass
 
+    def add_significantPropertiesExtension(self, significantPropertiesExtension):
+        pass
+
 
 class ObjectPreservationLevel(object):
     def __init__(self):
@@ -781,6 +880,9 @@ class ObjectPreservationLevel(object):
         pass
 
     def get_preservationLevelRationale(self):
+        pass
+
+    def add_preservationLevelRationale(self, preservationLevelRationale):
         pass
 
     def set_preservationLevelDateAssigned(self, preservationLevelDateAssigned):
