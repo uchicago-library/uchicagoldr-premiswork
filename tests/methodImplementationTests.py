@@ -135,7 +135,6 @@ class TestObjectMethods(unittest.TestCase):
         a.get_objectCharacteristicsExtension()
         a.add_objectCharacteristicsExtension(1)
 
-
     def testStorage(self):
         a = Storage()
 
@@ -285,7 +284,6 @@ class TestObjectMethods(unittest.TestCase):
         a.set_relatedEventSequence(1)
         a.get_relatedEventSequence()
 
-
     def testRelatedObjectIdentifier(self):
         a = RelatedObjectIdentifier()
 
@@ -297,7 +295,6 @@ class TestObjectMethods(unittest.TestCase):
 
         a.set_relatedObjectSequence(1)
         a.get_relatedObjectSequence()
-
 
     def testInhibitors(self):
         a = Inhibitors()
@@ -530,6 +527,7 @@ class TestEvent(unittest.TestCase):
         a.get_linkingObjectRole()
         a.add_linkingObjectRole(1)
 
+
 class TestRights(unittest.TestCase):
     def testRights(self):
         a = PremisRights()
@@ -645,7 +643,6 @@ class TestRights(unittest.TestCase):
 
         a.set_licenseApplicableDates(1)
         a.get_licenseApplicableDates()
-
 
     def testLicenseApplicableDates(self):
         a = LicenseApplicableDates()

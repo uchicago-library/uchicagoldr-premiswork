@@ -704,6 +704,7 @@ class ObjectCharacteristics(object):
     def add_objectCharacteristicsExtension(self, objectCharacteristicsExtension):
         pass
 
+
 class Inhibitors(object):
     def __init__(self):
         self.root = ET.Element('inhibitors')
@@ -798,6 +799,7 @@ class Format(object):
 
     def add_formatNote(self, formateNote):
         pass
+
 
 class FormatDesignation(object):
     def __init__(self):
@@ -980,6 +982,7 @@ class PremisEvent(object):
 
     def add_eventDetailInformation(self, eventDetailInformation):
         pass
+
     def set_eventOutcomeInformation(self, eventOutcomeInformation):
         pass
 
@@ -1039,6 +1042,7 @@ class EventOutcomeInformation(object):
 
     def add_eventOutcomeDetail(self, eventOutcomeDetail):
         pass
+
 
 class EventDetailInformation(object):
     def __init__(self):
@@ -1191,6 +1195,7 @@ class AgentIdentifier(object):
 
     def get_agentIdentifierValue(self):
         pass
+
 
 class LinkingEnvironmentIdentifier(object):
     def __init__(self):
@@ -1457,6 +1462,7 @@ class OtherRightsInformation(object):
 
     def add_otherRightsDocumentationIdentifier(self, otherRightsDocumentationIdentifier):
         pass
+
     def set_otherRightsBasis(self, otherRightsBasis):
         pass
 
@@ -1519,6 +1525,7 @@ class OtherRightsDocumentationIdentifier(object):
 
     def get_otherRightsDocumentationIdentifierValue(self):
         pass
+
     def set_otherRightsDocumentationRole(self, otherRightsDocumentationRole):
         pass
 
@@ -1656,6 +1663,7 @@ class LicenseInformation(object):
 
     def add_licenseNote(self, licenseNote):
         pass
+
     def set_licenseApplicableDates(self, licenseApplicationDates):
         pass
 
