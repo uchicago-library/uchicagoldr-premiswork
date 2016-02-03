@@ -6,6 +6,9 @@ class PremisNode(object):
         self.fields = {}
         self.name = nodeName
 
+    def __repr__(self):
+        return ET.tostring(self.toXML())
+
     def toXML(self):
         root = ET.Element(self.name)
         for key in self.fields:
@@ -34,13 +37,27 @@ class PremisNode(object):
                 root.append(entry)
         return root
 
-    def set_field(self, key, value):
+    def _set_field(self, key, value):
         self.fields[key] = value
 
-    def get_field(self, key):
+    def _get_field(self, key):
         return self.fields[key]
 
-    def add_to_field(self, key, value):
+    def _add_to_field(self, key, value):
         if not isinstance(value, list):
             raise KeyError
         self.fields[key].append(value)
+
+    def _get_from_field_by_index(self, key, index):
+        return self.fields[key][index]
+
+    def _listify(self, x):
+        if not isinstance(x, list):
+            return [x]
+        return x
+
+    def _list_getter(self, key, index):
+        if index is None:
+            return self.fields[key]
+        else:
+            return self.fields[key][index]

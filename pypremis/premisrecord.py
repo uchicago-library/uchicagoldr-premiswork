@@ -1,5 +1,7 @@
 import xml.etree.ElementTree as ET
 
+from pypremis.lib import PremisNode
+
 
 class PremisRecord(object):
     def __init__(self):
@@ -35,13 +37,13 @@ class PremisRecord(object):
     def get_objects(self):
         return self.objects
 
-    def add_entity(self, entity):
+    def add_agent(self, entity):
         pass
 
-    def get_entity(self, entityID):
+    def get_agent(self, entityID):
         pass
 
-    def get_entities(self):
+    def get_agents(self):
         return self.entities
 
     def add_rights(self, rights):
@@ -63,28 +65,28 @@ class PremisRecord(object):
         pass
 
 
-class PremisObject(object):
-    def __init__(self):
-        self.root = ET.Element('object')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding="unicode")
+class PremisObject(PremisNode):
+    def __init__(self, objectIdentifier, objectCategory):
+        PremisNode.__init__(self, 'object')
+        objectIdentifier = self._listify(objectIdentifier)
+        self.set_objectIdentifier(objectIdentifier)
+        self.set_objectCategory(objectCategory)
 
     def set_objectIdentifier(self, objectIdentifier):
-        pass
+        self._set_field('objectIdentifier', objectIdentifier)
 
-    def get_objectIdentifier(self):
-        pass
+    def get_objectIdentifier(self, index=None):
+        return self._list_getter('objectIdentifier', index)
 
     def add_objectIdentifier(self, objectIdentifier):
-        pass
+        self._add_to_field('objectIdentifier', objectIdentifier)
 
     def set_objectCategory(self, objectCategory):
-        pass
+        self._set_field('objectCategory', objectCategory)
 
     def get_objectCategory(self):
-        pass
+        self._get_field('objectCategory')
+
 
     def set_preservationLevel(self, preservationLevel):
         pass
@@ -201,28 +203,26 @@ class PremisObject(object):
         pass
 
 
-class ObjectIdentifier(object):
-    def __init__(self):
-        self.root = ET.Element('objectIdentifier')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+class ObjectIdentifier(PremisNode):
+    def __init__(self, objectIdentifierType, objectIdentifierValue):
+        PremisNode.__init__(self, 'objectIdentifier')
+        self.set_objectIdentifierType(objectIdentifierType)
+        self.set_objectIdentifierValue(objectIdentifierValue)
 
     def set_objectIdentifierType(self, objectIdentifierType):
-        pass
+        self._set_field('objectIdentifierType', objectIdentifierType)
 
     def get_objectIdentifierType(self):
-        pass
+        self._get_field('objectIdentifierType')
 
     def set_objectIdentifierValue(self, objectIdentifierValue):
-        pass
+        self._set_field('objectIdentifierValue', objectIdentifierValue)
 
     def get_objectIdentifierValue(self):
-        pass
+        self._get_field('objectIdentifierValue')
 
 
-class LinkingObjectIdentifier(object):
+class LinkingObjectIdentifier(PremisNode):
     def __init__(self):
         self.root = ET.Element('linkingObjectIdentifier')
         pass
@@ -252,7 +252,7 @@ class LinkingObjectIdentifier(object):
         pass
 
 
-class EventIdentifier(object):
+class EventIdentifier(PremisNode):
     def __init__(self):
         self.root = ET.Element('eventIdentifier')
         pass
@@ -273,7 +273,7 @@ class EventIdentifier(object):
         pass
 
 
-class LinkingEventIdentifier(object):
+class LinkingEventIdentifier(PremisNode):
     def __init__(self):
         self.root = ET.Element('linkingEventIdentifier')
         pass
@@ -294,7 +294,7 @@ class LinkingEventIdentifier(object):
         pass
 
 
-class LinkingRightsStatementIdentifier(object):
+class LinkingRightsStatementIdentifier(PremisNode):
     def __init__(self):
         self.root = ET.Element('linkingRightsStatementIdentifier')
         pass
@@ -315,7 +315,7 @@ class LinkingRightsStatementIdentifier(object):
         pass
 
 
-class Relationship(object):
+class Relationship(PremisNode):
     def __init__(self):
         self.root = ET.Element('relationship')
         pass
@@ -369,7 +369,7 @@ class Relationship(object):
         pass
 
 
-class RelatedEventIdentifier(object):
+class RelatedEventIdentifier(PremisNode):
     def __init__(self):
         self.root = ET.Element('relatedEventIdentifier')
         pass
@@ -396,7 +396,7 @@ class RelatedEventIdentifier(object):
         pass
 
 
-class RelatedObjectIdentifier(object):
+class RelatedObjectIdentifier(PremisNode):
     def __init__(self):
         self.root = ET.Element('relatedObjectIdentifier')
         pass
@@ -423,7 +423,7 @@ class RelatedObjectIdentifier(object):
         pass
 
 
-class EnvironmentRegistry(object):
+class EnvironmentRegistry(PremisNode):
     def __init__(self):
         self.root = ET.Element('environmentRegistry')
         pass
@@ -450,7 +450,7 @@ class EnvironmentRegistry(object):
         pass
 
 
-class EnvironmentDesignation(object):
+class EnvironmentDesignation(PremisNode):
     def __init__(self):
         self.root = ET.Element('environmentDesignation')
         pass
@@ -495,7 +495,7 @@ class EnvironmentDesignation(object):
         pass
 
 
-class EnvironmentFunction(object):
+class EnvironmentFunction(PremisNode):
     def __init__(self):
         self.root = ET.Element('environmentFunction')
         pass
@@ -516,7 +516,7 @@ class EnvironmentFunction(object):
         pass
 
 
-class SignatureInformation(object):
+class SignatureInformation(PremisNode):
     def __init__(self):
         self.root = ET.Element('signatureInformation')
         pass
@@ -543,7 +543,7 @@ class SignatureInformation(object):
         pass
 
 
-class Signature(object):
+class Signature(PremisNode):
     def __init__(self):
         self.root = ET.Element('signature')
         pass
@@ -597,7 +597,7 @@ class Signature(object):
         pass
 
 
-class Storage(object):
+class Storage(PremisNode):
     def __init__(self):
         self.root = ET.Element('storage')
         pass
@@ -618,7 +618,7 @@ class Storage(object):
         pass
 
 
-class ContentLocation(object):
+class ContentLocation(PremisNode):
     def __init__(self):
         self.root = ET.Element('contentLocation')
         pass
@@ -639,7 +639,7 @@ class ContentLocation(object):
         pass
 
 
-class ObjectCharacteristics(object):
+class ObjectCharacteristics(PremisNode):
     def __init__(self):
         self.root = ET.Element('objectCharacteristics')
         pass
@@ -705,7 +705,7 @@ class ObjectCharacteristics(object):
         pass
 
 
-class Inhibitors(object):
+class Inhibitors(PremisNode):
     def __init__(self):
         self.root = ET.Element('inhibitors')
         pass
@@ -735,7 +735,7 @@ class Inhibitors(object):
         pass
 
 
-class CreatingApplication(object):
+class CreatingApplication(PremisNode):
     def __init__(self):
         self.root = ET.Element('creatingApplication')
         pass
@@ -771,7 +771,7 @@ class CreatingApplication(object):
         pass
 
 
-class Format(object):
+class Format(PremisNode):
     def __init__(self):
         self.root = ET.Element('format')
         pass
@@ -801,7 +801,7 @@ class Format(object):
         pass
 
 
-class FormatDesignation(object):
+class FormatDesignation(PremisNode):
     def __init__(self):
         self.root = ET.Element('formatDesignation')
         pass
@@ -822,7 +822,7 @@ class FormatDesignation(object):
         pass
 
 
-class FormatRegistry(object):
+class FormatRegistry(PremisNode):
     def __init__(self):
         self.root = ET.Element('formatRegistry')
         pass
@@ -849,7 +849,7 @@ class FormatRegistry(object):
         pass
 
 
-class Fixity(object):
+class Fixity(PremisNode):
     def __init__(self):
         self.root = ET.Element('fixity')
         pass
@@ -876,7 +876,7 @@ class Fixity(object):
         pass
 
 
-class SignificantProperties(object):
+class SignificantProperties(PremisNode):
     def __init__(self):
         self.root = ET.Element('significantProperties')
         pass
@@ -906,7 +906,7 @@ class SignificantProperties(object):
         pass
 
 
-class PreservationLevel(object):
+class PreservationLevel(PremisNode):
     def __init__(self):
         self.root = ET.Element('preservationLevel')
         pass
@@ -948,7 +948,7 @@ class PreservationLevel(object):
         pass
 
 
-class PremisEvent(object):
+class PremisEvent(PremisNode):
     def __init__(self):
         self.root = ET.Element('event')
         pass
@@ -1011,7 +1011,7 @@ class PremisEvent(object):
         pass
 
 
-class EventOutcomeInformation(object):
+class EventOutcomeInformation(PremisNode):
     def __init__(self):
         self.root = ET.Element('eventOutcomeInformation')
         pass
@@ -1044,7 +1044,7 @@ class EventOutcomeInformation(object):
         pass
 
 
-class EventDetailInformation(object):
+class EventDetailInformation(PremisNode):
     def __init__(self):
         self.root = ET.Element('eventDetailInformation')
         pass
@@ -1068,7 +1068,7 @@ class EventDetailInformation(object):
         pass
 
 
-class EventOutcomeDetail(object):
+class EventOutcomeDetail(PremisNode):
     def __init__(self):
         self.root = ET.Element('eventOutcomeDetail')
         pass
@@ -1092,7 +1092,7 @@ class EventOutcomeDetail(object):
         pass
 
 
-class PremisAgent(object):
+class PremisAgent(PremisNode):
     def __init__(self):
         pass
         self.root = ET.Element('entity')
@@ -1176,7 +1176,7 @@ class PremisAgent(object):
         pass
 
 
-class AgentIdentifier(object):
+class AgentIdentifier(PremisNode):
     def __init__(self):
         self.root = ET.Element('agentIdentifier')
         pass
@@ -1197,7 +1197,7 @@ class AgentIdentifier(object):
         pass
 
 
-class LinkingEnvironmentIdentifier(object):
+class LinkingEnvironmentIdentifier(PremisNode):
     def __init__(self):
         self.root = ET.Element('linkingEnvironmentIdentifier')
         pass
@@ -1227,7 +1227,7 @@ class LinkingEnvironmentIdentifier(object):
         pass
 
 
-class LinkingAgentIdentifier(object):
+class LinkingAgentIdentifier(PremisNode):
     def __init__(self):
         self.root = ET.Element('agentIdentifier')
         pass
@@ -1257,7 +1257,7 @@ class LinkingAgentIdentifier(object):
         pass
 
 
-class PremisRights(object):
+class PremisRights(PremisNode):
     def __init__(self):
         self.root = ET.Element('rights')
         pass
@@ -1284,7 +1284,7 @@ class PremisRights(object):
         pass
 
 
-class RightsStatement(object):
+class RightsStatement(PremisNode):
     def __init__(self):
         self.root = ET.Element('rightsStatement')
         pass
@@ -1359,7 +1359,7 @@ class RightsStatement(object):
         pass
 
 
-class RightsGranted(object):
+class RightsGranted(PremisNode):
     def __init__(self):
         self.root = ET.Element('rightsGranted')
         pass
@@ -1404,7 +1404,7 @@ class RightsGranted(object):
         pass
 
 
-class TermOfRestriction(object):
+class TermOfRestriction(PremisNode):
     def __init__(self):
         self.root = ET.Element('termOfRestriction')
         pass
@@ -1425,7 +1425,7 @@ class TermOfRestriction(object):
         pass
 
 
-class TermOfGrant(object):
+class TermOfGrant(PremisNode):
     def __init__(self):
         self.root = ET.Element('termOfGrant')
         pass
@@ -1446,7 +1446,7 @@ class TermOfGrant(object):
         pass
 
 
-class OtherRightsInformation(object):
+class OtherRightsInformation(PremisNode):
     def __init__(self):
         self.root = ET.Element('otherRightsInformation')
         pass
@@ -1485,7 +1485,7 @@ class OtherRightsInformation(object):
         pass
 
 
-class OtherRightsApplicableDates(object):
+class OtherRightsApplicableDates(PremisNode):
     def __init__(self):
         self.root = ET.Element('otherRightsApplicableDates')
         pass
@@ -1506,7 +1506,7 @@ class OtherRightsApplicableDates(object):
         pass
 
 
-class OtherRightsDocumentationIdentifier(object):
+class OtherRightsDocumentationIdentifier(PremisNode):
     def __init__(self):
         self.root = ET.Element('otherRightsDocumentationIdentifier')
         pass
@@ -1533,7 +1533,7 @@ class OtherRightsDocumentationIdentifier(object):
         pass
 
 
-class StatuteInformation(object):
+class StatuteInformation(PremisNode):
     def __init__(self):
         self.root = ET.Element('statuteInformation')
         pass
@@ -1584,7 +1584,7 @@ class StatuteInformation(object):
         pass
 
 
-class StatuteApplicableDates(object):
+class StatuteApplicableDates(PremisNode):
     def __init__(self):
         self.root = ET.Element('statuteApplicableDates')
         pass
@@ -1605,7 +1605,7 @@ class StatuteApplicableDates(object):
         pass
 
 
-class StatuteDocumentationIdentifier(object):
+class StatuteDocumentationIdentifier(PremisNode):
     def __init__(self):
         self.root = ET.Element('statuteDocumentationIdentifier')
         pass
@@ -1632,7 +1632,7 @@ class StatuteDocumentationIdentifier(object):
         pass
 
 
-class LicenseInformation(object):
+class LicenseInformation(PremisNode):
     def __init__(self):
         self.root = ET.Element('licenseInformation')
         pass
@@ -1671,7 +1671,7 @@ class LicenseInformation(object):
         pass
 
 
-class LicenseApplicableDates(object):
+class LicenseApplicableDates(PremisNode):
     def __init__(self):
         self.root = ET.Element('licenseApplicableDates')
         pass
@@ -1692,7 +1692,7 @@ class LicenseApplicableDates(object):
         pass
 
 
-class LicenseDocumentationIdentifier(object):
+class LicenseDocumentationIdentifier(PremisNode):
     def __init__(self):
         self.root = ET.Element('licenseInformation')
         pass
@@ -1719,7 +1719,7 @@ class LicenseDocumentationIdentifier(object):
         pass
 
 
-class CopyrightInformation(object):
+class CopyrightInformation(PremisNode):
     def __init__(self):
         self.root = ET.Element('copyrightInformation')
         pass
@@ -1770,7 +1770,7 @@ class CopyrightInformation(object):
         pass
 
 
-class CopyrightApplicableDates(object):
+class CopyrightApplicableDates(PremisNode):
     def __init__(self):
         self.root = ET.Element('copyrightApplicableDates')
         pass
@@ -1791,7 +1791,7 @@ class CopyrightApplicableDates(object):
         pass
 
 
-class CopyrightDocumentationIdentifier(object):
+class CopyrightDocumentationIdentifier(PremisNode):
     def __init__(self):
         self.root = ET.Element('copyrightDocumentationIdentifier')
         pass
@@ -1818,7 +1818,7 @@ class CopyrightDocumentationIdentifier(object):
         pass
 
 
-class RightsStatementIdentifier(object):
+class RightsStatementIdentifier(PremisNode):
     def __init__(self):
         self.root = ET.Element('rightsStatementIdentifier')
         pass
