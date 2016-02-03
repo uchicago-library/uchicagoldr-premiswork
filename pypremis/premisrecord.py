@@ -359,7 +359,7 @@ class Relationship(object):
     def get_relatedEnvironmentPurpose(self):
         pass
 
-    def add_relatedEnvironmentPurpose(self):
+    def add_relatedEnvironmentPurpose(self, relatedEnvironmentPurpose):
         pass
 
     def set_relatedEnvironmentCharacteristic(self, relatedEnvironmentCharacteristic):

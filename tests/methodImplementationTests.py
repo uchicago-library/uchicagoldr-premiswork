@@ -248,6 +248,31 @@ class TestObjectMethods(unittest.TestCase):
         a.get_relatedEventIdentifier()
         a.add_relatedEventIdentifier(1)
 
+        a.set_relatedEnvironmentPurpose(1)
+        a.get_relatedEnvironmentPurpose()
+        a.add_relatedEnvironmentPurpose(1)
+
+        a.set_relatedEnvironmentCharacteristic(1)
+        a.get_relatedEnvironmentCharacteristic()
+
+    def testLinkingEventIdentifier(self):
+        a = LinkingEventIdentifier()
+
+        a.set_linkingEventIdentifierType(1)
+        a.get_linkingEventIdentifierType()
+
+        a.set_linkingEventIdentifierValue(1)
+        a.get_linkingEventIdentifierValue()
+
+    def testLinkingRightsStatementIdentifier(self):
+        a = LinkingRightsStatementIdentifier()
+
+        a.set_linkingRightsStatementIdentifierType(1)
+        a.get_linkingRightsStatementIdentifierType()
+
+        a.set_linkingRightsStatementIdentifierValue(1)
+        a.get_linkingRightsStatementIdentifierValue()
+
     def testRelatedEventIdentifier(self):
         a = RelatedEventIdentifier()
 
