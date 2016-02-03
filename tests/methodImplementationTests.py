@@ -530,5 +530,264 @@ class TestEvent(unittest.TestCase):
         a.get_linkingObjectRole()
         a.add_linkingObjectRole(1)
 
+class TestRights(unittest.TestCase):
+    def testRights(self):
+        a = PremisRights()
+
+        a.set_rightsStatement(1)
+        a.get_rightsStatement()
+        a.add_rightsStatement(1)
+
+        a.set_rightsExtension(1)
+        a.get_rightsExtension()
+        a.add_rightsExtension(1)
+
+    def testRightsStatement(self):
+        a = RightsStatement()
+
+        a.set_rightsStatementIdentifier(1)
+        a.get_rightsStatementIdentifier()
+
+        a.set_rightsBasis(1)
+        a.get_rightsBasis()
+
+        a.set_copyrightInformation(1)
+        a.get_copyrightInformation()
+
+        a.set_licenseInformation(1)
+        a.get_licenseInformation()
+
+        a.set_statuteInformation(1)
+        a.get_statuteInformation()
+        a.add_statuteInformation(1)
+
+        a.set_otherRightsInformation(1)
+        a.get_otherRightsInformation()
+
+        a.set_rightsGranted(1)
+        a.get_rightsGranted()
+        a.add_rightsGranted(1)
+
+        a.set_linkingObjectIdentifier(1)
+        a.get_linkingObjectIdentifier()
+        a.add_linkingObjectIdentifier(1)
+
+        a.set_linkingAgentIdentifier(1)
+        a.get_linkingAgentIdentifier()
+        a.add_linkingAgentIdentifier(1)
+
+    def testRightsStatementIdentifier(self):
+        a = RightsStatementIdentifier()
+
+        a.set_rightsStatementIdentifierType(1)
+        a.get_rightsStatementIdentifierType()
+
+        a.set_rightsStatementIdentifierValue(1)
+        a.get_rightsStatementIdentifierValue()
+
+    def testCopyrightInformation(self):
+        a = CopyrightInformation()
+
+        a.set_copyrightStatus(1)
+        a.get_copyrightStatus()
+
+        a.set_copyrightJurisdiction(1)
+        a.get_copyrightJurisdiction()
+
+        a.set_copyrightStatusDeterminationDate(1)
+        a.get_copyrightStatusDeterminationDate()
+
+        a.set_copyrightNote(1)
+        a.get_copyrightNote()
+        a.add_copyrightNote(1)
+
+        a.set_copyrightDocumentationIdentifier(1)
+        a.get_copyrightDocumentationIdentifier()
+        a.add_copyrightDocumentationIdentifier(1)
+
+        a.set_copyrightApplicableDates(1)
+        a.get_copyrightApplicableDates()
+
+    def testCopyrightApplicableDates(self):
+        a = CopyrightApplicableDates()
+
+        a.set_startDate(1)
+        a.get_startDate()
+
+        a.set_endDate(1)
+        a.get_endDate()
+
+    def testCopyrightDocumentationIdentifer(self):
+        a = CopyrightDocumentationIdentifier()
+
+        a.set_copyrightDocumentationIdentifierType(1)
+        a.get_copyrightDocumentationIdentifierType()
+
+        a.set_copyrightDocumentationIdentifierValue(1)
+        a.get_copyrightDocumentationIdentifierValue()
+
+        a.set_copyrightDocumentationRole(1)
+        a.get_copyrightDocumentationRole()
+
+    def testLicenseInformation(self):
+        a = LicenseInformation()
+
+        a.set_licenseDocumentationIdentifier(1)
+        a.get_licenseDocumentationIdentifier()
+        a.add_licenseDocumentationIdentifier(1)
+
+        a.set_licenseTerms(1)
+        a.get_licenseTerms()
+
+        a.set_licenseNote(1)
+        a.get_licenseNote()
+        a.add_licenseNote(1)
+
+        a.set_licenseApplicableDates(1)
+        a.get_licenseApplicableDates()
+
+
+    def testLicenseApplicableDates(self):
+        a = LicenseApplicableDates()
+
+        a.set_startDate(1)
+        a.get_startDate()
+
+        a.set_endDate(1)
+        a.get_endDate()
+
+    def testLicenseDocumentationIdentifier(self):
+        a = LicenseDocumentationIdentifier()
+
+        a.set_licenseDocumentationIdentifierType(1)
+        a.get_licenseDocumentationIdentifierType()
+
+        a.set_licenseDocumentationIdentifierValue(1)
+        a.get_licenseDocumentationIdentifierValue()
+
+        a.set_licenseDocumentationRole(1)
+        a.get_licenseDocumentationRole()
+
+    def testStatuteInformation(self):
+        a = StatuteInformation()
+
+        a.set_statuteJurisdiction(1)
+        a.get_statuteJurisdiction()
+
+        a.set_statuteCitation(1)
+        a.get_statuteCitation()
+
+        a.set_statuteInformationDeterminationDate(1)
+        a.get_statuteInformationDeterminationDate()
+
+        a.set_statuteNote(1)
+        a.get_statuteNote()
+        a.add_statuteNote(1)
+
+        a.set_statuteDocumentationIdentifier(1)
+        a.get_statuteDocumentationIdentifier()
+        a.add_statuteDocumentationIdentifier(1)
+
+        a.set_statuteApplicableDates(1)
+        a.get_statuteApplicableDates()
+
+    def testStatuteApplicableDates(self):
+        a = StatuteApplicableDates()
+
+        a.set_startDate(1)
+        a.get_startDate()
+
+        a.set_endDate(1)
+        a.get_endDate()
+
+    def testStatuteDocumentationIdentifier(self):
+        a = StatuteDocumentationIdentifier()
+
+        a.set_statuteDocumentationIdentifierType(1)
+        a.get_statuteDocumentationIdentifierType()
+
+        a.set_statuteDocumentationIdentifierValue(1)
+        a.get_statuteDocumentationIdentifierValue()
+
+        a.set_statuteDocumentationRole(1)
+        a.get_statuteDocumentationRole()
+
+    def testOtherRightsInformation(self):
+        a = OtherRightsInformation()
+
+        a.set_otherRightsDocumentationIdentifier(1)
+        a.get_otherRightsDocumentationIdentifier()
+        a.add_otherRightsDocumentationIdentifier(1)
+
+        a.set_otherRightsBasis(1)
+        a.get_otherRightsBasis()
+
+        a.set_otherRightsApplicableDates(1)
+        a.get_otherRightsApplicableDates()
+
+        a.set_otherRightsNote(1)
+        a.get_otherRightsNote()
+        a.add_otherRightsNote(1)
+
+    def testOtherRightsApplicableDates(self):
+        a = OtherRightsApplicableDates()
+
+        a.set_startDate(1)
+        a.get_startDate()
+
+        a.set_endDate(1)
+        a.get_endDate()
+
+    def testOtherRightsDocumentationIdentifier(self):
+        a = OtherRightsDocumentationIdentifier()
+
+        a.set_otherRightsDocumentationIdentifierType(1)
+        a.get_otherRightsDocumentationIdentifierType()
+
+        a.set_otherRightsDocumentationIdentifierValue(1)
+        a.get_otherRightsDocumentationIdentifierValue()
+
+        a.set_otherRightsDocumentationRole(1)
+        a.get_otherRightsDocumentationRole()
+
+    def testRightsGranted(self):
+        a = RightsGranted()
+
+        a.set_act(1)
+        a.get_act()
+
+        a.set_restriction(1)
+        a.get_restriction()
+        a.add_restriction(1)
+
+        a.set_termOfGrant(1)
+        a.get_termOfGrant()
+
+        a.set_termOfRestriction(1)
+        a.get_termOfRestriction()
+
+        a.set_rightsGrantedNote(1)
+        a.get_rightsGrantedNote()
+        a.add_rightsGrantedNote(1)
+
+    def testTermOfRestriction(self):
+        a = TermOfRestriction()
+
+        a.set_startDate(1)
+        a.get_startDate()
+
+        a.set_endDate(1)
+        a.get_endDate()
+
+    def testTermOfGrant(self):
+        a = TermOfGrant()
+
+        a.set_startDate(1)
+        a.get_startDate()
+
+        a.set_endDate(1)
+        a.get_endDate()
+
+
 if __name__ == '__main__':
     unittest.main()

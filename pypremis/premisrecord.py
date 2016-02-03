@@ -1455,6 +1455,8 @@ class OtherRightsInformation(object):
     def get_otherRightsDocumentationIdentifier(self):
         pass
 
+    def add_otherRightsDocumentationIdentifier(self, otherRightsDocumentationIdentifier):
+        pass
     def set_otherRightsBasis(self, otherRightsBasis):
         pass
 
@@ -1473,7 +1475,7 @@ class OtherRightsInformation(object):
     def get_otherRightsNote(self):
         pass
 
-    def add_otherRightsNote(self):
+    def add_otherRightsNote(self, otherRightsNote):
         pass
 
 
@@ -1515,6 +1517,8 @@ class OtherRightsDocumentationIdentifier(object):
     def set_otherRightsDocumentationIdentifierValue(self, otherRightsDocumentationIdentifierValue):
         pass
 
+    def get_otherRightsDocumentationIdentifierValue(self):
+        pass
     def set_otherRightsDocumentationRole(self, otherRightsDocumentationRole):
         pass
 
@@ -1650,6 +1654,8 @@ class LicenseInformation(object):
     def get_licenseNote(self):
         pass
 
+    def add_licenseNote(self, licenseNote):
+        pass
     def set_licenseApplicableDates(self, licenseApplicationDates):
         pass
 
@@ -1674,7 +1680,7 @@ class LicenseApplicableDates(object):
     def set_endDate(self, endDate):
         pass
 
-    def get_endDate(self, endDate):
+    def get_endDate(self):
         pass
 
 
