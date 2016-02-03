@@ -972,7 +972,21 @@ class PremisEvent(object):
     def get_eventDateTime(self):
         pass
 
+    def set_eventDetailInformation(self, eventDetailInformation):
+        pass
+
+    def get_eventDetailInformation(self):
+        pass
+
+    def add_eventDetailInformation(self, eventDetailInformation):
+        pass
     def set_eventOutcomeInformation(self, eventOutcomeInformation):
+        pass
+
+    def get_eventOutcomeInformation(self):
+        pass
+
+    def add_eventOutcomeInformation(self, eventOutcomeInformation):
         pass
 
     def set_linkingAgentIdentifier(self, linkingAgentIdentifier):
@@ -1023,6 +1037,8 @@ class EventOutcomeInformation(object):
     def get_eventOutcomeDetail(self):
         pass
 
+    def add_eventOutcomeDetail(self, eventOutcomeDetail):
+        pass
 
 class EventDetailInformation(object):
     def __init__(self):
@@ -1156,6 +1172,26 @@ class PremisAgent(object):
         pass
 
 
+class AgentIdentifier(object):
+    def __init__(self):
+        self.root = ET.Element('agentIdentifier')
+        pass
+
+    def __repr__(self):
+        return ET.tostring(self.root, encoding='unicode')
+
+    def set_agentIdentifierType(self, agentIdentifierType):
+        pass
+
+    def get_agentIdentifierType(self):
+        pass
+
+    def set_agentIdentifierValue(self, agentIdentifierValue):
+        pass
+
+    def get_agentIdentifierValue(self):
+        pass
+
 class LinkingEnvironmentIdentifier(object):
     def __init__(self):
         self.root = ET.Element('linkingEnvironmentIdentifier')
@@ -1186,7 +1222,7 @@ class LinkingEnvironmentIdentifier(object):
         pass
 
 
-class LinkingEntityAgentIdentifier(object):
+class LinkingAgentIdentifier(object):
     def __init__(self):
         self.root = ET.Element('agentIdentifier')
         pass
@@ -1194,16 +1230,25 @@ class LinkingEntityAgentIdentifier(object):
     def __repr__(self):
         return ET.tostring(self.root, encoding="unicode")
 
-    def set_agentIdentifierType(self, agentIdentifierType):
+    def set_linkingAgentIdentifierType(self, agentIdentifierType):
         pass
 
-    def get_agentIdentifierType(self):
+    def get_linkingAgentIdentifierType(self):
         pass
 
-    def set_agentIdentifierValue(self, agentIdentifierValue):
+    def set_linkingAgentIdentifierValue(self, agentIdentifierValue):
         pass
 
-    def get_agentIdentifierValue(self):
+    def get_linkingAgentIdentifierValue(self):
+        pass
+
+    def set_linkingAgentRole(self, linkingAgentRole):
+        pass
+
+    def get_linkingAgentRole(self):
+        pass
+
+    def add_linkingAgentRole(self, linkingAgentRole):
         pass
 
 

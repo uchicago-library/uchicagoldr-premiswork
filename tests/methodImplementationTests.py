@@ -374,5 +374,161 @@ class TestObjectMethods(unittest.TestCase):
         a.set_messageDigestOriginator(1)
         a.get_messageDigestOriginator()
 
+
+class TestAgentMethods(unittest.TestCase):
+    def testAgent(self):
+        a = PremisAgent()
+
+        a.set_agentIdentifier(1)
+        a.get_agentIdentifier()
+        a.add_agentIdentifier(1)
+
+        a.set_agentName(1)
+        a.get_agentName()
+        a.add_agentName(1)
+
+        a.set_agentType(1)
+        a.get_agentType()
+
+        a.set_agentVersion(1)
+        a.get_agentVersion()
+
+        a.set_agentNote(1)
+        a.get_agentNote()
+        a.add_agentNote(1)
+
+        a.set_agentExtension(1)
+        a.get_agentExtension()
+        a.add_agentExtension(1)
+
+        a.set_linkingEventIdentifier(1)
+        a.get_linkingEventIdentifier()
+        a.add_linkingEventIdentifier(1)
+
+        a.set_linkingRightsStatementIdentifier(1)
+        a.get_linkingRightsStatementIdentifier()
+        a.add_linkingRightsStatementIdentifier(1)
+
+        a.set_linkingEnvironmentIdentifier(1)
+        a.get_linkingEnvironmentIdentifier()
+        a.add_linkingEnvironmentIdentifier(1)
+
+    def testAgentIdentifier(self):
+        a = AgentIdentifier()
+
+        a.set_agentIdentifierType(1)
+        a.get_agentIdentifierType()
+
+        a.set_agentIdentifierValue(1)
+        a.get_agentIdentifierValue()
+
+    def testLinkingEnvironmentIdentifier(self):
+        a = LinkingEnvironmentIdentifier()
+
+        a.set_linkingEnvironmentIdentifierType(1)
+        a.get_linkingEnvironmentIdentifierType()
+
+        a.set_linkingEnvironmentIdentifierValue(1)
+        a.get_linkingEnvironmentIdentifierValue()
+
+        a.set_linkingEnvironmentRole(1)
+        a.get_linkingEnvironmentRole()
+        a.add_linkingEnvironmentRole(1)
+
+
+class TestEvent(unittest.TestCase):
+    def testEvent(self):
+        a = PremisEvent()
+
+        a.set_eventIdentifier(1)
+        a.get_eventIdentifier()
+
+        a.set_eventType(1)
+        a.get_eventType()
+
+        a.set_eventDateTime(1)
+        a.get_eventDateTime()
+
+        a.set_eventDetailInformation(1)
+        a.get_eventDetailInformation()
+        a.add_eventDetailInformation(1)
+
+        a.set_eventOutcomeInformation(1)
+        a.get_eventOutcomeInformation()
+        a.add_eventOutcomeInformation(1)
+
+        a.set_linkingAgentIdentifier(1)
+        a.get_linkingAgentIdentifier()
+        a.add_linkingAgentIdentifier(1)
+
+        a.set_linkingObjectIdentifier(1)
+        a.get_linkingObjectIdentifier()
+        a.add_linkingObjectIdentifier(1)
+
+    def testEventIdentifier(self):
+        a = EventIdentifier()
+
+        a.set_eventIdentifierType(1)
+        a.get_eventIdentifierType()
+
+        a.set_eventIdentifierValue(1)
+        a.get_eventIdentifierValue()
+
+    def testEventDetailInformation(self):
+        a = EventDetailInformation()
+
+        a.set_eventDetail(1)
+        a.get_eventDetail()
+
+        a.set_eventDetailExtension(1)
+        a.get_eventDetailExtension()
+        a.add_eventDetailExtension(1)
+
+    def testEventOutcomeInformation(self):
+        a = EventOutcomeInformation()
+
+        a.set_eventOutcome(1)
+        a.get_eventOutcome()
+
+        a.set_eventOutcomeDetail(1)
+        a.get_eventOutcomeDetail()
+        a.add_eventOutcomeDetail(1)
+
+    def testEventOutcomeDetail(self):
+        a = EventOutcomeDetail()
+
+        a.set_eventOutcomeDetailNote(1)
+        a.get_eventOutcomeDetailNote()
+
+        a.set_eventOutcomeDetailExtension(1)
+        a.get_eventOutcomeDetailExtension()
+        a.add_eventOutcomeDetailExtension(1)
+
+    def testLinkingAgentIdentifier(self):
+        a = LinkingAgentIdentifier()
+
+        a.set_linkingAgentIdentifierType(1)
+        a.get_linkingAgentIdentifierType()
+
+        a.set_linkingAgentIdentifierValue(1)
+        a.get_linkingAgentIdentifierValue()
+
+        a.set_linkingAgentRole(1)
+        a.get_linkingAgentRole()
+        a.add_linkingAgentRole(1)
+
+    def testLinkingObjectIdentifier(self):
+        a = LinkingObjectIdentifier()
+
+        a.set_linkingObjectIdentifierType(1)
+        a.get_linkingObjectIdentifierType()
+
+        a.set_linkingObjectIdentifierValue(1)
+        a.get_linkingObjectIdentifierValue()
+
+        a.set_linkingObjectRole(1)
+        a.get_linkingObjectRole()
+        a.add_linkingObjectRole(1)
+
 if __name__ == '__main__':
     unittest.main()
