@@ -16,7 +16,7 @@ class PremisNode(object):
                 newNode.text = value
                 newNodes.append(newNode)
             elif isinstance(value, list):
-                for entry in list:
+                for entry in value:
                     newNode = ET.Element(key)
                     if isinstance(entry, str):
                         newNode.text = entry
