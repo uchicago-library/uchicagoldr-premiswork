@@ -64,9 +64,8 @@ class PremisRecord(object):
 
 
 class PremisObject(object):
-    def __init__(self, objectIdentifierType, objectIdentifierValue,
-                 objectCategory, ):
-        self.root = ET.element('object')
+    def __init__(self):
+        self.root = ET.Element('object')
         pass
 
     def __repr__(self):
@@ -171,7 +170,7 @@ class PremisObject(object):
     def get_environmentExtension(self):
         pass
 
-    def add_environmentExtension(self):
+    def add_environmentExtension(self, environmentExtension):
         pass
 
     def set_relationship(self, relationship):
@@ -204,7 +203,7 @@ class PremisObject(object):
 
 class ObjectIdentifier(object):
     def __init__(self):
-        self.root = ET.element('objectIdentifier')
+        self.root = ET.Element('objectIdentifier')
         pass
 
     def __repr__(self):
@@ -225,7 +224,7 @@ class ObjectIdentifier(object):
 
 class LinkingObjectIdentifier(object):
     def __init__(self):
-        self.root = ET.element('linkingObjectIdentifier')
+        self.root = ET.Element('linkingObjectIdentifier')
         pass
 
     def __repr__(self):
@@ -255,7 +254,7 @@ class LinkingObjectIdentifier(object):
 
 class EventIdentifier(object):
     def __init__(self):
-        self.root = ET.element('eventIdentifier')
+        self.root = ET.Element('eventIdentifier')
         pass
 
     def __repr__(self):
@@ -276,7 +275,7 @@ class EventIdentifier(object):
 
 class LinkingEventIdentifier(object):
     def __init__(self):
-        self.root = ET.element('linkingEventIdentifier')
+        self.root = ET.Element('linkingEventIdentifier')
         pass
 
     def __repr__(self):
@@ -297,7 +296,7 @@ class LinkingEventIdentifier(object):
 
 class LinkingRightsStatementIdentifier(object):
     def __init__(self):
-        self.root = ET.element('linkingRightsStatementIdentifier')
+        self.root = ET.Element('linkingRightsStatementIdentifier')
         pass
 
     def __repr__(self):
@@ -316,9 +315,9 @@ class LinkingRightsStatementIdentifier(object):
         pass
 
 
-class ObjectRelationship(object):
+class Relationship(object):
     def __init__(self):
-        self.root = ET.element('relationship')
+        self.root = ET.Element('relationship')
         pass
 
     def __repr__(self):
@@ -370,9 +369,9 @@ class ObjectRelationship(object):
         pass
 
 
-class ObjectRelationshipRelatedEventIdentifer(object):
+class RelatedEventIdentifier(object):
     def __init__(self):
-        self.root = ET.element('relatedEventIdentifier')
+        self.root = ET.Element('relatedEventIdentifier')
         pass
 
     def __repr__(self):
@@ -397,9 +396,9 @@ class ObjectRelationshipRelatedEventIdentifer(object):
         pass
 
 
-class ObjectRelationshipRelatedObjectIdentifier(object):
+class RelatedObjectIdentifier(object):
     def __init__(self):
-        self.root = ET.element('relatedObjectIdentifier')
+        self.root = ET.Element('relatedObjectIdentifier')
         pass
 
     def __repr__(self):
@@ -424,9 +423,9 @@ class ObjectRelationshipRelatedObjectIdentifier(object):
         pass
 
 
-class ObjectEnvironmentRegistry(object):
+class EnvironmentRegistry(object):
     def __init__(self):
-        self.root = ET.element('environmentRegistry')
+        self.root = ET.Element('environmentRegistry')
         pass
 
     def __repr__(self):
@@ -451,9 +450,9 @@ class ObjectEnvironmentRegistry(object):
         pass
 
 
-class ObjectEnvironmentDesignation(object):
+class EnvironmentDesignation(object):
     def __init__(self):
-        self.root = ET.element('environmentDesignation')
+        self.root = ET.Element('environmentDesignation')
         pass
 
     def __repr__(self):
@@ -496,9 +495,9 @@ class ObjectEnvironmentDesignation(object):
         pass
 
 
-class ObjectEnvironmentFunction(object):
+class EnvironmentFunction(object):
     def __init__(self):
-        self.root = ET.element('environmentFunction')
+        self.root = ET.Element('environmentFunction')
         pass
 
     def __repr__(self):
@@ -517,9 +516,9 @@ class ObjectEnvironmentFunction(object):
         pass
 
 
-class ObjectSignatureInformation(object):
+class SignatureInformation(object):
     def __init__(self):
-        self.root = ET.element('signatureInformation')
+        self.root = ET.Element('signatureInformation')
         pass
 
     def __repr__(self):
@@ -544,9 +543,9 @@ class ObjectSignatureInformation(object):
         pass
 
 
-class ObjectSignatureInformationSignature(object):
+class Signature(object):
     def __init__(self):
-        self.root = ET.element('signature')
+        self.root = ET.Element('signature')
         pass
 
     def __repr__(self):
@@ -598,9 +597,9 @@ class ObjectSignatureInformationSignature(object):
         pass
 
 
-class ObjectStorage(object):
+class Storage(object):
     def __init__(self):
-        self.root = ET.element('storage')
+        self.root = ET.Element('storage')
         pass
 
     def __repr__(self):
@@ -619,9 +618,9 @@ class ObjectStorage(object):
         pass
 
 
-class ObjectStorageContentLocation(object):
+class ContentLocation(object):
     def __init__(self):
-        self.root = ET.element('contentLocation')
+        self.root = ET.Element('contentLocation')
         pass
 
     def __repr__(self):
@@ -642,7 +641,7 @@ class ObjectStorageContentLocation(object):
 
 class ObjectCharacteristics(object):
     def __init__(self):
-        self.root = ET.element('objectCharacteristics')
+        self.root = ET.Element('objectCharacteristics')
         pass
 
     def __repr__(self):
@@ -702,10 +701,12 @@ class ObjectCharacteristics(object):
     def get_objectCharacteristicsExtension(self):
         pass
 
+    def add_objectCharacteristicsExtension(self, objectCharacteristicsExtension):
+        pass
 
-class ObjectCharacteristicsInhibitors(object):
+class Inhibitors(object):
     def __init__(self):
-        self.root = ET.element('inhibitors')
+        self.root = ET.Element('inhibitors')
         pass
 
     def __repr__(self):
@@ -733,9 +734,9 @@ class ObjectCharacteristicsInhibitors(object):
         pass
 
 
-class ObjectCharacteristicsCreatingApplication(object):
+class CreatingApplication(object):
     def __init__(self):
-        self.root = ET.element('creatingApplication')
+        self.root = ET.Element('creatingApplication')
         pass
 
     def __repr__(self):
@@ -744,7 +745,7 @@ class ObjectCharacteristicsCreatingApplication(object):
     def set_creatingApplicationName(self, creatingApplicationName):
         pass
 
-    def get_creatingApplicationName(self, creatingApplicationName):
+    def get_creatingApplicationName(self):
         pass
 
     def set_creatingApplicationVersion(self, creatingApplicationVersion):
@@ -769,9 +770,9 @@ class ObjectCharacteristicsCreatingApplication(object):
         pass
 
 
-class ObjectCharacteristicsFormat(object):
+class Format(object):
     def __init__(self):
-        self.root = ET.element('format')
+        self.root = ET.Element('format')
         pass
 
     def __repr__(self):
@@ -783,7 +784,7 @@ class ObjectCharacteristicsFormat(object):
     def get_formatDesignation(self):
         pass
 
-    def set_formatRegistry(self):
+    def set_formatRegistry(self, formatRegistry):
         pass
 
     def get_formatRegistry(self):
@@ -795,10 +796,12 @@ class ObjectCharacteristicsFormat(object):
     def get_formatNote(self):
         pass
 
+    def add_formatNote(self, formateNote):
+        pass
 
-class ObjectCharacteristicsFormatDesignation(object):
+class FormatDesignation(object):
     def __init__(self):
-        self.root = ET.element('formatDesignation')
+        self.root = ET.Element('formatDesignation')
         pass
 
     def __repr__(self):
@@ -817,9 +820,9 @@ class ObjectCharacteristicsFormatDesignation(object):
         pass
 
 
-class ObjectCharacteristicsFormatRegistry(object):
+class FormatRegistry(object):
     def __init__(self):
-        self.root = ET.element('formatRegistry')
+        self.root = ET.Element('formatRegistry')
         pass
 
     def __repr__(self):
@@ -844,9 +847,9 @@ class ObjectCharacteristicsFormatRegistry(object):
         pass
 
 
-class ObjectCharacteristicsFixity(object):
+class Fixity(object):
     def __init__(self):
-        self.root = ET.element('fixity')
+        self.root = ET.Element('fixity')
         pass
 
     def __repr__(self):
@@ -871,9 +874,9 @@ class ObjectCharacteristicsFixity(object):
         pass
 
 
-class ObjectSignificantProperties(object):
+class SignificantProperties(object):
     def __init__(self):
-        self.root = ET.element('significantProperties')
+        self.root = ET.Element('significantProperties')
         pass
 
     def __repr__(self):
@@ -901,9 +904,9 @@ class ObjectSignificantProperties(object):
         pass
 
 
-class ObjectPreservationLevel(object):
+class PreservationLevel(object):
     def __init__(self):
-        self.root = ET.element('preservationLevel')
+        self.root = ET.Element('preservationLevel')
         pass
 
     def __repr__(self):
@@ -918,7 +921,7 @@ class ObjectPreservationLevel(object):
     def set_preservationLevelValue(self, preservationLevelValue):
         pass
 
-    def get_preservationLevelVale(self):
+    def get_preservationLevelValue(self):
         pass
 
     def set_preservationLevelRole(self, preservationLevelRole):
@@ -939,10 +942,13 @@ class ObjectPreservationLevel(object):
     def set_preservationLevelDateAssigned(self, preservationLevelDateAssigned):
         pass
 
+    def get_preservationLevelDateAssigned(self):
+        pass
+
 
 class PremisEvent(object):
     def __init__(self):
-        self.root = ET.element('event')
+        self.root = ET.Element('event')
         pass
 
     def __repr__(self):
@@ -990,7 +996,7 @@ class PremisEvent(object):
 
 class EventOutcomeInformation(object):
     def __init__(self):
-        self.root = ET.element('eventOutcomeInformation')
+        self.root = ET.Element('eventOutcomeInformation')
         pass
 
     def __repr__(self):
@@ -1020,7 +1026,7 @@ class EventOutcomeInformation(object):
 
 class EventDetailInformation(object):
     def __init__(self):
-        self.root = ET.element('eventDetailInformation')
+        self.root = ET.Element('eventDetailInformation')
         pass
 
     def __repr__(self):
@@ -1044,7 +1050,7 @@ class EventDetailInformation(object):
 
 class EventOutcomeDetail(object):
     def __init__(self):
-        self.root = ET.element('eventOutcomeDetail')
+        self.root = ET.Element('eventOutcomeDetail')
         pass
 
     def __repr__(self):
@@ -1069,7 +1075,7 @@ class EventOutcomeDetail(object):
 class PremisAgent(object):
     def __init__(self):
         pass
-        self.root = ET.element('entity')
+        self.root = ET.Element('entity')
 
     def __repr__(self):
         return ET.tostring(self.root, encoding="unicode")
@@ -1152,7 +1158,7 @@ class PremisAgent(object):
 
 class LinkingEnvironmentIdentifier(object):
     def __init__(self):
-        self.root = ET.element('linkingEnvironmentIdentifier')
+        self.root = ET.Element('linkingEnvironmentIdentifier')
         pass
 
     def __repr__(self):
@@ -1182,7 +1188,7 @@ class LinkingEnvironmentIdentifier(object):
 
 class LinkingEntityAgentIdentifier(object):
     def __init__(self):
-        self.root = ET.element('agentIdentifier')
+        self.root = ET.Element('agentIdentifier')
         pass
 
     def __repr__(self):
@@ -1203,7 +1209,7 @@ class LinkingEntityAgentIdentifier(object):
 
 class PremisRights(object):
     def __init__(self):
-        self.root = ET.element('rights')
+        self.root = ET.Element('rights')
         pass
 
     def __repr__(self):
@@ -1230,7 +1236,7 @@ class PremisRights(object):
 
 class RightsStatement(object):
     def __init__(self):
-        self.root = ET.element('rightsStatement')
+        self.root = ET.Element('rightsStatement')
         pass
 
     def __repr__(self):
@@ -1305,7 +1311,7 @@ class RightsStatement(object):
 
 class RightsGranted(object):
     def __init__(self):
-        self.root = ET.element('rightsGranted')
+        self.root = ET.Element('rightsGranted')
         pass
 
     def __repr__(self):
@@ -1350,7 +1356,7 @@ class RightsGranted(object):
 
 class TermOfRestriction(object):
     def __init__(self):
-        self.root = ET.element('termOfRestriction')
+        self.root = ET.Element('termOfRestriction')
         pass
 
     def __repr__(self):
@@ -1371,7 +1377,7 @@ class TermOfRestriction(object):
 
 class TermOfGrant(object):
     def __init__(self):
-        self.root = ET.element('termOfGrant')
+        self.root = ET.Element('termOfGrant')
         pass
 
     def __repr__(self):
@@ -1392,7 +1398,7 @@ class TermOfGrant(object):
 
 class OtherRightsInformation(object):
     def __init__(self):
-        self.root = ET.element('otherRightsInformation')
+        self.root = ET.Element('otherRightsInformation')
         pass
 
     def __repr__(self):
@@ -1428,7 +1434,7 @@ class OtherRightsInformation(object):
 
 class OtherRightsApplicableDates(object):
     def __init__(self):
-        self.root = ET.element('otherRightsApplicableDates')
+        self.root = ET.Element('otherRightsApplicableDates')
         pass
 
     def __repr__(self):
@@ -1449,7 +1455,7 @@ class OtherRightsApplicableDates(object):
 
 class OtherRightsDocumentationIdentifier(object):
     def __init__(self):
-        self.root = ET.element('otherRightsDocumentationIdentifier')
+        self.root = ET.Element('otherRightsDocumentationIdentifier')
         pass
 
     def __repr__(self):
@@ -1473,7 +1479,7 @@ class OtherRightsDocumentationIdentifier(object):
 
 class StatuteInformation(object):
     def __init__(self):
-        self.root = ET.element('statuteInformation')
+        self.root = ET.Element('statuteInformation')
         pass
 
     def __repr__(self):
@@ -1524,7 +1530,7 @@ class StatuteInformation(object):
 
 class StatuteApplicableDates(object):
     def __init__(self):
-        self.root = ET.element('statuteApplicableDates')
+        self.root = ET.Element('statuteApplicableDates')
         pass
 
     def __repr__(self):
@@ -1545,7 +1551,7 @@ class StatuteApplicableDates(object):
 
 class StatuteDocumentationIdentifier(object):
     def __init__(self):
-        self.root = ET.element('statuteDocumentationIdentifier')
+        self.root = ET.Element('statuteDocumentationIdentifier')
         pass
 
     def __repr__(self):
@@ -1572,7 +1578,7 @@ class StatuteDocumentationIdentifier(object):
 
 class LicenseInformation(object):
     def __init__(self):
-        self.root = ET.element('licenseInformation')
+        self.root = ET.Element('licenseInformation')
         pass
 
     def __repr__(self):
@@ -1608,7 +1614,7 @@ class LicenseInformation(object):
 
 class LicenseApplicableDates(object):
     def __init__(self):
-        self.root = ET.element('licenseApplicableDates')
+        self.root = ET.Element('licenseApplicableDates')
         pass
 
     def __repr__(self):
@@ -1629,7 +1635,7 @@ class LicenseApplicableDates(object):
 
 class LicenseDocumentationIdentifier(object):
     def __init__(self):
-        self.root = ET.element('licenseInformation')
+        self.root = ET.Element('licenseInformation')
         pass
 
     def __repr__(self):
@@ -1656,7 +1662,7 @@ class LicenseDocumentationIdentifier(object):
 
 class CopyrightInformation(object):
     def __init__(self):
-        self.root = ET.element('copyrightInformation')
+        self.root = ET.Element('copyrightInformation')
         pass
 
     def __repr__(self):
@@ -1707,7 +1713,7 @@ class CopyrightInformation(object):
 
 class CopyrightApplicableDates(object):
     def __init__(self):
-        self.root = ET.element('copyrightApplicableDates')
+        self.root = ET.Element('copyrightApplicableDates')
         pass
 
     def __repr__(self):
@@ -1728,7 +1734,7 @@ class CopyrightApplicableDates(object):
 
 class CopyrightDocumentationIdentifier(object):
     def __init__(self):
-        self.root = ET.element('copyrightDocumentationIdentifier')
+        self.root = ET.Element('copyrightDocumentationIdentifier')
         pass
 
     def __repr__(self):
@@ -1755,7 +1761,7 @@ class CopyrightDocumentationIdentifier(object):
 
 class RightsStatementIdentifier(object):
     def __init__(self):
-        self.root = ET.element('rightsStatementIdentifier')
+        self.root = ET.Element('rightsStatementIdentifier')
         pass
 
     def __repr__(self):
