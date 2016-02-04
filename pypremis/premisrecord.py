@@ -595,19 +595,18 @@ class ContentLocation(PremisNode):
         PremisNode.__init__(self, 'storage')
         self.set_contentLocationType(contentLocationType)
         self.set_contentLocationValue(contentLocationValue)
-        pass
 
     def set_contentLocationType(self, contentLocationType):
-        pass
+        self._set_field('contentLocationType', contentLocationType)
 
     def get_contentLocationType(self):
-        pass
+        return self._get_field('contentLocationType')
 
     def set_contentLocationValue(self, contentLocationValue):
-        pass
+        self._set_field('contentLocationValue', contentLocationValue)
 
     def get_contentLocationValue(self):
-        pass
+        return self._get_field('contentLocationValue')
 
 
 class ObjectCharacteristics(PremisNode):
@@ -616,91 +615,89 @@ class ObjectCharacteristics(PremisNode):
         self.set_format(format)
 
     def set_compositionLevel(self, compositionLevel):
-        pass
+        self._set_field('compositionLevel', compositionLevel)
 
     def get_compositionLevel(self):
-        pass
+        return self._get_field('compositionLevel')
 
     def set_fixity(self, fixity):
-        pass
+        self._set_field('fixity', self._listify(fixity))
 
-    def get_fixity(self):
-        pass
+    def get_fixity(self, index=None):
+        return self._list_getter('fixity', index)
 
     def add_fixity(self, fixity):
-        pass
+        self._add_to_field('fixity', fixity)
 
     def set_size(self, size):
-        pass
+        self._set_field('size', size)
 
     def get_size(self):
+        return self._get_field('size')
         pass
 
     def set_format(self, format):
         self._set_field('format', self._listify(format))
 
     def get_format(self):
-        self._get_field('format')
+        return self._get_field('format')
 
     def add_format(self, format, index=None):
         self._list_getter('format', index)
 
     def set_creatingApplication(self, creatingApplication):
-        pass
+        self._set_field('creatingApplication', self._listify(creatingApplication))
 
-    def get_creatingApplication(self):
-        pass
+    def get_creatingApplication(self, index=None):
+        return self._list_gettering('creatingApplication', index)
 
     def add_creatingApplication(self, creatingApplication):
-        pass
+        self._add_to_field('creatingApplication', creatingApplication)
 
     def set_inhibitors(self, inhibitors):
-        pass
+        self._set_field('inhibitors', self._listify(inhibitors))
 
-    def get_inhibitors(self):
-        pass
+    def get_inhibitors(self, index=None):
+        return self._list_getter('inhibitors', index)
 
     def add_inhibitors(self, inhibitors):
-        pass
+        self._add_to_field('inhibitors', inhibitors)
 
     def set_objectCharacteristicsExtension(self, objectCharacteristicsExtension):
-        pass
+        self._set_field('objectCharacteristicsExtension', self._listify(objectCharacteristicsExtension))
 
-    def get_objectCharacteristicsExtension(self):
-        pass
+    def get_objectCharacteristicsExtension(self, index=None):
+        return self._list_getter('objectCharacteristicsExtension', index)
 
     def add_objectCharacteristicsExtension(self, objectCharacteristicsExtension):
-        pass
+        self._add_to_field('objectCharacteristicsExtension', objectCharacteristicsExtension)
 
 
 class Inhibitors(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('inhibitors')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding="unicode")
+    def __init__(self, inhibitorType):
+        PremisNode.__init__(self, 'objectCharacteristics')
+        self.set_inhibitorType(inhibitorType)
 
     def set_inhibitorType(self, inhibitorType):
-        pass
+        self._set_field('inhibitorType', inhibitorType)
 
     def get_inhibitorType(self):
-        pass
+        return self._get_field('inhibitorType')
 
     def set_inhibitorTarget(self, inhibitorTarget):
-        pass
+        self._set_field('inhibitorTarget', self._listify(inhibitorTarget))
 
     def add_inhibitorTarget(self, inhibitorTarget):
-        pass
+        self._add_to_field('inhibitorTarget', inhibitorTarget)
 
     def get_inhibitorTarget(self):
-        pass
+        return self._get_field('inhibitorTarget')
 
     def set_inhibitorKey(self, inhibitorKey):
-        pass
+        self._set_field('inhibitorKey', inhibitorKey)
 
     def get_inhibitorKey(self):
-        pass
+        self._get_field('inhibitorKey')
 
 
 class CreatingApplication(PremisNode):
@@ -744,130 +741,119 @@ class Format(PremisNode):
         PremisNode.__init__(self, 'format')
 
     def set_formatDesignation(self, formatDesignation):
-        pass
+        self._set_field('formatDesignation', formatDesignation)
 
     def get_formatDesignation(self):
-        pass
+        return self._get_field('formatDesignation')
 
     def set_formatRegistry(self, formatRegistry):
-        pass
+        self._set_field('formatRegistry', formatRegistry)
 
     def get_formatRegistry(self):
-        pass
+        return self._get_field('formatRegistry')
 
     def set_formatNote(self, formatNote):
-        pass
+        self._set_field('formatNote', self._listify(formatNote))
 
-    def get_formatNote(self):
-        pass
+    def get_formatNote(self, index=None):
+        return self._list_getter('formatNote', index)
 
-    def add_formatNote(self, formateNote):
-        pass
+    def add_formatNote(self, formatNote):
+        self._add_to_field('formatNote', formatNote)
 
 
 class FormatDesignation(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('formatDesignation')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding="unicode")
+    def __init__(self, formatName):
+        PremisNode.__init__(self, 'formatDesignation')
+        self.set_formatName(formatName)
 
     def set_formatName(self, formatName):
-        pass
+        self._set_field('formatName', formatName)
 
     def get_formatName(self):
-        pass
+        return self._get_field('formatName')
 
     def set_formatVersion(self, formatVersion):
-        pass
+        self._set_field('formatVersion', formatVersion)
 
     def get_formatVersion(self):
-        pass
+        return self._get_field('formatName')
 
 
 class FormatRegistry(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('formatRegistry')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding="unicode")
+    def __init__(self, formatRegistryName, formatRegistryKey):
+        PremisNode.__init__(self, 'formatRegistry')
+        self.set_formatRegistryName(formatRegistryName)
+        self.set_formatRegistryKey(formatRegistryKey)
 
     def set_formatRegistryName(self, formatRegistryName):
-        pass
+        self._set_field('formatRegistryName', formatRegistryName)
 
     def get_formatRegistryName(self):
-        pass
+        return self._get_field('formatRegistryName')
 
     def set_formatRegistryKey(self, formatRegistryKey):
-        pass
+        self._set_field('formatRegistryKey', formatRegistryKey)
 
     def get_formatRegistryKey(self):
-        pass
+        return self._get_field('formatRegistryKey')
 
     def set_formatRegistryRole(self, formatRegistryRole):
-        pass
+        self._set_field('formatRegistryRole', formatRegistryRole)
 
     def get_formatRegistryRole(self):
-        pass
+        return self._get_field('formatRegistryRole')
 
 
 class Fixity(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('fixity')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding="unicode")
+    def __init__(self, messageDigestAlgorithm, messageDigest):
+        PremisNode.__init__(self, 'fixity')
+        self.set_messageDigestAlgorithm(messageDigestAlgorithm)
+        self.set_messageDigest(messageDigest)
 
     def set_messageDigestAlgorithm(self, messageDigestAlgorithm):
-        pass
+        self._set_field('messageDigestAlgorithm', messageDigestAlgorithm)
 
     def get_messageDigestAlgorithm(self):
-        pass
+        return self._get_field('messageDigestAlgorithm')
 
     def set_messageDigest(self, messageDigest):
-        pass
+        self._set_field('messageDigest', messageDigest)
 
     def get_messageDigest(self):
-        pass
+        return self._get_field('messageDigest')
 
     def set_messageDigestOriginator(self, messageDigestOriginator):
-        pass
+        self._set_field('messageDigestOriginator', messageDigestOriginator)
 
     def get_messageDigestOriginator(self):
-        pass
+        return self._get_field('messageDigestOriginator')
 
 
 class SignificantProperties(PremisNode):
     def __init__(self):
-        self.root = ET.Element('significantProperties')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding="unicode")
+        PremisNode.__init__(self, 'fixity')
 
     def set_significantPropertiesType(self, significantPropertiesType):
-        pass
+        self._set_field('significantPropertiesType', significantPropertiesType)
 
     def get_significantPropertiesType(self):
-        pass
+        return self._get_field('significantPropertiesType')
 
     def set_significantPropertiesValue(self, significantPropertiesValue):
-        pass
+        self._set_field('significantPropertiesValue', significantPropertiesValue)
 
     def get_significantPropertiesValue(self):
-        pass
+        return self._get_field('significantPropertiesValue')
 
     def set_significantPropertiesExtension(self, significantPropertiesExtension):
-        pass
+        self._set_field('significantPropertiesExtension', self._listify(significantPropertiesExtension))
 
-    def get_significantPropertiesExtension(self):
-        pass
+    def get_significantPropertiesExtension(self, index=None):
+        self._list_getter('significantPropertiesExtension', index)
 
     def add_significantPropertiesExtension(self, significantPropertiesExtension):
-        pass
+        self._add_to_value('significantPropertiesExtension', significantPropertiesExtension)
 
 
 class PreservationLevel(PremisNode):
@@ -910,312 +896,290 @@ class PreservationLevel(PremisNode):
 
 
 class PremisEvent(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('event')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding="unicode")
+    def __init__(self, eventType, eventIdentifier, eventDateTime):
+        PremisNode.__init__(self, 'event')
+        self.set_eventType(eventType)
+        self.set_eventIdentifier(eventIdentifier)
+        self.set_eventDateTime(eventDateTime)
 
     def set_eventIdentifier(self, eventIdentifier):
-        pass
+        self._set_field('eventIdentifier', eventIdentifier)
 
     def get_eventIdentifier(self):
-        pass
+        return self._get_field('eventIdentifier')
 
     def set_eventType(self, eventType):
-        pass
+        self._set_field('eventType', eventType)
 
     def get_eventType(self):
-        pass
+        return self._get_field('eventType')
 
     def set_eventDateTime(self, eventDateTime):
-        pass
+        self._set_field('eventDateTime', eventDateTime)
 
     def get_eventDateTime(self):
-        pass
+        return self._get_field('eventDateTime')
 
     def set_eventDetailInformation(self, eventDetailInformation):
-        pass
+        self._set_field('eventDetailInformation', self._listify(eventDetailInformation))
 
-    def get_eventDetailInformation(self):
-        pass
+    def get_eventDetailInformation(self, index=None):
+        return self._list_getter('eventDetailInformation', index)
 
     def add_eventDetailInformation(self, eventDetailInformation):
-        pass
+        self._add_to_field('eventDetailInformation', eventDetailInformation)
 
-    def set_eventOutcomeInformation(self, eventOutcomeInformation):
-        pass
+    def set_eventOutcomeInformation(self, eventDetailOutcomeInformation):
+        self._set_field('eventDetailOutcomeInformation', self._listify(eventDetailOutcomeInformation))
 
-    def get_eventOutcomeInformation(self):
-        pass
+    def get_eventOutcomeInformation(self, index=None):
+        return self._list_gettering('eventOutcomeInformation', index)
 
     def add_eventOutcomeInformation(self, eventOutcomeInformation):
-        pass
+        self._add_to_field('eventOutcomeInformation', eventOutcomeInformation)
 
     def set_linkingAgentIdentifier(self, linkingAgentIdentifier):
-        pass
+        self._set_field('linkingAgentIdentifier', self._listify(linkingAgentIdentifier))
 
-    def get_linkingAgentIdentifier(self):
-        pass
+    def get_linkingAgentIdentifier(self, index=None):
+        return self._list_getter('linkingAgentIdentifier', index)
 
     def add_linkingAgentIdentifier(self, linkingAgentIdentifier):
-        pass
+        self._add_to_field('linkingAgentIdentifier', linkingAgentIdentifier)
 
     def set_linkingObjectIdentifier(self, linkingObjectIdentifier):
-        pass
+        self._set_field('linkingObjectIdentifier', self._listify(linkingObjectIdentifier))
 
-    def get_linkingObjectIdentifier(self):
-        pass
+    def get_linkingObjectIdentifier(self, index=None):
+        return self._list_getter('linkingObjectIdentifier', index)
 
     def add_linkingObjectIdentifier(self, linkingObjectIdentifier):
-        pass
+        self._add_to_field('linkingObjectIdentifier', linkingObjectIdentifier)
 
 
 class EventOutcomeInformation(PremisNode):
     def __init__(self):
-        self.root = ET.Element('eventOutcomeInformation')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+        PremisNode.__init__(self, 'eventOutcomeInformation')
 
     def set_eventOutcome(self, eventOutcome):
-        pass
+        self._set_field('eventOutcome', eventOutcome)
 
     def get_eventOutcome(self):
-        pass
+        return self._get_field('eventOutcome')
 
     def set_eventDetailInformation(self, eventDetailInformation):
-        pass
+        self._set_field('eventDetailInformation', self._listify(eventDetailInformation))
 
-    def get_eventDetailInformation(self):
-        pass
+    def get_eventDetailInformation(self, index=None):
+        return self._list_getter('eventDetailInformation', index)
 
     def add_eventDetailInformation(self, eventDetailInformation):
-        pass
+        self._add_to_field('eventDetailInformation', eventDetailInformation)
 
     def set_eventOutcomeDetail(self, eventOutcomeDetail):
-        pass
+        self._set_field('eventOutcomeDetail', self._listify(eventOutcomeDetail))
 
-    def get_eventOutcomeDetail(self):
-        pass
+    def get_eventOutcomeDetail(self, index=None):
+        return self._get_field('eventOutcomeDetail', index)
 
     def add_eventOutcomeDetail(self, eventOutcomeDetail):
-        pass
+        self._add_to_field('eventOutcomeDetail', eventOutcomeDetail)
 
 
 class EventDetailInformation(PremisNode):
     def __init__(self):
-        self.root = ET.Element('eventDetailInformation')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+        PremisNode.__init__(self, 'eventDetailInformation')
 
     def set_eventDetail(self, eventDetail):
-        pass
+        self._set_field('eventDetail', eventDetail)
 
     def get_eventDetail(self):
-        pass
+        return self._get_field('eventDetail')
 
     def set_eventDetailExtension(self, eventDetailExtension):
-        pass
+        self._set_field('eventDetailExtension', self._listify(eventDetailExtension))
 
-    def get_eventDetailExtension(self):
-        pass
+    def get_eventDetailExtension(self, index=None):
+        return self._list_getter('eventDetailExtension', index)
 
     def add_eventDetailExtension(self, eventDetailExtension):
-        pass
+        self._add_to_field('eventDetailExtension', eventDetailExtension)
 
 
 class EventOutcomeDetail(PremisNode):
     def __init__(self):
-        self.root = ET.Element('eventOutcomeDetail')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+        PremisNode.__init__(self, 'eventDetailInformation')
 
     def set_eventOutcomeDetailNote(self, eventOutcomeDetailNote):
-        pass
+        self._set_field('eventOutcomeDetailNote', eventOutcomeDetailNote)
 
     def get_eventOutcomeDetailNote(self):
-        pass
+        return self._get_field('eventOutcomeDetailNote')
 
     def set_eventOutcomeDetailExtension(self, eventOutcomeDetailExtension):
-        pass
+        self._set_field('eventOutcomeDetailExtension', self._listify(eventOutcomeDetailExtension))
 
-    def get_eventOutcomeDetailExtension(self):
-        pass
+    def get_eventOutcomeDetailExtension(self, index=None):
+        return self._list_getter('eventOutcomeDetailExtension', index)
 
     def add_eventOutcomeDetailExtension(self, eventOutcomeDetailExtension):
-        pass
+        self._add_to_field('eventOutcomeDetailExtension', eventOutcomeDetailExtension)
 
 
 class PremisAgent(PremisNode):
-    def __init__(self):
-        pass
-        self.root = ET.Element('entity')
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding="unicode")
+    def __init__(self, agentIdentifier):
+        PremisNode.__init__(self, 'agent')
+        self.set_agentIdentifier(agentIdentifier)
 
     def set_agentIdentifier(self, agentIdentifier):
-        pass
+        self._set_field('agentIdentifier', self._listify(agentIdentifier))
 
-    def get_agentIdentifier(self):
-        pass
+    def get_agentIdentifier(self, index=None):
+        return self._list_getter('agentIdentifier', index)
 
     def add_agentIdentifier(self, agentIdentifier):
-        pass
+        self._add_to_field('agentIdentifier', agentIdentifier)
 
     def set_agentName(self, agentName):
-        pass
+        self._set_field('agentName', self._listify(agentName))
 
-    def get_agentName(self):
-        pass
+    def get_agentName(self, index=None):
+        return self._list_getter('agentName', index)
 
     def add_agentName(self, agentName):
-        pass
+        self._add_to_field('agentName', agentName)
 
     def set_agentType(self, agentType):
-        pass
+        self._set_field('agentType', agentType)
 
     def get_agentType(self):
-        pass
+        return self._get_field('agentType')
 
     def set_agentVersion(self, agentVersion):
-        pass
+        self._set_field('agentVersion', agentVersion)
 
     def get_agentVersion(self):
-        pass
+        return self._get_field('agentVersion')
 
     def set_agentNote(self, agentNote):
-        pass
+        self._set_field('agentNote', self._listify(agentNote))
 
-    def get_agentNote(self):
-        pass
+    def get_agentNote(self, index=None):
+        return self._list_getter('agentNote', index)
 
     def add_agentNote(self, agentNote):
-        pass
+        self._add_to_field('agentNote', agentNote)
 
     def set_agentExtension(self, agentExtension):
-        pass
+        self._set_field('agentExtension', self._listify(agentExtension))
 
-    def get_agentExtension(self):
-        pass
+    def get_agentExtension(self, index=None):
+        return self._list_getter('agentExtension', index)
 
     def add_agentExtension(self, agentExtension):
-        pass
+        self._add_to_field('agentExtension', agentExtension)
 
     def set_linkingEventIdentifier(self, linkingEventIdentifier):
-        pass
+        self._set_field('linkingEventIdentifier', self._listify(linkingEventIdentifier))
 
-    def get_linkingEventIdentifier(self):
-        pass
+    def get_linkingEventIdentifier(self, index=None):
+        return self._list_getter('linkingEventIdentifier', index)
 
     def add_linkingEventIdentifier(self, linkingEventIdentifier):
-        pass
+        self._add_to_field('linkingEventIdentifier', linkingEventIdentifier)
 
     def set_linkingRightsStatementIdentifier(self, linkingRightsStatementIdentifier):
-        pass
+        self._set_field('linkingRightsStatementIdentifier', self._listify(linkingRightsStatementIdentifier))
 
-    def get_linkingRightsStatementIdentifier(self):
-        pass
+    def get_linkingRightsStatementIdentifier(self, index=None):
+        return self._list_getter('linkingRightsStatementIdentifier', index)
 
     def add_linkingRightsStatementIdentifier(self, linkingRightsStatementIdentifier):
-        pass
+        self._add_to_field('linkingRightsStatementIdentifier', linkingRightsStatementIdentifier)
 
     def set_linkingEnvironmentIdentifier(self, linkingEnvironmentIdentifier):
-        pass
+        self._set_field('linkingEnvironmentIdentifier', self._listify(linkingEnvironmentIdentifier))
 
-    def get_linkingEnvironmentIdentifier(self):
-        pass
+    def get_linkingEnvironmentIdentifier(self, index=None):
+        return self._list_getter('linkingEnvironmentIdentifier', index)
 
     def add_linkingEnvironmentIdentifier(self, linkingEnvironmentIdentifier):
-        pass
+        self._add_to_field('linkingEnvironmentIdentifier', linkingEnvironmentIdentifier)
 
 
 class AgentIdentifier(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('agentIdentifier')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, agentIdentifierType, agentIdentifierValue):
+        PremisNode.__init__(self, 'agentIdentifier')
+        self.set_agentIdentifierType(agentIdentifierType)
+        self.set_agentIdentifierValue(agentIdentifierValue)
 
     def set_agentIdentifierType(self, agentIdentifierType):
-        pass
+        self._set_field('agentIdentifierType', agentIdentifierType)
 
     def get_agentIdentifierType(self):
-        pass
+        return self._get_field('agentIdentifierType')
 
     def set_agentIdentifierValue(self, agentIdentifierValue):
-        pass
+        self._set_field('agentIdentifierValue')
 
     def get_agentIdentifierValue(self):
-        pass
+        return self._get_field('agentIdentifierValue')
 
 
 class LinkingEnvironmentIdentifier(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('linkingEnvironmentIdentifier')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, linkingEnvironmentIdentifierType, linkingEnvironmentIdentifierValue):
+        PremisNode.__init__(self, 'linkingAgentEnvironmentIdentifier')
+        self.set_linkingEnvironmentIdentifierType(linkingEnvironmentIdentifierType)
+        self.set_linkingEnvironmentIdentifierValue(linkingEnvironmentIdentifierValue)
 
     def set_linkingEnvironmentIdentifierType(self, linkingEnvironmentIdentifierType):
-        pass
+        self._set_field('linkingEnvironmentIdentifierType', linkingEnvironmentIdentifierType)
 
     def get_linkingEnvironmentIdentifierType(self):
-        pass
+        return self._get_field('linkingEnvironmentIdentifierType')
 
     def set_linkingEnvironmentIdentifierValue(self, linkingEnvironmentIdentifierValue):
-        pass
+        self._set_field('linkingEnvironmentIdentifierValue')
 
     def get_linkingEnvironmentIdentifierValue(self):
-        pass
+        return self._get_field('linkingEnvironmentIdentifierValue')
 
     def set_linkingEnvironmentRole(self, linkingEnvironmentRole):
-        pass
+        self._set_field('linkingEnvironmentRole', self._listify(linkingEnvironmentRole))
 
-    def get_linkingEnvironmentRole(self):
-        pass
+    def get_linkingEnvironmentRole(self, index=None):
+        return self._list_getter('linkingEnvironmentRole', index)
 
     def add_linkingEnvironmentRole(self, linkingEnvironmentRole):
-        pass
+        self._add_to_field('linkingEnvironmentRole', linkingEnvironmentRole)
 
 
 class LinkingAgentIdentifier(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('agentIdentifier')
-        pass
+    def __init__(self, linkingAgentIdentifierType, linkingAgentIdentifierValue):
+        PremisNode.__init__(self, 'linkingAgentIdentifier')
+        self.set_linkingAgentIdentifierType(linkingAgentIdentifierType)
+        self.set_linkingAgentIdentifierValue(linkingAgentIdentifierValue)
 
-    def __repr__(self):
-        return ET.tostring(self.root, encoding="unicode")
-
-    def set_linkingAgentIdentifierType(self, agentIdentifierType):
-        pass
+    def set_linkingAgentIdentifierType(self, linkingAgentIdentifierType):
+        self._set_field('linkingAgentIdentifierType', linkingAgentIdentifierType)
 
     def get_linkingAgentIdentifierType(self):
-        pass
+        return self._get_field('linkingAgentIdentifierType')
 
-    def set_linkingAgentIdentifierValue(self, agentIdentifierValue):
-        pass
+    def set_linkingAgentIdentifierValue(self, linkingAgentIdentifierValue):
+        self._set_field('linkingAgentIdentifierValue', linkingAgentIdentifierValue)
 
     def get_linkingAgentIdentifierValue(self):
-        pass
+        return self._get_field('linkingAgentIdentifierValue')
 
     def set_linkingAgentRole(self, linkingAgentRole):
-        pass
+        self._set_field('linkingAgentRole', self._listify(linkingAgentRole))
 
-    def get_linkingAgentRole(self):
-        pass
+    def get_linkingAgentRole(self, index=None):
+        return self._list_getter('linkingAgentRole', index)
 
     def add_linkingAgentRole(self, linkingAgentRole):
-        pass
+        self._add_to_field('linkingAgentRole', linkingAgentRole)
 
 
 class PremisRights(PremisNode):
