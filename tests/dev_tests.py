@@ -6,8 +6,16 @@ from pypremis.premisrecord import *
 
 class Test(unittest.TestCase):
     def testObject(self):
+        format = Format()
+        objectCharacteristics = ObjectCharacteristics(format)
         identifier = ObjectIdentifier('number','1')
-        test = PremisObject(identifier.toXML(), 'test_category')
+        second_id = ObjectIdentifier('letter','a')
+        print()
+        print(second_id._get_fields())
+        print(second_id.get_objectIdentifierValue())
+        print(second_id.get_objectIdentifierType())
+        test = PremisObject(identifier, 'test_category', objectCharacteristics)
+        test.add_objectIdentifier(second_id.toXML())
 
         rough_str = ET.tostring(test.toXML())
         parsed = xml.dom.minidom.parseString(rough_str)
