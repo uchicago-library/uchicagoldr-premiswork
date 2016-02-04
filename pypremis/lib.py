@@ -94,3 +94,10 @@ class PremisNode(object):
             return self.fields[key]
         else:
             return self.fields[key][index]
+
+    def _type_check(self, x, type_it_should_be):
+        if not isinstance(x, type_it_should_be):
+            raise TypeError
+
+    def _from_xml(self, xml, branches, leaves):
+        pass

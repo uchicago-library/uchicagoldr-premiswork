@@ -269,357 +269,333 @@ class EventIdentifier(PremisNode):
 
 
 class LinkingEventIdentifier(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('linkingEventIdentifier')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, linkingEventIdentiferType, linkingEventIdentifierValue):
+        PremisNode.__init__(self, 'linkingEventIdentifier')
+        self.set_linkingEventIdentifierType(linkingEventIdentiferType)
+        self.set_linkingEventIdentifierValue(linkingEventIdentifierValue)
 
     def set_linkingEventIdentifierType(self, linkingEventIdentifierType):
-        pass
+        self._set_field('linkingEventIdentifierType', linkingEventIdentifierType)
 
     def get_linkingEventIdentifierType(self):
-        pass
+        return self._get_field('linkingEventIdentifierType')
 
     def set_linkingEventIdentifierValue(self, linkingEventIdentifierValue):
-        pass
+        self._set_field('linkingEventIdentifierValue', linkingEventIdentifierValue)
 
     def get_linkingEventIdentifierValue(self):
-        pass
+        return self._get_field('linkingEventIdentifierValue')
 
 
 class LinkingRightsStatementIdentifier(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('linkingRightsStatementIdentifier')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, linkingRightsStatementIdentifierType, linkingRightsStatementIdentifierValue):
+        PremisNode.__init__(self, 'linkingRightsStatementIdentifier')
+        self.set_linkingRightsStatementIdentifierType(linkingRightsStatementIdentifierType)
+        self.set_linkingRightsStatementIdentifierValue(linkingRightsStatementIdentifierValue)
 
     def set_linkingRightsStatementIdentifierType(self, linkingRightsStatementIdentifierType):
-        pass
+        self._set_field('linkingRightsStatementIdentifierType', linkingRightsStatementIdentifierType)
 
     def get_linkingRightsStatementIdentifierType(self):
-        pass
+        return self._get_field('linkingRightsStatementIdentifierType')
 
     def set_linkingRightsStatementIdentifierValue(self, linkingRightsStatementIdentifierValue):
-        pass
+        self._set_field('linkingRightsStatementIdentifierValue')
 
     def get_linkingRightsStatementIdentifierValue(self):
-        pass
+        return self._get_field('linkingRightsStatementIdentifierValue')
 
 
 class Relationship(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('relationship')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, relationshipType, relationshipSubType, relatedObjectIdentifier):
+        PremisNode.__init__(self, 'relationship')
+        self.set_relationshipType(relationshipType)
+        self.set_relationshipSubtype(relationshipSubType)
+        self.set_relatedObjectIdentifier(relatedObjectIdentifier)
 
     def set_relationshipType(self, relationshipType):
-        pass
+        self._set_field('relationshipType', relationshipType)
 
     def get_relationshipType(self):
-        pass
+        return self._get_field('relationshipType')
 
     def set_relationshipSubType(self, relationshipSubType):
-        pass
+        self._set_field('relationshipSubType', relationshipSubType)
 
     def get_relationshipSubType(self):
-        pass
+        return self._get_field('relationshipSubType')
 
     def set_relatedObjectIdentifier(self, relatedObjectIdentifier):
-        pass
+        self._set_field('relatedObjectIdentifier', self._listify(relatedObjectIdentifier))
 
-    def get_relatedObjectIdentifier(self):
-        pass
+    def get_relatedObjectIdentifier(self, index=None):
+        return self._list_getter('relatedObjectIdentifier', index)
 
     def add_relatedObjectIdentifier(self, relatedObjectIdentifier):
-        pass
+        self._add_to_field('relatedObjectIdentifier', relatedObjectIdentifier)
 
-    def set_relatedEventIdentifier(self, relatedEventIdentifer):
-        pass
+    def set_relatedEventIdentifier(self, relatedEventIdentifier):
+        self._set_field('relatedEventIdentifier', self._listify(relatedEventIdentifier))
 
-    def get_relatedEventIdentifier(self):
-        pass
+    def get_relatedEventIdentifier(self, index=None):
+        return self._list_getter('relatedEventIdentifier', index)
 
     def add_relatedEventIdentifier(self, relatedEventIdentifier):
-        pass
+        self._add_to_field('relatedEventIdentifier', relatedEventIdentifier)
 
     def set_relatedEnvironmentPurpose(self, relatedEnvironmentPurpose):
-        pass
+        self._set_field('relatedEnvironmentPurpose', self._listify(relatedEnvironmentPurpose))
 
-    def get_relatedEnvironmentPurpose(self):
-        pass
+    def get_relatedEnvironmentPurpose(self, index=None):
+        return self._list_getter('relatedEnvironmentPurpose', index)
 
     def add_relatedEnvironmentPurpose(self, relatedEnvironmentPurpose):
-        pass
+        self._add_to_field('relatedEnvironmentPurpose', relatedEnvironmentPurpose)
 
     def set_relatedEnvironmentCharacteristic(self, relatedEnvironmentCharacteristic):
-        pass
+        self._set_field('relatedEnvironmentCharacteristic', relatedEnvironmentCharacteristic)
 
     def get_relatedEnvironmentCharacteristic(self):
-        pass
+        self._get_field('relatedEnvironmentCharacteristic')
 
 
 class RelatedEventIdentifier(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('relatedEventIdentifier')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, relatedEventIdentifierType, relatedEventIdentifierValue):
+        PremisNode.__init__(self, 'relatedEventIdentifier')
+        self.set_relatedEventIdentifierType(relatedEventIdentifierType)
+        self.set_relatedEventIdentifierValue(relatedEventIdentifierValue)
 
     def set_relatedEventIdentifierType(self, relatedEventIdentifierType):
-        pass
+        self._set_field('relatedEventIdentifierType', relatedEventIdentifierType)
 
     def get_relatedEventIdentifierType(self):
-        pass
+        return self._get_field('relatedEventIdentifierType')
 
     def set_relatedEventIdentifierValue(self, relatedEventIdentifierValue):
-        pass
+        self._set_field('relatedEventIdentifierValue', relatedEventIdentifierValue)
 
     def get_relatedEventIdentifierValue(self):
-        pass
+        return self._get_field('relatedEventIdentifierType')
 
     def set_relatedEventSequence(self, relatedEventSequence):
-        pass
+        self._set_field('relatedEventSequence', relatedEventSequence)
 
     def get_relatedEventSequence(self):
-        pass
+        return self._get_field('relatedEventSequence')
 
 
 class RelatedObjectIdentifier(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('relatedObjectIdentifier')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, relatedObjectIdentifierType, relatedObjectIdentifierValue):
+        PremisNode.__init__(self, 'relatedObjectIdentifier')
+        self.set_relatedObjectIdentifierType(relatedObjectIdentifierType)
+        self.set_relatedObjectIdentifierValue(relatedObjectIdentifierValue)
 
     def set_relatedObjectIdentifierType(self, relatedObjectIdentifierType):
-        pass
+        self._set_field('relatedObjectIdentifierType', relatedObjectIdentifierType)
 
     def get_relatedObjectIdentifierType(self):
-        pass
+        return self._get_field('relatedObjectIdentifierType')
 
     def set_relatedObjectIdentifierValue(self, relatedObjectIdentifierValue):
-        pass
+        self._set_field('relatedObjectIdentifierValue')
 
     def get_relatedObjectIdentifierValue(self):
-        pass
+        return self._get_field('relatedObjectIdentifierValue')
 
     def set_relatedObjectSequence(self, relatedObjectSequence):
-        pass
+        self._set_field('relatedObjectSequence', relatedObjectSequence)
 
     def get_relatedObjectSequence(self):
-        pass
+        return self._get_field('relatedObjectSequence')
 
 
 class EnvironmentRegistry(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('environmentRegistry')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, environmentRegistryName, environmentRegistryKey):
+        PremisNode.__init__(self, 'environmentRegistry')
+        self.set_environmentRegistryName(environmentRegistryName)
+        self.set_environmentRegistryKey(environmentRegistryKey)
 
     def set_environmentRegistryName(self, environmentRegistryName):
-        pass
+        self._set_field('environmentRegistryName', environmentRegistryName)
 
     def get_environmentRegistryName(self):
-        pass
+        return self._get_field('environmentRegistryName')
 
     def set_environmentRegistryKey(self, environmentRegistryKey):
-        pass
+        self._set_field('environmentRegistryKey', environmentRegistryKey)
 
     def get_environmentRegistryKey(self):
-        pass
+        return self._get_field('environmentRegistryKey')
 
     def set_environmentRegistryRole(self, environmentRegistryRole):
-        pass
+        self._set_field('environmentRegistryRole', environmentRegistryRole)
 
     def get_environmentRegistryRole(self):
-        pass
+        return self._get_field('environmentRegistryRole')
 
 
 class EnvironmentDesignation(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('environmentDesignation')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, environmentName):
+        PremisNode.__init__(self, 'environmentDesignation')
+        self.set_environmentName(environmentName)
 
     def set_environmentName(self, environmentName):
-        pass
+        self._set_field('environmentName', environmentName)
 
     def get_environmentName(self):
-        pass
+        return self._get_field('environmentName')
 
     def set_environmentVersion(self, environmentVersion):
-        pass
+        self._set_field('environmentVersion')
 
     def get_environmentVersion(self):
-        pass
+        return self._get_field('environmentVersion')
 
     def set_environmentOrigin(self, environmentOrigin):
-        pass
+        self._set_field('environmentOrigin')
 
     def get_environmentOrigin(self):
-        pass
+        return self._get_field('environmentOrigin')
 
     def set_environmentDesignationNote(self, environmentDesignationNote):
-        pass
+        self._set_field('environmentDesignationNote', self._listify(environmentDesignationNote))
 
-    def get_environmentDesignationNote(self):
-        pass
+    def get_environmentDesignationNote(self, index=None):
+        return self._list_getter('environmentDesignationNote', index)
 
     def add_environmentDesignationNote(self, environmentDesignationNote):
-        pass
+        self._add_to_field('environmentDesignationNote', environmentDesignationNote)
 
     def set_environmentDesignationExtension(self, environmentDesignationExtension):
-        pass
+        self._set_field('environmentDesignationExtension', self._listify(environmentDesignationExtension))
 
-    def get_environmentDesignationExtension(self):
-        pass
+    def get_environmentDesignationExtension(self, index=None):
+        return self._list_getter('environmentDesignationExtension', index)
 
     def add_environmentDesignationExtension(self, environmentDesignationExtension):
-        pass
+        self._add_to_field('environmentDesignationExtension', environmentDesignationExtension)
 
 
 class EnvironmentFunction(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('environmentFunction')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, environmentFunctionType, environmentFunctionLevel):
+        PremisNode.__init__(self, 'environmentDesignation')
+        self.set_environmentFunctionType(environmentFunctionType)
+        self.set_environmentFunctionLevel(environmentFunctionLevel)
 
     def set_environmentFunctionType(self, environmentFunctionType):
-        pass
+        self._set_field('environmentFunctionType', environmentFunctionType)
 
     def get_environmentFunctionType(self):
-        pass
+        return self._get_field('environmentFunctionType')
 
     def set_environmentFunctionLevel(self, environmentFunctionLevel):
-        pass
+        self._set_field('environmentFunctionLevel', environmentFunctionLevel)
 
     def get_environmentFunctionLevel(self):
-        pass
+        return self._get_field('environmentFunctionLevel')
 
 
 class SignatureInformation(PremisNode):
     def __init__(self):
-        self.root = ET.Element('signatureInformation')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding="unicode")
+        PremisNode.__init__(self, 'signatureInformation')
 
     def set_signature(self, signature):
-        pass
+        self._set_field('signature', self._listify(signature))
 
-    def get_signature(self):
-        pass
+    def get_signature(self, index=None):
+        self._list_getter('signature', index)
 
     def add_signature(self, signature):
-        pass
+        self._add_to_value('signature', signature)
 
     def set_signatureInformationExtension(self, signatureInformationExtension):
-        pass
+        self._set_field('signatureInformationExtension', self._listify(signatureInformationExtension))
 
-    def get_signatureInformationExtension(self):
-        pass
+    def get_signatureInformationExtension(self, index=None):
+        self._list_getter('signatureInformationExtension', index)
 
     def add_signatureInformationExtension(self, signatureInformationExtension):
-        pass
+        self._add_to_field('signatureInformationExtension', signatureInformationExtension)
 
 
 class Signature(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('signature')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding="unicode")
+    def __init__(self, signatureEncoding, signatureMethod, signatureValue, signatureValidationRules):
+        PremisNode.__init__(self, 'signatureInformation')
+        self.set_signatureEncoding(signatureEncoding)
+        self.set_signatureMethod(signatureMethod)
+        self.set_signatureValue(signatureValue)
+        self.set_signatureValidationRules(signatureValidationRules)
 
     def set_signatureEncoding(self, signatureEncoding):
-        pass
+        self._set_field('signatureEncoding', signatureEncoding)
 
     def get_signatureEncoding(self):
-        pass
+        return self._get_field('signatureEncoding')
 
     def set_signer(self, signer):
-        pass
+        self._set_field('signer', signer)
 
     def get_signer(self):
-        pass
+        return self._get_field('signer')
 
     def set_signatureMethod(self, signatureMethod):
-        pass
+        self._set_field('signatureMethod', signatureMethod)
 
     def get_signatureMethod(self):
-        pass
+        return self._get_field('signatureMethod')
 
     def set_signatureValue(self, signatureValue):
-        pass
+        self._set_field('signatureValue', signatureValue)
 
     def get_signatureValue(self):
-        pass
+        return self._get_field('signatureValue')
 
     def set_signatureValidationRules(self, signatureValidationRules):
-        pass
+        self._set_field('signatureValidationRules', signatureValidationRules)
 
     def get_signatureValidationRules(self):
-        pass
+        self._get_field('signatureValidationRules')
 
     def set_signatureProperties(self, signatureProperties):
-        pass
+        self._set_field('signatureProperties', self._listify(signatureProperties))
 
     def add_signatureProperties(self, signatureProperties):
-        pass
+        self.add_to_field('signatureProperties', signatureProperties)
 
-    def get_signatureProperties(self):
-        pass
+    def get_signatureProperties(self, index=None):
+        return self._list_getter('signatureProperties', index)
 
     def set_keyInformation(self, keyInformation):
-        pass
+        self._set_field('keyInformation', keyInformation)
 
     def get_keyInformation(self):
-        pass
+        return self._get_field('keyInformation')
 
 
 class Storage(PremisNode):
     def __init__(self):
-        self.root = ET.Element('storage')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding="unicode")
+        PremisNode.__init__(self, 'storage')
 
     def set_contentLocation(self, contentLocation):
-        pass
+        self._set_field('contentLocation', contentLocation)
 
     def get_contentLocation(self):
-        pass
+        return self._get_field('contentLocation')
 
     def set_storageMedium(self, storageMedium):
-        pass
+        self._set_field('storageMedium', storageMedium)
 
     def get_storageMedium(self):
+        return self._get_field('storageMedium')
         pass
 
 
 class ContentLocation(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('contentLocation')
+    def __init__(self, contentLocationType, contentLocationValue):
+        PremisNode.__init__(self, 'storage')
+        self.set_contentLocationType(contentLocationType)
+        self.set_contentLocationValue(contentLocationValue)
         pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding="unicode")
 
     def set_contentLocationType(self, contentLocationType):
         pass
