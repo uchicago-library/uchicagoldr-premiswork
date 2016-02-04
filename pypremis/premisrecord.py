@@ -65,7 +65,7 @@ class PremisRecord(object):
         pass
 
 
-class PremisObject(PremisNode):
+class Object(PremisNode):
     def __init__(self, objectIdentifier, objectCategory, objectCharacteristics):
         PremisNode.__init__(self, 'object')
         self.set_objectIdentifier(objectIdentifier)
@@ -895,7 +895,7 @@ class PreservationLevel(PremisNode):
         return self._get_field('preservationLevelDateAssigned')
 
 
-class PremisEvent(PremisNode):
+class Event(PremisNode):
     def __init__(self, eventType, eventIdentifier, eventDateTime):
         PremisNode.__init__(self, 'event')
         self.set_eventType(eventType)
@@ -1026,7 +1026,7 @@ class EventOutcomeDetail(PremisNode):
         self._add_to_field('eventOutcomeDetailExtension', eventOutcomeDetailExtension)
 
 
-class PremisAgent(PremisNode):
+class Agent(PremisNode):
     def __init__(self, agentIdentifier):
         PremisNode.__init__(self, 'agent')
         self.set_agentIdentifier(agentIdentifier)
@@ -1182,583 +1182,537 @@ class LinkingAgentIdentifier(PremisNode):
         self._add_to_field('linkingAgentRole', linkingAgentRole)
 
 
-class PremisRights(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('rights')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding="unicode")
+class Rights(PremisNode):
+    def __init__(self, rightsStatement=None, rightsExtension=None):
+        if rightsStatement is None and rightsExtension is None:
+            raise ValueError("Either rightsStatement or rightsExtension must be supplied.")
+        PremisNode.__init__(self, 'rights')
+        if rightsStatement is not None:
+            self.set_rightsStatement(rightsStatement)
+        if rightsExtension is not None:
+            self.set_rightsExtension(rightsExtension)
 
     def set_rightsStatement(self, rightsStatement):
-        pass
+        self._set_field('rightsStatement', self._listify(rightsStatement))
 
-    def get_rightsStatement(self):
-        pass
+    def get_rightsStatement(self, index=None):
+        return self._list_getter('rightsStatement', index)
 
     def add_rightsStatement(self, rightsStatement):
-        pass
+        self._add_to_field('rightsStatement', rightsStatement)
 
     def set_rightsExtension(self, rightsExtension):
-        pass
+        self._set_field('rightsExtension', self._listify(rightsExtension))
 
-    def get_rightsExtension(self):
-        pass
+    def get_rightsExtension(self, index=None):
+        return self._list_getter('rightsExtension', index)
 
     def add_rightsExtension(self, rightsExtension):
-        pass
+        self._add_to_field('rightsExtension', rightsExtension)
 
 
 class RightsStatement(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('rightsStatement')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, rightsStatementIdentifier, rightsBasis):
+        PremisNode.__init__(self, 'rightsStatement')
+        self.set_rightsStatementIdentifier(rightsStatementIdentifier)
+        self.set_rightsBasis(rightsBasis)
 
     def set_rightsStatementIdentifier(self, rightsStatementIdentifier):
-        pass
+        self._set_field('rightsStatementIdentifier', rightsStatementIdentifier)
 
     def get_rightsStatementIdentifier(self):
-        pass
+        return self._get_field('rightsStatementIdentifier')
 
     def set_rightsBasis(self, rightsBasis):
-        pass
+        self._set_field('rightsBasis', rightsBasis)
 
     def get_rightsBasis(self):
-        pass
+        return self._get_field('rightsBasis')
 
     def set_copyrightInformation(self, copyrightInformation):
-        pass
+        self._set_field('copyrightInformation', copyrightInformation)
 
     def get_copyrightInformation(self):
-        pass
+        return self._get_field('copyrightInformation')
 
     def set_licenseInformation(self, licenseInformation):
-        pass
+        self._set_field('licenseInformation', licenseInformation)
 
     def get_licenseInformation(self):
-        pass
+        return self._get_field('licenseInformation')
 
     def set_statuteInformation(self, statuteInformation):
-        pass
+        self._set_field('statuteInformation', self._listify(statuteInformation))
 
-    def get_statuteInformation(self):
-        pass
+    def get_statuteInformation(self, index=None):
+        return self._list_getter('statuteInformation', index)
 
     def add_statuteInformation(self, statuteInformation):
-        pass
+        self._add_to_field('statuteInformation', statuteInformation)
 
     def set_otherRightsInformation(self, otherRightsInformation):
-        pass
+        self._set_field('otherRightsInformation', otherRightsInformation)
 
     def get_otherRightsInformation(self):
-        pass
+        return self._get_field('otherRightsInformation')
 
     def set_rightsGranted(self, rightsGranted):
-        pass
+        self._set_field('rightsGranted', self._listify(rightsGranted))
 
-    def get_rightsGranted(self):
-        pass
+    def get_rightsGranted(self, index=None):
+        return self._list_getter('rightsGranted', index)
 
     def add_rightsGranted(self, rightsGranted):
-        pass
+        self._add_to_field('rightsGranted', rightsGranted)
 
     def set_linkingObjectIdentifier(self, linkingObjectIdentifier):
-        pass
+        self._set_field('linkingObjectIdentifier', self._listify(linkingObjectIdentifier))
 
-    def get_linkingObjectIdentifier(self):
-        pass
+    def get_linkingObjectIdentifier(self, index=None):
+        return self._list_getter('linkingObjectIdentifier', index)
 
     def add_linkingObjectIdentifier(self, linkingObjectIdentifier):
-        pass
+        self._add_to_field('linkingObjectIdentifier', linkingObjectIdentifier)
 
     def set_linkingAgentIdentifier(self, linkingAgentIdentifier):
-        pass
+        self._set_field('linkingAgentIdentifier', self._listify(linkingAgentIdentifier))
 
-    def get_linkingAgentIdentifier(self):
-        pass
+    def get_linkingAgentIdentifier(self, index=None):
+        return self._list_getter('linkingAgentIdentifier', index)
 
     def add_linkingAgentIdentifier(self, linkingAgentIdentifier):
-        pass
+        self._add_to_field('linkingAgentIdentifier', linkingAgentIdentifier)
 
 
 class RightsGranted(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('rightsGranted')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, act):
+        PremisNode.__init__(self, 'rightsGranted')
+        self.set_act(act)
 
     def set_act(self, act):
-        pass
+        self._set_field('act', act)
 
     def get_act(self):
-        pass
+        return self._get_field('act')
 
     def set_restriction(self, restriction):
-        pass
+        self._set_field('restriction', self._listify(restriction))
 
-    def get_restriction(self):
-        pass
+    def get_restriction(self, index=None):
+        return self._list_getter('restriction', index)
 
     def add_restriction(self, restriction):
-        pass
+        self._add_to_field('restriction', restriction)
 
     def set_termOfGrant(self, termOfGrant):
-        pass
+        self._set_field('termOfGrant', termOfGrant)
 
     def get_termOfGrant(self):
-        pass
+        return self._get_field('termOfGrant')
 
     def set_termOfRestriction(self, termOfRestriction):
-        pass
+        self._set_field('termOfRestriction', termOfRestriction)
 
     def get_termOfRestriction(self):
-        pass
+        return self._get_field('termOfRestriction')
 
     def set_rightsGrantedNote(self, rightsGrantedNote):
-        pass
+        self._set_field('rightsGrantedNote', self._listify(rightsGrantedNote))
 
-    def get_rightsGrantedNote(self):
-        pass
+    def get_rightsGrantedNote(self, index=None):
+        return self._list_getter('rightsGrantedNote', index)
 
     def add_rightsGrantedNote(self, rightsGrantedNote):
-        pass
+        self._add_to_field('rightsGrantedNote', rightsGrantedNote)
 
 
 class TermOfRestriction(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('termOfRestriction')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, startDate):
+        PremisNode.__init__(self, 'termOfRestriction')
+        self.set_startDate(startDate)
 
     def set_startDate(self, startDate):
-        pass
+        self._set_field('startDate', startDate)
 
     def get_startDate(self):
-        pass
+        return self._get_field('startDate')
 
     def set_endDate(self, endDate):
-        pass
+        self._set_field('endDate', endDate)
 
     def get_endDate(self):
-        pass
+        return self._get_field('endDate')
 
 
 class TermOfGrant(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('termOfGrant')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, startDate):
+        PremisNode.__init__(self, 'termOfGrant')
+        self.set_startDate(startDate)
 
     def set_startDate(self, startDate):
-        pass
+        self._set_field('startDate', startDate)
 
     def get_startDate(self):
-        pass
+        return self._get_field('startDate')
 
     def set_endDate(self, endDate):
-        pass
+        self._set_field('endDate', endDate)
 
     def get_endDate(self):
-        pass
+        return self._get_field('endDate')
 
 
 class OtherRightsInformation(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('otherRightsInformation')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, otherRightsBasis):
+        PremisNode.__init__(self, 'otherRightsInformation')
+        self.set_otherRightsBasis(otherRightsBasis)
 
     def set_otherRightsDocumentationIdentifier(self, otherRightsDocumentationIdentifier):
-        pass
+        self._set_field('otherRightsDocumentationIdentifier', self._listify(otherRightsDocumentationIdentifier))
 
-    def get_otherRightsDocumentationIdentifier(self):
-        pass
+    def get_otherRightsDocumentationIdentifier(self, index=None):
+        return self._list_getter('otherRightsDocumentationIdentifier', index)
 
     def add_otherRightsDocumentationIdentifier(self, otherRightsDocumentationIdentifier):
-        pass
+        self._add_to_field('otherRightsDocumentationIdentifier', otherRightsDocumentationIdentifier)
 
     def set_otherRightsBasis(self, otherRightsBasis):
-        pass
+        self._set_field('otherRightsBasis', otherRightsBasis)
 
     def get_otherRightsBasis(self):
-        pass
+        return self._get_field('otherRightsBasis')
 
     def set_otherRightsApplicableDates(self, otherRightsApplicableDates):
-        pass
+        self._set_field('otherRightsApplicableDates', otherRightsApplicableDates)
 
     def get_otherRightsApplicableDates(self):
-        pass
+        return self._get_field('otherRightsApplicableDates')
 
     def set_otherRightsNote(self, otherRightsNote):
-        pass
+        self._set_field('otherRightsNote', self._listify(otherRightsNote))
 
-    def get_otherRightsNote(self):
-        pass
+    def get_otherRightsNote(self, index=None):
+        return self._list_getter('otherRightsNote', index)
 
     def add_otherRightsNote(self, otherRightsNote):
-        pass
+        self._add_to_field('otherRightsNote', otherRightsNote)
 
 
 class OtherRightsApplicableDates(PremisNode):
     def __init__(self):
-        self.root = ET.Element('otherRightsApplicableDates')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+        PremisNode.__init__(self, 'otherRightsApplicableDates')
 
     def set_startDate(self, startDate):
-        pass
+        self._set_field('startDate', startDate)
 
     def get_startDate(self):
-        pass
+        return self._get_field('startDate')
 
     def set_endDate(self, endDate):
-        pass
+        self._set_field('endDate', endDate)
 
     def get_endDate(self):
-        pass
+        return self._get_field('startDate')
 
 
 class OtherRightsDocumentationIdentifier(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('otherRightsDocumentationIdentifier')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, otherRightsDocumentationIdentifierType, otherRightsDocumentationIdentifierValue):
+        PremisNode.__init__(self, 'otherRightsDocumentationIdentifier')
+        self.set_otherRightsDocumentationIdentifierType(otherRightsDocumentationIdentifierType)
+        self.set_otherRightsDocumentationIdentifierValue(otherRightsDocumentationIdentifierValue)
 
     def set_otherRightsDocumentationIdentifierType(self, otherRightsDocumentationIdentifierType):
-        pass
+        self._set_field('otherRightsDocumentationIdentifierType', otherRightsDocumentationIdentifierType)
 
     def get_otherRightsDocumentationIdentifierType(self):
-        pass
+        return self._get_field('otherRightsDocumentationIdentifierType')
 
     def set_otherRightsDocumentationIdentifierValue(self, otherRightsDocumentationIdentifierValue):
-        pass
+        self._set_field('otherRightsDocumentationIdentifierValue', otherRightsDocumentationIdentifierValue)
 
     def get_otherRightsDocumentationIdentifierValue(self):
-        pass
+        return self._get_field('otherRightsDocumentationIdentifierValue')
 
     def set_otherRightsDocumentationRole(self, otherRightsDocumentationRole):
-        pass
+        self._set_field('otherRightsDocumentationRole', otherRightsDocumentationRole)
 
     def get_otherRightsDocumentationRole(self):
-        pass
+        return self._get_field('otherRightsDocumentationRole')
 
 
 class StatuteInformation(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('statuteInformation')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, statuteJurisdiction, statuteCitation):
+        PremisNode.__init__(self, 'StatuteInformation')
+        self.set_statuteJurisdiction(statuteJurisdiction)
+        self.set_statuteCitation(statuteCitation)
 
     def set_statuteJurisdiction(self, statuteJurisdiction):
-        pass
+        self._set_field('statuteJurisdiction', statuteJurisdiction)
 
     def get_statuteJurisdiction(self):
-        pass
+        return self._get_field('statuteJurisdiction')
 
     def set_statuteCitation(self, statuteCitation):
-        pass
+        self._set_field('statuteCitation', statuteCitation)
 
     def get_statuteCitation(self):
-        pass
+        return self._get_field('statuteCitation')
 
     def set_statuteInformationDeterminationDate(self, statuteInformationDeterminationDate):
-        pass
+        self._set_field('statuteInformationDeterminationDate', statuteInformationDeterminationDate)
 
     def get_statuteInformationDeterminationDate(self):
-        pass
+        return self._get_field('statuteInformationDeterminationDate')
 
     def set_statuteNote(self, statuteNote):
-        pass
+        self._set_field('statuteNote', self._listify(statuteNote))
 
-    def get_statuteNote(self):
-        pass
+    def get_statuteNote(self, index=None):
+        return self._list_getter('statuteNote', index)
 
     def add_statuteNote(self, statuteNote):
-        pass
+        self._add_to_field('statuteNote')
 
     def set_statuteDocumentationIdentifier(self, statuteDocumentationIdentifier):
-        pass
+        self.set_field('statuteDocumentationIdentifier', self._listify(statuteDocumentationIdentifier))
 
-    def get_statuteDocumentationIdentifier(self):
-        pass
+    def get_statuteDocumentationIdentifier(self, index=None):
+        return self._list_getter('statuteDocumentationIdentifier', index)
 
     def add_statuteDocumentationIdentifier(self, statuteDocumentationIdentifier):
-        pass
+        self._add_to_field('statuteDocumentationIdentifier', statuteDocumentationIdentifier)
 
     def set_statuteApplicableDates(self, statuteApplicableDates):
-        pass
+        self._set_field('statuteApplicableDates', statuteApplicableDates)
 
     def get_statuteApplicableDates(self):
-        pass
+        return self._get_field('statuteApplicableDates')
 
 
 class StatuteApplicableDates(PremisNode):
     def __init__(self):
-        self.root = ET.Element('statuteApplicableDates')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicde')
+        PremisNode.__init__(self, 'StatuteApplicableDates')
 
     def set_startDate(self, startDate):
-        pass
+        self._set_field('startDate', startDate)
 
     def get_startDate(self):
-        pass
+        return self._get_field('startDate')
 
     def set_endDate(self, endDate):
-        pass
+        self._set_field('endDate', endDate)
 
     def get_endDate(self):
-        pass
+        return self._get_field('endDate')
 
 
 class StatuteDocumentationIdentifier(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('statuteDocumentationIdentifier')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, statuteDocumentationIdentifierType, statuteDocumentationIdentifierValue):
+        PremisNode.__init__(self, 'StatuteDocumentationIdentifier')
+        self.set_statuteDocumentationIdentifierType(statuteDocumentationIdentifierType)
+        self.set_statuteDocumentationIdentifierValue(statuteDocumentationIdentifierValue)
 
     def set_statuteDocumentationIdentifierType(self, statuteDocumentationIdentifierType):
-        pass
+        self._set_field('statuteDocumentationIdentifierType', statuteDocumentationIdentifierType)
 
     def get_statuteDocumentationIdentifierType(self):
-        pass
+        return self._get_field('statuteDocumentationIdentifierType')
 
     def set_statuteDocumentationIdentifierValue(self, statuteDocumentationIdentifierValue):
-        pass
+        self._set_field('statuteDocumentationIdentifierValue', statuteDocumentationIdentifierValue)
 
     def get_statuteDocumentationIdentifierValue(self):
-        pass
+        return self._get_field('statuteDocumentationIdentifierValue')
 
     def set_statuteDocumentationRole(self, statuteDocumentationRole):
-        pass
+        self._set_field('statuteDocumentationRole', statuteDocumentationRole)
 
     def get_statuteDocumentationRole(self):
-        pass
+        return self._get_field('statuteDocumentationRole')
 
 
 class LicenseInformation(PremisNode):
     def __init__(self):
-        self.root = ET.Element('licenseInformation')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+        PremisNode.__init__(self, 'licenseInformation')
 
     def set_licenseDocumentationIdentifier(self, licenseDocumentationIdentifier):
-        pass
+        self._set_field('licenseDocumentationIdentifier', self._listify(licenseDocumentationIdentifier))
 
-    def get_licenseDocumentationIdentifier(self):
-        pass
+    def get_licenseDocumentationIdentifier(self, index=None):
+        return self._list_getter('licenseDocumentationIdentifier', index)
 
     def add_licenseDocumentationIdentifier(self, licenseDocumentationIdentifier):
-        pass
+        self._add_to_field('licenseDocumentationIdentifier')
 
     def set_licenseTerms(self, licenseTerms):
-        pass
+        self._set_field('licenseTerms', licenseTerms)
 
     def get_licenseTerms(self):
-        pass
+        return self._get_field('licenseTerms')
 
     def set_licenseNote(self, licenseNote):
-        pass
+        self._set_field('licenseNote', self._listify(licenseNote))
 
-    def get_licenseNote(self):
-        pass
+    def get_licenseNote(self, index=None):
+        return self._list_getter('licenseNote', index)
 
     def add_licenseNote(self, licenseNote):
-        pass
+        self._add_to_field('licenseNote', licenseNote)
 
-    def set_licenseApplicableDates(self, licenseApplicationDates):
-        pass
+    def set_licenseApplicableDates(self, licenseApplicableDates):
+        self._set_field('licenseApplicableDates', licenseApplicableDates)
 
     def get_licenseApplicableDates(self):
-        pass
+        return self._get_field('licenseApplicableDates')
 
 
 class LicenseApplicableDates(PremisNode):
     def __init__(self):
-        self.root = ET.Element('licenseApplicableDates')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+        PremisNode.__init__(self, 'licenseApplicableDates')
 
     def set_startDate(self, startDate):
-        pass
+        self._set_field('startDate', startDate)
 
     def get_startDate(self):
-        pass
+        return self._get_field('startDate')
 
     def set_endDate(self, endDate):
-        pass
+        self._set_field('endDate', endDate)
 
     def get_endDate(self):
-        pass
+        return self._get_field('endDate')
 
 
 class LicenseDocumentationIdentifier(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('licenseInformation')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, licenseDocumentationIdentifierType, licenseDocumentationIdentifierValue):
+        PremisNode.__init__(self, 'licenseDocumentationIdentifier')
+        self.set_licenseDocumentationIdentifierType(licenseDocumentationIdentifierType)
+        self.set_licenseDocumentationIdentifierValue(licenseDocumentationIdentifierValue)
 
     def set_licenseDocumentationIdentifierType(self, licenseDocumentationIdentifierType):
-        pass
+        self._set_field('licenseDocumentationIdentifierType', licenseDocumentationIdentifierType)
 
     def get_licenseDocumentationIdentifierType(self):
-        pass
+        return self._get_field('licenseDocumentatinIdentiferType')
 
     def set_licenseDocumentationIdentifierValue(self, licenseDocumentationIdentifierValue):
-        pass
+        self._set_field('licenseDocumentationIdentifierValue', licenseDocumentationIdentifierValue)
 
     def get_licenseDocumentationIdentifierValue(self):
-        pass
+        return self._get_field('licenseDocumentationIdentifierValue')
 
     def set_licenseDocumentationRole(self, licenseDocumentationRole):
-        pass
+        self._set_field('licenseDocumentationRole', licenseDocumentationRole)
 
     def get_licenseDocumentationRole(self):
-        pass
+        return self._get_field('licenseDocumentationRole')
 
 
 class CopyrightInformation(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('copyrightInformation')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, copyrightStatus, copyrightJurisdiction):
+        PremisNode.__init__(self, 'copyrightInformation')
+        self.set_copyrightStatus(copyrightStatus)
+        self.set_copyrightJurisdiction(copyrightJurisdiction)
 
     def set_copyrightStatus(self, copyrightStatus):
-        pass
+        self._set_field('copyrightStatus', copyrightStatus)
 
     def get_copyrightStatus(self):
-        pass
+        return self._get_field('copyrightStatus')
 
     def set_copyrightJurisdiction(self, copyrightJurisdiction):
-        pass
+        self._set_field('copyrightJurisdiction', copyrightJurisdiction)
 
     def get_copyrightJurisdiction(self):
-        pass
+        return self._get_field('copyrightJurisdiction')
 
     def set_copyrightStatusDeterminationDate(self, copyrightStatusDeterminationDate):
-        pass
+        self._set_field('copyrightStatusDeterminationDate', copyrightStatusDeterminationDate)
 
     def get_copyrightStatusDeterminationDate(self):
-        pass
+        return self._get_field('copyrightStatusDeterminationDate')
 
     def set_copyrightNote(self, copyrightNote):
-        pass
+        self._set_field('copyrightNote', self._listify(copyrightNote))
 
-    def get_copyrightNote(self):
-        pass
+    def get_copyrightNote(self, index=None):
+        return self._list_getter('copyrightNote', index)
 
     def add_copyrightNote(self, copyrightNote):
-        pass
+        self._add_to_field('copyrightNote', copyrightNote)
 
     def set_copyrightDocumentationIdentifier(self, copyrightDocumentationIdentifier):
-        pass
+        self._set_field('copyrightDocumentationIdentifier', self._listify(copyrightDocumentationIdentifier))
 
-    def get_copyrightDocumentationIdentifier(self):
-        pass
+    def get_copyrightDocumentationIdentifier(self, index=None):
+        return self._list_getter('copyrightDocumentationIdentifier', index)
 
     def add_copyrightDocumentationIdentifier(self, copyrightDocumentationIdentifier):
-        pass
+        self._add_to_field('copyrightDocumentationIdentifier', copyrightDocumentationIdentifier)
 
     def set_copyrightApplicableDates(self, copyrightApplicableDates):
-        pass
+        self._set_field('copyrightApplicableDates', copyrightApplicableDates)
 
     def get_copyrightApplicableDates(self):
-        pass
+        return self._get_field('copyrightApplicableDates')
 
 
 class CopyrightApplicableDates(PremisNode):
     def __init__(self):
-        self.root = ET.Element('copyrightApplicableDates')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+        PremisNode.__init__(self, 'copyrightApplicableDates')
 
     def set_startDate(self, startDate):
-        pass
+        self._set_field('startDate', startDate)
 
     def get_startDate(self):
-        pass
+        return self._get_field('startDate')
 
     def set_endDate(self, endDate):
-        pass
+        self._set_field('endDate', endDate)
 
     def get_endDate(self):
-        pass
+        return self._get_field('endDate')
 
 
 class CopyrightDocumentationIdentifier(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('copyrightDocumentationIdentifier')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, copyrightDocumentationIdentifierType, copyrightDocumentationIdentifierValue):
+        PremisNode.__init__(self, 'copyrightDocumentationIdentifier')
+        self.set_copyrightDocumentationIdentifierType(copyrightDocumentationIdentifierType)
+        self.set_copyrightDocumentationIdentifierValue(copyrightDocumentationIdentifierValue)
 
     def set_copyrightDocumentationIdentifierType(self, copyrightDocumentationIdentifierType):
-        pass
+        self._set_field('copyrightDocumentationIdentifierType', copyrightDocumentationIdentifierType)
 
     def get_copyrightDocumentationIdentifierType(self):
-        pass
+        return self._get_field('copyrightDocumentationIdentifierType')
 
     def set_copyrightDocumentationIdentifierValue(self, copyrightDocumentationIdentifierValue):
-        pass
+        self._set_field('copyrightDocumentationIdentifierValue', copyrightDocumentationIdentifierValue)
 
     def get_copyrightDocumentationIdentifierValue(self):
-        pass
+        return self._get_field('copyrightDocumentationIdentifierValue')
 
     def set_copyrightDocumentationRole(self, copyrightDocumentationRole):
-        pass
+        self._set_field('copyrightDocumentationRole', copyrightDocumentationRole)
 
     def get_copyrightDocumentationRole(self):
-        pass
+        return self._get_field('copyrightDocumentationRole')
 
 
 class RightsStatementIdentifier(PremisNode):
-    def __init__(self):
-        self.root = ET.Element('rightsStatementIdentifier')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding='unicode')
+    def __init__(self, rightsStatementIdentifierType, rightsStatementIdentifierValue):
+        PremisNode.__init__(self, 'copyrightDocumentationIdentifier')
+        self.set_rightsStatementIdentifierType(rightsStatementIdentifierType)
+        self.set_rightsStatementIdentifierValue(rightsStatementIdentifierValue)
 
     def set_rightsStatementIdentifierType(self, rightsStatementIdentifierType):
-        pass
+        self._set_field('rightsStatementIdentifierType', rightsStatementIdentifierType)
 
     def get_rightsStatementIdentifierType(self):
-        pass
+        return self._get_field('rightsStatementIdentifierType')
 
     def set_rightsStatementIdentifierValue(self, rightsStatementIdentifierValue):
-        pass
+        self._set_field('rightsStatementIdentifierValue', rightsStatementIdentifierValue)
 
     def get_rightsStatementIdentifierValue(self):
-        pass
+        return self._get_field('rightsStatementIdentifiervalue')

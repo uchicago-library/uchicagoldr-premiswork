@@ -14,7 +14,7 @@ class Test(unittest.TestCase):
         print(second_id._get_fields())
         print(second_id.get_objectIdentifierValue())
         print(second_id.get_objectIdentifierType())
-        test = PremisObject(identifier, 'test_category', objectCharacteristics)
+        test = Object(identifier, 'test_category', objectCharacteristics)
         test.add_objectIdentifier(second_id.toXML())
 
         rough_str = ET.tostring(test.toXML())
