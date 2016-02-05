@@ -310,7 +310,7 @@ class Relationship(PremisNode):
     def __init__(self, relationshipType, relationshipSubType, relatedObjectIdentifier):
         PremisNode.__init__(self, 'relationship')
         self.set_relationshipType(relationshipType)
-        self.set_relationshipSubtype(relationshipSubType)
+        self.set_relationshipSubType(relationshipSubType)
         self.set_relatedObjectIdentifier(relatedObjectIdentifier)
 
     def set_relationshipType(self, relationshipType):
@@ -356,7 +356,7 @@ class Relationship(PremisNode):
         self._set_field('relatedEnvironmentCharacteristic', relatedEnvironmentCharacteristic)
 
     def get_relatedEnvironmentCharacteristic(self):
-        self._get_field('relatedEnvironmentCharacteristic')
+        return self._get_field('relatedEnvironmentCharacteristic')
 
 
 class RelatedEventIdentifier(PremisNode):
@@ -375,7 +375,7 @@ class RelatedEventIdentifier(PremisNode):
         self._set_field('relatedEventIdentifierValue', relatedEventIdentifierValue)
 
     def get_relatedEventIdentifierValue(self):
-        return self._get_field('relatedEventIdentifierType')
+        return self._get_field('relatedEventIdentifierValue')
 
     def set_relatedEventSequence(self, relatedEventSequence):
         self._set_field('relatedEventSequence', relatedEventSequence)
@@ -397,7 +397,7 @@ class RelatedObjectIdentifier(PremisNode):
         return self._get_field('relatedObjectIdentifierType')
 
     def set_relatedObjectIdentifierValue(self, relatedObjectIdentifierValue):
-        self._set_field('relatedObjectIdentifierValue')
+        self._set_field('relatedObjectIdentifierValue', relatedObjectIdentifierValue)
 
     def get_relatedObjectIdentifierValue(self):
         return self._get_field('relatedObjectIdentifierValue')
@@ -446,13 +446,13 @@ class EnvironmentDesignation(PremisNode):
         return self._get_field('environmentName')
 
     def set_environmentVersion(self, environmentVersion):
-        self._set_field('environmentVersion')
+        self._set_field('environmentVersion', environmentVersion)
 
     def get_environmentVersion(self):
         return self._get_field('environmentVersion')
 
     def set_environmentOrigin(self, environmentOrigin):
-        self._set_field('environmentOrigin')
+        self._set_field('environmentOrigin', environmentOrigin)
 
     def get_environmentOrigin(self):
         return self._get_field('environmentOrigin')
@@ -478,7 +478,7 @@ class EnvironmentDesignation(PremisNode):
 
 class EnvironmentFunction(PremisNode):
     def __init__(self, environmentFunctionType, environmentFunctionLevel):
-        PremisNode.__init__(self, 'environmentDesignation')
+        PremisNode.__init__(self, 'environmentFunction')
         self.set_environmentFunctionType(environmentFunctionType)
         self.set_environmentFunctionLevel(environmentFunctionLevel)
 
@@ -503,16 +503,16 @@ class SignatureInformation(PremisNode):
         self._set_field('signature', self._listify(signature))
 
     def get_signature(self, index=None):
-        self._list_getter('signature', index)
+        return self._list_getter('signature', index)
 
     def add_signature(self, signature):
-        self._add_to_value('signature', signature)
+        self._add_to_field('signature', signature)
 
     def set_signatureInformationExtension(self, signatureInformationExtension):
         self._set_field('signatureInformationExtension', self._listify(signatureInformationExtension))
 
     def get_signatureInformationExtension(self, index=None):
-        self._list_getter('signatureInformationExtension', index)
+        return self._list_getter('signatureInformationExtension', index)
 
     def add_signatureInformationExtension(self, signatureInformationExtension):
         self._add_to_field('signatureInformationExtension', signatureInformationExtension)
@@ -520,7 +520,7 @@ class SignatureInformation(PremisNode):
 
 class Signature(PremisNode):
     def __init__(self, signatureEncoding, signatureMethod, signatureValue, signatureValidationRules):
-        PremisNode.__init__(self, 'signatureInformation')
+        PremisNode.__init__(self, 'signature')
         self.set_signatureEncoding(signatureEncoding)
         self.set_signatureMethod(signatureMethod)
         self.set_signatureValue(signatureValue)
@@ -554,13 +554,13 @@ class Signature(PremisNode):
         self._set_field('signatureValidationRules', signatureValidationRules)
 
     def get_signatureValidationRules(self):
-        self._get_field('signatureValidationRules')
+        return self._get_field('signatureValidationRules')
 
     def set_signatureProperties(self, signatureProperties):
         self._set_field('signatureProperties', self._listify(signatureProperties))
 
     def add_signatureProperties(self, signatureProperties):
-        self.add_to_field('signatureProperties', signatureProperties)
+        self._add_to_field('signatureProperties', signatureProperties)
 
     def get_signatureProperties(self, index=None):
         return self._list_getter('signatureProperties', index)
@@ -592,7 +592,7 @@ class Storage(PremisNode):
 
 class ContentLocation(PremisNode):
     def __init__(self, contentLocationType, contentLocationValue):
-        PremisNode.__init__(self, 'storage')
+        PremisNode.__init__(self, 'contentLocation')
         self.set_contentLocationType(contentLocationType)
         self.set_contentLocationValue(contentLocationValue)
 
@@ -639,17 +639,17 @@ class ObjectCharacteristics(PremisNode):
     def set_format(self, format):
         self._set_field('format', self._listify(format))
 
-    def get_format(self):
-        return self._get_field('format')
+    def get_format(self, index=None):
+        return self._list_getter('format', index)
 
-    def add_format(self, format, index=None):
-        self._list_getter('format', index)
+    def add_format(self, format):
+        self._add_to_field('format', format)
 
     def set_creatingApplication(self, creatingApplication):
         self._set_field('creatingApplication', self._listify(creatingApplication))
 
     def get_creatingApplication(self, index=None):
-        return self._list_gettering('creatingApplication', index)
+        return self._list_getter('creatingApplication', index)
 
     def add_creatingApplication(self, creatingApplication):
         self._add_to_field('creatingApplication', creatingApplication)
@@ -675,7 +675,7 @@ class ObjectCharacteristics(PremisNode):
 
 class Inhibitors(PremisNode):
     def __init__(self, inhibitorType):
-        PremisNode.__init__(self, 'objectCharacteristics')
+        PremisNode.__init__(self, 'inhibitors')
         self.set_inhibitorType(inhibitorType)
 
     def set_inhibitorType(self, inhibitorType):
@@ -690,50 +690,46 @@ class Inhibitors(PremisNode):
     def add_inhibitorTarget(self, inhibitorTarget):
         self._add_to_field('inhibitorTarget', inhibitorTarget)
 
-    def get_inhibitorTarget(self):
-        return self._get_field('inhibitorTarget')
+    def get_inhibitorTarget(self, index=None):
+        return self._list_getter('inhibitorTarget', index)
 
     def set_inhibitorKey(self, inhibitorKey):
         self._set_field('inhibitorKey', inhibitorKey)
 
     def get_inhibitorKey(self):
-        self._get_field('inhibitorKey')
+        return self._get_field('inhibitorKey')
 
 
 class CreatingApplication(PremisNode):
     def __init__(self):
-        self.root = ET.Element('creatingApplication')
-        pass
-
-    def __repr__(self):
-        return ET.tostring(self.root, encoding="unicode")
+        PremisNode.__init__(self, 'creatingApplication')
 
     def set_creatingApplicationName(self, creatingApplicationName):
-        pass
+        self._set_field('creatingApplicationName', creatingApplicationName)
 
     def get_creatingApplicationName(self):
-        pass
+        return self._get_field('creatingApplicationName')
 
     def set_creatingApplicationVersion(self, creatingApplicationVersion):
-        pass
+        self._set_field('creatingApplicationVersion', creatingApplicationVersion)
 
     def get_creatingApplicationVersion(self):
-        pass
+        return self._get_field('creatingApplicationVersion')
 
     def set_dateCreatedByApplication(self, dateCreatedByApplication):
-        pass
+        self._set_field('dateCreatedByApplication', dateCreatedByApplication)
 
     def get_dateCreatedByApplication(self):
-        pass
+        return self._get_field('dateCreatedByApplication')
 
     def set_creatingApplicationExtension(self, creatingApplicationExtension):
-        pass
+        self._set_field('creatingApplicationExtension', self._listify(creatingApplicationExtension))
 
-    def get_creatingApplicationExtension(self):
-        pass
+    def get_creatingApplicationExtension(self, index=None):
+        return self._list_getter('creatingApplicationExtension', index)
 
     def add_creatingApplicationExtension(self, creatingApplicationExtension):
-        pass
+        self._add_to_field('creatingApplicationExtension', creatingApplicationExtension)
 
 
 class Format(PremisNode):
@@ -777,7 +773,7 @@ class FormatDesignation(PremisNode):
         self._set_field('formatVersion', formatVersion)
 
     def get_formatVersion(self):
-        return self._get_field('formatName')
+        return self._get_field('formatVersion')
 
 
 class FormatRegistry(PremisNode):
@@ -832,7 +828,7 @@ class Fixity(PremisNode):
 
 class SignificantProperties(PremisNode):
     def __init__(self):
-        PremisNode.__init__(self, 'fixity')
+        PremisNode.__init__(self, 'significantProperties')
 
     def set_significantPropertiesType(self, significantPropertiesType):
         self._set_field('significantPropertiesType', significantPropertiesType)
@@ -850,15 +846,15 @@ class SignificantProperties(PremisNode):
         self._set_field('significantPropertiesExtension', self._listify(significantPropertiesExtension))
 
     def get_significantPropertiesExtension(self, index=None):
-        self._list_getter('significantPropertiesExtension', index)
+        return self._list_getter('significantPropertiesExtension', index)
 
     def add_significantPropertiesExtension(self, significantPropertiesExtension):
-        self._add_to_value('significantPropertiesExtension', significantPropertiesExtension)
+        self._add_to_field('significantPropertiesExtension', significantPropertiesExtension)
 
 
 class PreservationLevel(PremisNode):
     def __init__(self, preservationLevelValue):
-        PremisNode.__init__(self, 'preservationLevel', preservationLevelValue)
+        PremisNode.__init__(self, 'preservationLevel')
         self._set_field('preservationLevelValue', preservationLevelValue)
 
     def set_preservationLevelType(self, preservationLevelType):
@@ -882,8 +878,8 @@ class PreservationLevel(PremisNode):
     def set_preservationLevelRationale(self, preservationLevelRationale):
         self._set_field('preservationLevelRationale', self._listify(preservationLevelRationale))
 
-    def get_preservationLevelRationale(self):
-        return self._list_getter('preservationLevelRationale')
+    def get_preservationLevelRationale(self, index=None):
+        return self._list_getter('preservationLevelRationale', index)
 
     def add_preservationLevelRationale(self, preservationLevelRationale):
         self._add_to_field('preservationLevelRationale', preservationLevelRationale)
