@@ -929,11 +929,11 @@ class Event(PremisNode):
     def add_eventDetailInformation(self, eventDetailInformation):
         self._add_to_field('eventDetailInformation', eventDetailInformation)
 
-    def set_eventOutcomeInformation(self, eventDetailOutcomeInformation):
-        self._set_field('eventDetailOutcomeInformation', self._listify(eventDetailOutcomeInformation))
+    def set_eventOutcomeInformation(self, eventOutcomeInformation):
+        self._set_field('eventOutcomeInformation', self._listify(eventOutcomeInformation))
 
     def get_eventOutcomeInformation(self, index=None):
-        return self._list_gettering('eventOutcomeInformation', index)
+        return self._list_getter('eventOutcomeInformation', index)
 
     def add_eventOutcomeInformation(self, eventOutcomeInformation):
         self._add_to_field('eventOutcomeInformation', eventOutcomeInformation)

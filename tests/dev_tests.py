@@ -79,6 +79,7 @@ class Test(unittest.TestCase):
         linkingAgentIdentifier.add_linkingAgentRole('linking_agent_role_2')
         self.assertEqual(linkingAgentIdentifier.get_linkingAgentRole(), ['linking_agent_role', 'linking_agent_role_2'])
         self.assertEqual(linkingAgentIdentifier.get_linkingAgentRole(1), 'linking_agent_role_2')
+        linkingAgentIdentifier_2 = LinkingAgentIdentifier('linking_agent_identifier_type_2', 'linking_agent_identifier_value_2')
 
         linkingObjectIdentifier = LinkingObjectIdentifier('linking_object_identifier_type', 'linking_object_identifier_value')
         self.assertEqual(linkingObjectIdentifier.get_name(), 'linkingObjectIdentifier')
@@ -90,6 +91,38 @@ class Test(unittest.TestCase):
         linkingObjectIdentifier.add_linkingObjectRole('linking_object_role_2')
         self.assertEqual(linkingObjectIdentifier.get_linkingObjectRole(), ['linking_object_role', 'linking_object_role_2'])
         self.assertEqual(linkingObjectIdentifier.get_linkingObjectRole(1), 'linking_object_role_2')
+        linkingObjectIdentifier_2 = LinkingObjectIdentifier('linking_object_identifier_type_2', 'linking_object_identifier_value_2')
+
+        #Layer 0
+        event = Event('event_type', eventIdentifier, 'event_date_time')
+        self.assertEqual(event.get_name(), 'event')
+
+        event.set_eventIdentifier(eventIdentifier)
+        self.assertEqual(event.get_eventIdentifier(), eventIdentifier)
+        self.assertEqual(event.get_eventType(), 'event_type')
+        self.assertEqual(event.get_eventDateTime(), 'event_date_time')
+        event.set_eventDetailInformation(eventDetailInformation)
+        self.assertEqual(event.get_eventDetailInformation(), [eventDetailInformation])
+        event.add_eventDetailInformation(eventDetailInformation_2)
+        self.assertEqual(event.get_eventDetailInformation(), [eventDetailInformation, eventDetailInformation_2])
+        self.assertEqual(event.get_eventDetailInformation(1), eventDetailInformation_2)
+        event.set_eventOutcomeInformation(eventOutcomeInformation)
+        self.assertEqual(event.get_eventOutcomeInformation(), [eventOutcomeInformation])
+        event.add_eventOutcomeInformation(eventOutcomeInformation_2)
+        self.assertEqual(event.get_eventOutcomeInformation(), [eventOutcomeInformation, eventOutcomeInformation_2])
+        self.assertEqual(event.get_eventOutcomeInformation(1), eventOutcomeInformation_2)
+        event.set_linkingAgentIdentifier(linkingAgentIdentifier)
+        self.assertEqual(event.get_linkingAgentIdentifier(), [linkingAgentIdentifier])
+        event.add_linkingAgentIdentifier(linkingAgentIdentifier_2)
+        self.assertEqual(event.get_linkingAgentIdentifier(), [linkingAgentIdentifier, linkingAgentIdentifier_2])
+        self.assertEqual(event.get_linkingAgentIdentifier(1), linkingAgentIdentifier_2)
+        event.set_linkingObjectIdentifier(linkingObjectIdentifier)
+        self.assertEqual(event.get_linkingObjectIdentifier(), [linkingObjectIdentifier])
+        event.add_linkingObjectIdentifier(linkingObjectIdentifier_2)
+        self.assertEqual(event.get_linkingObjectIdentifier(), [linkingObjectIdentifier, linkingObjectIdentifier_2])
+        self.assertEqual(event.get_linkingObjectIdentifier(1), linkingObjectIdentifier_2)
+
+
 
 
     def testAgent(self):
