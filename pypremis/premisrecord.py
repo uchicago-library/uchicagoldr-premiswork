@@ -300,7 +300,7 @@ class LinkingRightsStatementIdentifier(PremisNode):
         return self._get_field('linkingRightsStatementIdentifierType')
 
     def set_linkingRightsStatementIdentifierValue(self, linkingRightsStatementIdentifierValue):
-        self._set_field('linkingRightsStatementIdentifierValue')
+        self._set_field('linkingRightsStatementIdentifierValue', linkingRightsStatementIdentifierValue)
 
     def get_linkingRightsStatementIdentifierValue(self):
         return self._get_field('linkingRightsStatementIdentifierValue')
@@ -980,7 +980,7 @@ class EventOutcomeInformation(PremisNode):
         self._set_field('eventOutcomeDetail', self._listify(eventOutcomeDetail))
 
     def get_eventOutcomeDetail(self, index=None):
-        return self._get_field('eventOutcomeDetail', index)
+        return self._list_getter('eventOutcomeDetail', index)
 
     def add_eventOutcomeDetail(self, eventOutcomeDetail):
         self._add_to_field('eventOutcomeDetail', eventOutcomeDetail)
@@ -1008,7 +1008,7 @@ class EventDetailInformation(PremisNode):
 
 class EventOutcomeDetail(PremisNode):
     def __init__(self):
-        PremisNode.__init__(self, 'eventDetailInformation')
+        PremisNode.__init__(self, 'eventOutcomeDetail')
 
     def set_eventOutcomeDetailNote(self, eventOutcomeDetailNote):
         self._set_field('eventOutcomeDetailNote', eventOutcomeDetailNote)
@@ -1120,7 +1120,7 @@ class AgentIdentifier(PremisNode):
         return self._get_field('agentIdentifierType')
 
     def set_agentIdentifierValue(self, agentIdentifierValue):
-        self._set_field('agentIdentifierValue')
+        self._set_field('agentIdentifierValue', agentIdentifierValue)
 
     def get_agentIdentifierValue(self):
         return self._get_field('agentIdentifierValue')
@@ -1128,7 +1128,7 @@ class AgentIdentifier(PremisNode):
 
 class LinkingEnvironmentIdentifier(PremisNode):
     def __init__(self, linkingEnvironmentIdentifierType, linkingEnvironmentIdentifierValue):
-        PremisNode.__init__(self, 'linkingAgentEnvironmentIdentifier')
+        PremisNode.__init__(self, 'linkingEnvironmentIdentifier')
         self.set_linkingEnvironmentIdentifierType(linkingEnvironmentIdentifierType)
         self.set_linkingEnvironmentIdentifierValue(linkingEnvironmentIdentifierValue)
 
@@ -1139,7 +1139,7 @@ class LinkingEnvironmentIdentifier(PremisNode):
         return self._get_field('linkingEnvironmentIdentifierType')
 
     def set_linkingEnvironmentIdentifierValue(self, linkingEnvironmentIdentifierValue):
-        self._set_field('linkingEnvironmentIdentifierValue')
+        self._set_field('linkingEnvironmentIdentifierValue', linkingEnvironmentIdentifierValue)
 
     def get_linkingEnvironmentIdentifierValue(self):
         return self._get_field('linkingEnvironmentIdentifierValue')

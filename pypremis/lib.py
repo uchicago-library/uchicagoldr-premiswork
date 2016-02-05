@@ -7,7 +7,12 @@ class PremisNode(object):
         self._set_name(nodeName)
 
     def __repr__(self):
-        return ET.tostring(self.toXML())
+        return ET.tostring(self.toXML()).decode('utf-8')
+
+    def __eq__(self, other):
+        return isinstance(other, PremisNode) and \
+            self.name == other.name and \
+            self.fields == other.fields
 
     def toXML(self):
         root = ET.Element(self.name)
@@ -54,7 +59,7 @@ class PremisNode(object):
             raise TypeError
         self.name = name
 
-    def _get_name(self):
+    def get_name(self):
         return self.name
 
     def _set_field(self, key, value):
