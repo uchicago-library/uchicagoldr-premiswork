@@ -1408,7 +1408,7 @@ class OtherRightsApplicableDates(PremisNode):
         self._set_field('endDate', endDate)
 
     def get_endDate(self):
-        return self._get_field('startDate')
+        return self._get_field('endDate')
 
 
 class OtherRightsDocumentationIdentifier(PremisNode):
@@ -1438,7 +1438,7 @@ class OtherRightsDocumentationIdentifier(PremisNode):
 
 class StatuteInformation(PremisNode):
     def __init__(self, statuteJurisdiction, statuteCitation):
-        PremisNode.__init__(self, 'StatuteInformation')
+        PremisNode.__init__(self, 'statuteInformation')
         self.set_statuteJurisdiction(statuteJurisdiction)
         self.set_statuteCitation(statuteCitation)
 
@@ -1467,10 +1467,10 @@ class StatuteInformation(PremisNode):
         return self._list_getter('statuteNote', index)
 
     def add_statuteNote(self, statuteNote):
-        self._add_to_field('statuteNote')
+        self._add_to_field('statuteNote', statuteNote)
 
     def set_statuteDocumentationIdentifier(self, statuteDocumentationIdentifier):
-        self.set_field('statuteDocumentationIdentifier', self._listify(statuteDocumentationIdentifier))
+        self._set_field('statuteDocumentationIdentifier', self._listify(statuteDocumentationIdentifier))
 
     def get_statuteDocumentationIdentifier(self, index=None):
         return self._list_getter('statuteDocumentationIdentifier', index)
@@ -1487,7 +1487,7 @@ class StatuteInformation(PremisNode):
 
 class StatuteApplicableDates(PremisNode):
     def __init__(self):
-        PremisNode.__init__(self, 'StatuteApplicableDates')
+        PremisNode.__init__(self, 'statuteApplicableDates')
 
     def set_startDate(self, startDate):
         self._set_field('startDate', startDate)
@@ -1504,7 +1504,7 @@ class StatuteApplicableDates(PremisNode):
 
 class StatuteDocumentationIdentifier(PremisNode):
     def __init__(self, statuteDocumentationIdentifierType, statuteDocumentationIdentifierValue):
-        PremisNode.__init__(self, 'StatuteDocumentationIdentifier')
+        PremisNode.__init__(self, 'statuteDocumentationIdentifier')
         self.set_statuteDocumentationIdentifierType(statuteDocumentationIdentifierType)
         self.set_statuteDocumentationIdentifierValue(statuteDocumentationIdentifierValue)
 
@@ -1538,7 +1538,7 @@ class LicenseInformation(PremisNode):
         return self._list_getter('licenseDocumentationIdentifier', index)
 
     def add_licenseDocumentationIdentifier(self, licenseDocumentationIdentifier):
-        self._add_to_field('licenseDocumentationIdentifier')
+        self._add_to_field('licenseDocumentationIdentifier', licenseDocumentationIdentifier)
 
     def set_licenseTerms(self, licenseTerms):
         self._set_field('licenseTerms', licenseTerms)
@@ -1589,7 +1589,7 @@ class LicenseDocumentationIdentifier(PremisNode):
         self._set_field('licenseDocumentationIdentifierType', licenseDocumentationIdentifierType)
 
     def get_licenseDocumentationIdentifierType(self):
-        return self._get_field('licenseDocumentatinIdentiferType')
+        return self._get_field('licenseDocumentationIdentifierType')
 
     def set_licenseDocumentationIdentifierValue(self, licenseDocumentationIdentifierValue):
         self._set_field('licenseDocumentationIdentifierValue', licenseDocumentationIdentifierValue)
@@ -1697,7 +1697,7 @@ class CopyrightDocumentationIdentifier(PremisNode):
 
 class RightsStatementIdentifier(PremisNode):
     def __init__(self, rightsStatementIdentifierType, rightsStatementIdentifierValue):
-        PremisNode.__init__(self, 'copyrightDocumentationIdentifier')
+        PremisNode.__init__(self, 'rightsStatementIdentifier')
         self.set_rightsStatementIdentifierType(rightsStatementIdentifierType)
         self.set_rightsStatementIdentifierValue(rightsStatementIdentifierValue)
 
@@ -1711,4 +1711,4 @@ class RightsStatementIdentifier(PremisNode):
         self._set_field('rightsStatementIdentifierValue', rightsStatementIdentifierValue)
 
     def get_rightsStatementIdentifierValue(self):
-        return self._get_field('rightsStatementIdentifiervalue')
+        return self._get_field('rightsStatementIdentifierValue')
