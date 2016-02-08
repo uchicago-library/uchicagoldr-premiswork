@@ -103,7 +103,7 @@ class Object(PremisNode):
         return self._list_getter('significantProperties', index)
 
     def add_significantProperties(self, significantProperties):
-        self.add_to_field('significantProperties', significantProperties)
+        self._add_to_field('significantProperties', significantProperties)
 
     def set_objectCharacteristics(self, objectCharacteristics):
         self._set_field('objectCharacteristics', self._listify(objectCharacteristics))
@@ -169,7 +169,7 @@ class Object(PremisNode):
         self._set_field('environmentExtension', self._listify(environmentExtension))
 
     def get_environmentExtension(self, index=None):
-        return self._lister_getter('environmentExtension', index)
+        return self._list_getter('environmentExtension', index)
 
     def add_environmentExtension(self, environmentExtension):
         self._add_to_field('environmentExtension', environmentExtension)

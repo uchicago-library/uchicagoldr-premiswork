@@ -154,6 +154,7 @@ class Test(unittest.TestCase):
         significantProperties.add_significantPropertiesExtension('significant_properties_extension_2')
         self.assertEqual(significantProperties.get_significantPropertiesExtension(), ['significant_properties_extension', 'significant_properties_extension_2'])
         self.assertEqual(significantProperties.get_significantPropertiesExtension(1), 'significant_properties_extension_2')
+        significantProperties_2 = SignificantProperties()
 
         objectCharacteristics = ObjectCharacteristics(format)
         self.assertEqual(objectCharacteristics.get_name(), 'objectCharacteristics')
@@ -187,6 +188,7 @@ class Test(unittest.TestCase):
         objectCharacteristics.add_objectCharacteristicsExtension('object_characteristics_extension_2')
         self.assertEqual(objectCharacteristics.get_objectCharacteristicsExtension(), ['object_characteristics_extension', 'object_characteristics_extension_2'])
         self.assertEqual(objectCharacteristics.get_objectCharacteristicsExtension(1), 'object_characteristics_extension_2')
+        objectCharacteristics_2 = ObjectCharacteristics(format_2)
 
         storage = Storage()
         self.assertEqual(storage.get_name(), 'storage')
@@ -195,6 +197,7 @@ class Test(unittest.TestCase):
         self.assertEqual(storage.get_contentLocation(), contentLocation)
         storage.set_storageMedium('storage_medium')
         self.assertEqual(storage.get_storageMedium(), 'storage_medium')
+        storage_2 = Storage()
 
         signatureInformation = SignatureInformation()
         self.assertEqual(signatureInformation.get_name(), 'signatureInformation')
@@ -209,12 +212,14 @@ class Test(unittest.TestCase):
         signatureInformation.add_signatureInformationExtension('signature_information_extension_2')
         self.assertEqual(signatureInformation.get_signatureInformationExtension(), ['signature_information_extension', 'signature_information_extension_2'])
         self.assertEqual(signatureInformation.get_signatureInformationExtension(1), 'signature_information_extension_2')
+        signatureInformation_2 = SignatureInformation()
 
         environmentFunction = EnvironmentFunction('environment_function_type', 'environment_function_level')
         self.assertEqual(environmentFunction.get_name(), 'environmentFunction')
 
         self.assertEqual(environmentFunction.get_environmentFunctionType(), 'environment_function_type')
         self.assertEqual(environmentFunction.get_environmentFunctionLevel(), 'environment_function_level')
+        environmentFunction_2 = EnvironmentFunction('environment_function_type_2', 'environment_function_level_2')
 
         environmentDesignation = EnvironmentDesignation('environment_name')
         self.assertEqual(environmentDesignation.get_name(), 'environmentDesignation')
@@ -229,6 +234,7 @@ class Test(unittest.TestCase):
         environmentDesignation.add_environmentDesignationNote('environment_designation_note_2')
         self.assertEqual(environmentDesignation.get_environmentDesignationNote(), ['environment_designation_note', 'environment_designation_note_2'])
         self.assertEqual(environmentDesignation.get_environmentDesignationNote(1), 'environment_designation_note_2')
+        environmentDesignation_2 = EnvironmentDesignation('environment_name_2')
 
         environmentRegistry = EnvironmentRegistry('environment_registry_name', 'environment_registry_key')
         self.assertEqual(environmentRegistry.get_name(), 'environmentRegistry')
@@ -237,6 +243,7 @@ class Test(unittest.TestCase):
         self.assertEqual(environmentRegistry.get_environmentRegistryKey(), 'environment_registry_key')
         environmentRegistry.set_environmentRegistryRole('environment_registry_role')
         self.assertEqual(environmentRegistry.get_environmentRegistryRole(), 'environment_registry_role')
+        environmentRegistry_2 = EnvironmentRegistry('environment_registry_name_2', 'environment_registry_key_2')
 
         relationship = Relationship('relationship_type', 'relationship_sub_type', relatedObjectIdentifier)
         self.assertEqual(relationship.get_name(), 'relationship')
@@ -259,6 +266,7 @@ class Test(unittest.TestCase):
         self.assertEqual(relationship.get_relatedEnvironmentPurpose(1), 'related_environment_purpose_2')
         relationship.set_relatedEnvironmentCharacteristic('related_environment_characteristic')
         self.assertEqual(relationship.get_relatedEnvironmentCharacteristic(), 'related_environment_characteristic')
+        relationship_2 = Relationship('relationship_type_2', 'relationship_sub_type_2', relatedObjectIdentifier_2)
 
         linkingEventIdentifier = LinkingEventIdentifier('linking_event_identifier_type', 'linking_event_identifier_value')
         self.assertEqual(linkingEventIdentifier.get_name(), 'linkingEventIdentifier')
@@ -287,6 +295,70 @@ class Test(unittest.TestCase):
         object.add_preservationLevel(preservationLevel_2)
         self.assertEqual(object.get_preservationLevel(), [preservationLevel, preservationLevel_2])
         self.assertEqual(object.get_preservationLevel(1), preservationLevel_2)
+
+        object.set_significantProperties(significantProperties)
+        self.assertEqual(object.get_significantProperties(), [significantProperties])
+        object.add_significantProperties(significantProperties_2)
+        self.assertEqual(object.get_significantProperties(), [significantProperties, significantProperties_2])
+        self.assertEqual(object.get_significantProperties(1), significantProperties_2)
+
+        object.set_objectCharacteristics(objectCharacteristics)
+        self.assertEqual(object.get_objectCharacteristics(), [objectCharacteristics])
+        object.add_objectCharacteristics(objectCharacteristics_2)
+        self.assertEqual(object.get_objectCharacteristics(), [objectCharacteristics, objectCharacteristics_2])
+        self.assertEqual(object.get_objectCharacteristics(1), objectCharacteristics_2)
+
+        object.set_originalName('originalName')
+        self.assertEqual(object.get_originalName(), 'originalName')
+
+        object.set_storage(storage)
+        self.assertEqual(object.get_storage(), [storage])
+        object.add_storage(storage_2)
+        self.assertEqual(object.get_storage(), [storage, storage_2])
+        self.assertEqual(object.get_storage(1), storage_2)
+
+        object.set_signatureInformation(signatureInformation)
+        self.assertEqual(object.get_signatureInformation(), [signatureInformation])
+        object.add_signatureInformation(signatureInformation_2)
+        self.assertEqual(object.get_signatureInformation(), [signatureInformation, signatureInformation_2])
+        self.assertEqual(object.get_signatureInformation(1), signatureInformation_2)
+
+        object.set_environmentFunction(environmentFunction)
+        self.assertEqual(object.get_environmentFunction(), [environmentFunction])
+        object.add_environmentFunction(environmentFunction_2)
+        self.assertEqual(object.get_environmentFunction(), [environmentFunction, environmentFunction_2])
+        self.assertEqual(object.get_environmentFunction(1), environmentFunction_2)
+
+        object.set_environmentRegistry(environmentRegistry)
+        self.assertEqual(object.get_environmentRegistry(), [environmentRegistry])
+        object.add_environmentRegistry(environmentRegistry_2)
+        self.assertEqual(object.get_environmentRegistry(), [environmentRegistry, environmentRegistry_2])
+        self.assertEqual(object.get_environmentRegistry(1), environmentRegistry_2)
+
+        object.set_environmentExtension('environment_extension')
+        self.assertEqual(object.get_environmentExtension(), ['environment_extension'])
+        object.add_environmentExtension('environment_extension_2')
+        self.assertEqual(object.get_environmentExtension(), ['environment_extension', 'environment_extension_2'])
+        self.assertEqual(object.get_environmentExtension(1), 'environment_extension_2')
+
+        object.set_relationship(relationship)
+        self.assertEqual(object.get_relationship(), [relationship])
+        object.add_relationship(relationship_2)
+        self.assertEqual(object.get_relationship(), [relationship, relationship_2])
+        self.assertEqual(object.get_relationship(1), relationship_2)
+
+        object.set_linkingEventIdentifier(linkingEventIdentifier)
+        self.assertEqual(object.get_linkingEventIdentifier(), [linkingEventIdentifier])
+        object.add_linkingEventIdentifier(linkingEventIdentifier_2)
+        self.assertEqual(object.get_linkingEventIdentifier(), [linkingEventIdentifier, linkingEventIdentifier_2])
+        self.assertEqual(object.get_linkingEventIdentifier(1), linkingEventIdentifier_2)
+
+        object.set_linkingRightsStatementIdentifier(linkingRightsStatementIdentifier)
+        self.assertEqual(object.get_linkingRightsStatementIdentifier(), [linkingRightsStatementIdentifier])
+        object.add_linkingRightsStatementIdentifier(linkingRightsStatementIdentifier_2)
+        self.assertEqual(object.get_linkingRightsStatementIdentifier(), [linkingRightsStatementIdentifier, linkingRightsStatementIdentifier_2])
+        self.assertEqual(object.get_linkingRightsStatementIdentifier(1), linkingRightsStatementIdentifier_2)
+
 
     def testEvent(self):
         # Layer 2
