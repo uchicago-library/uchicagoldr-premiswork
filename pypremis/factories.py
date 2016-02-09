@@ -42,6 +42,18 @@ class XMLNodeFactory(object):
     def _pn(self, func, node, tag, req=False):
         return self._process_nodes(func, node, tag, req)
 
+    def find_objects(self):
+        return [buildObject(x) for x in self._find_all_nodes(self.xml, 'premis:object')]
+
+    def find_agents(self):
+        pass
+
+    def find_events(self):
+        pass
+
+    def find_rights(self):
+        pass
+
     def buildObject(self, node):
         objIDs = self._pn(buildObjectIdentifier, node, 'premis:objectIdentifier', req=True)
         objectCategory = self._find('premis:objectCategory', req=True)

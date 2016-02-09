@@ -2,12 +2,13 @@ import xml.etree.ElementTree as ET
 
 
 class PremisRecord(object):
+    ET.register_namespace('premis', 'http://www.loc.gov/premis/v3')
     def __init__(self,
-                 objs=None, events=None, agents=None, rights=None,
+                 objects=None, events=None, agents=None, rights=None,
                  filepath=None):
 
-        if not filepath and not (objs or events or agents or rights) or \
-                filepath and (objs or events or agents or rights):
+        if not filepath and not (objects or events or agents or rights) or \
+                filepath and (objects or events or agents or rights):
             raise ValueError("Must supply either a valid file or at least "
                              "one array of valid PREMIS objects.")
 
@@ -20,12 +21,22 @@ class PremisRecord(object):
         if filepath:
             self.filepath = filepath
         else:
-            pass
-
+            if objects:
+                for x in objects:
+                    self.add_object(x)
+            if events:
+                for x in events:
+                    self.add_event(x)
+            if agents:
+                for x in agents:
+                    self.add_agent(x)
+            if rights:
+                for x in rights:
+                    self.add_rights(x)
 
     def __iter__(self):
-        for x in self.events + self.objects + self.entites + self.rights:
-            return x
+        for x in self.events + self.objects + self.agents + self.rights:
+            yield x
 
     def add_event(self, event):
         self.events.append(event)
@@ -91,13 +102,15 @@ class PremisRecord(object):
 
     def write_to_file(self, targetpath):
         ET.register_namespace('premis', 'http://www.loc.gov/premis/v3')
-        tree = ET.ElementTree(element=self.root)
+        tree = ET.ElementTree(element=ET.Element('premis'))
+        root = tree.getroot()
         for entry in self:
             root.append(entry.toXML())
-        tree.write(targetpath)
+            tree.write(targetpath, xml_declaration = True, encoding = 'utf-8', method = 'xml')
 
 
 class PremisNode(object):
+    ET.register_namespace('premis', 'http://www.loc.gov/premis/v3')
     def __init__(self, nodeName):
         self._set_fields({})
         self._set_name(nodeName)
@@ -111,31 +124,34 @@ class PremisNode(object):
             self.fields == other.fields
 
     def toXML(self):
+        ET.register_namespace('premis', 'http://www.loc.gov/premis/v3')
         root = ET.Element("premis:"+self.name)
         for key in self.fields:
-            newNodes = []
             value = self.fields[key]
             if isinstance(value, str):
-                newNode = ET.Element("premis:"+key)
-                newNode.text = value
-                newNodes.append(newNode)
-            elif isinstance(value, list):
-                for entry in value:
-                    if isinstance(entry, PremisNode):
-                        entry = entry.toXML()
-                    if isinstance(entry, str):
-                        newNode = ET.Element("premis:"+key)
-                        newNode.text = entry
-                        newNodes.append(newNode)
-                    else:
-                        raise ValueError
+                e = ET.Element("premis:"+key)
+                e.text = value
+                root.append(e)
             elif isinstance(value, PremisNode):
-                newNode = value.toXML()
-                newNodes.append(newNode)
+                e = value.toXML()
+                root.append(e)
+            elif isinstance(value, list):
+                for x in value:
+                    if isinstance(x, str):
+                        e = ET.Element("premis:"+key)
+                        e.text = x
+                        root.append(e)
+                    elif isinstance(x, PremisNode):
+                        e = x.toXML()
+                        root.append(e)
+                    else:
+                        print(type(x))
+                        raise ValueError
             else:
                 raise ValueError
-            for entry in newNodes:
-                root.append(entry)
+        return root
+
+
         return root
 
     def _set_fields(self, fields):

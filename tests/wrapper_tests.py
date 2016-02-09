@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 import xml.dom.minidom
 
 from pypremis.nodes import *
+from pypremis.lib import PremisRecord
 
 
 class Test(unittest.TestCase):
@@ -358,6 +359,10 @@ class Test(unittest.TestCase):
         object.add_linkingRightsStatementIdentifier(linkingRightsStatementIdentifier_2)
         self.assertEqual(object.get_linkingRightsStatementIdentifier(), [linkingRightsStatementIdentifier, linkingRightsStatementIdentifier_2])
         self.assertEqual(object.get_linkingRightsStatementIdentifier(1), linkingRightsStatementIdentifier_2)
+
+        record = PremisRecord(objects=[object])
+        record.write_to_file('/Users/balsamo/Envs/ldr_dev/repos/uchicagoldr-premiswork/tests/testout.xml')
+#        print(xml.dom.minidom.parseString(ET.tostring(object.toXML())).toprettyxml())
 
 
     def testEvent(self):
