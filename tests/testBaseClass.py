@@ -10,9 +10,9 @@ class TestPremisNode(unittest.TestCase):
 
     def testAllStrings(self):
         a = PremisNode('testRoot')
-        a.set_field('tag1', '1')
-        a.set_field('tag2', '2')
-        a.set_field('tag3', '3')
+        a._set_field('tag1', '1')
+        a._set_field('tag2', '2')
+        a._set_field('tag3', '3')
 
         rough_str = ET.tostring(a.toXML())
         parsed = xml.dom.minidom.parseString(rough_str)
@@ -20,7 +20,7 @@ class TestPremisNode(unittest.TestCase):
 
     def testLists(self):
         a = PremisNode('testRoot')
-        a.set_field('tag',['value1','value2','value3'])
+        a._set_field('tag',['value1','value2','value3'])
 
         rough_str = ET.tostring(a.toXML())
         parsed = xml.dom.minidom.parseString(rough_str)
@@ -28,13 +28,13 @@ class TestPremisNode(unittest.TestCase):
 
     def testNested(self):
         a = PremisNode('testRoot')
-        a.set_field('tag',['value1','value2','value3'])
+        a._set_field('tag',['value1','value2','value3'])
 
         b = PremisNode('testNested')
-        b.set_field('nestedtag',['nested1','nested2','nested3'])
-        b.set_field('nesetdtag2','nestedvalue')
+        b._set_field('nestedtag',['nested1','nested2','nested3'])
+        b._set_field('nesetdtag2','nestedvalue')
 
-        a.set_field('nest',b)
+        a._set_field('nest',b)
 
         rough_str = ET.tostring(a.toXML())
         parsed = xml.dom.minidom.parseString(rough_str)
@@ -44,14 +44,14 @@ class TestPremisNode(unittest.TestCase):
         a = PremisNode('testRoot')
 
         b = PremisNode('b')
-        b.set_field('value','1')
-        b.set_field('this','that')
+        b._set_field('value','1')
+        b._set_field('this','that')
 
         c = PremisNode('c')
-        c.set_field('value','2')
-        c.set_field('good','dog')
+        c._set_field('value','2')
+        c._set_field('good','dog')
 
-        a.set_field('nestedList',[b.toXML(), c.toXML()])
+        a._set_field('nestedList',[b.toXML(), c.toXML()])
 
         rough_str = ET.tostring(a.toXML())
         parsed = xml.dom.minidom.parseString(rough_str)

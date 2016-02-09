@@ -2,7 +2,7 @@ import unittest
 import xml.etree.ElementTree as ET
 import xml.dom.minidom
 
-from pypremis.premisrecord import *
+from pypremis.nodes import *
 
 
 class Test(unittest.TestCase):
