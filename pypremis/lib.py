@@ -1,8 +1,8 @@
 import xml.etree.ElementTree as ET
+from pypremis.factories import XMLNodeFactory 
 
 
 class PremisRecord(object):
-    ET.register_namespace('premis', 'http://www.loc.gov/premis/v3')
     def __init__(self,
                  objects=None, events=None, agents=None, rights=None,
                  filepath=None):
@@ -20,6 +20,9 @@ class PremisRecord(object):
 
         if filepath:
             self.filepath = filepath
+            fact = XMLNodeFactory(self.filepath)
+            for x in fact.find_objects():
+                self.add_object(x)
         else:
             if objects:
                 for x in objects:
@@ -35,8 +38,13 @@ class PremisRecord(object):
                     self.add_rights(x)
 
     def __iter__(self):
-        for x in self.events + self.objects + self.agents + self.rights:
+        for x in self.objects + self.events + self.agents + self.rights:
             yield x
+
+    def __eq__(self, other):
+        return isinstance(other, PremisRecord) and self.objects == other.objects and \
+                self.events == other.events and self.agents == other.agents and \
+                self.rights == other.rights
 
     def add_event(self, event):
         self.events.append(event)
@@ -86,7 +94,6 @@ class PremisRecord(object):
         pass
 
     def populate_from_file(self):
-        ET.register_namespace('premis', 'http://www.loc.gov/premis/v3')
         tree = ET.parse(self.filepath)
         root = tree.get_root()
         factory = NodeFactory(root)
@@ -101,16 +108,17 @@ class PremisRecord(object):
 
 
     def write_to_file(self, targetpath):
-        ET.register_namespace('premis', 'http://www.loc.gov/premis/v3')
-        tree = ET.ElementTree(element=ET.Element('premis'))
+        tree = ET.ElementTree(element=ET.Element('premis:premis'))
         root = tree.getroot()
+        root.set('xmlns:premis',"http://www.loc.gov/premis/v3")
+        root.set('xmlns:xsi', "http://www.w3.org/2001/XMLSchema-instance")
+        root.set('version',"3.0")
         for entry in self:
             root.append(entry.toXML())
             tree.write(targetpath, xml_declaration = True, encoding = 'utf-8', method = 'xml')
 
 
 class PremisNode(object):
-    ET.register_namespace('premis', 'http://www.loc.gov/premis/v3')
     def __init__(self, nodeName):
         self._set_fields({})
         self._set_name(nodeName)
@@ -124,34 +132,32 @@ class PremisNode(object):
             self.fields == other.fields
 
     def toXML(self):
-        ET.register_namespace('premis', 'http://www.loc.gov/premis/v3')
-        root = ET.Element("premis:"+self.name)
-        for key in self.fields:
-            value = self.fields[key]
-            if isinstance(value, str):
-                e = ET.Element("premis:"+key)
-                e.text = value
-                root.append(e)
-            elif isinstance(value, PremisNode):
-                e = value.toXML()
-                root.append(e)
-            elif isinstance(value, list):
-                for x in value:
-                    if isinstance(x, str):
-                        e = ET.Element("premis:"+key)
-                        e.text = x
-                        root.append(e)
-                    elif isinstance(x, PremisNode):
-                        e = x.toXML()
-                        root.append(e)
-                    else:
-                        print(type(x))
-                        raise ValueError
-            else:
-                raise ValueError
-        return root
-
-
+        root = ET.Element('premis:'+self.name)
+        for key in self.field_order:
+            if key not in self.fields:
+                continue
+            values = [self.fields[x] for x in self.fields if x is key]
+            for value in values:
+                if isinstance(value, str):
+                    e = ET.Element('premis:'+key)
+                    e.text = value
+                    root.append(e)
+                elif isinstance(value, PremisNode):
+                    e = value.toXML()
+                    root.append(e)
+                elif isinstance(value, list):
+                    for x in value:
+                        if isinstance(x, str):
+                            e = ET.Element('premis:'+key)
+                            e.text = x
+                            root.append(e)
+                        elif isinstance(x, PremisNode):
+                            e = x.toXML()
+                            root.append(e)
+                        else:
+                            raise ValueError
+                else:
+                    raise ValueError
         return root
 
     def _set_fields(self, fields):
@@ -170,31 +176,32 @@ class PremisNode(object):
     def get_name(self):
         return self.name
 
-    def _set_field(self, key, value):
+    def _set_field(self, key, value, override=False):
         if not isinstance(key, str):
             raise TypeError
         valueType = (isinstance(value, str) or isinstance(value, PremisNode) or
-                     isinstance(value, ET.Element) or isinstance(value, list))
+                     isinstance(value, list))
         if not valueType:
             raise TypeError
+        if key not in self.field_order and not override:
+            raise ValueError("You have attempted to set a field ({}) which is not documented in the PREMISv3 specification.\n To bypass this error pass the override flag to the setter.".format(key))
         self.fields[key] = value
 
     def _get_field(self, key):
         return self.fields[key]
 
-    def _add_to_field(self, key, value):
+    def _add_to_field(self, key, value, override=False):
         if key not in self.fields:
+            if key not in self.field_order and not override:
+                raise ValueError("You have attempted to set a field ({}) which is not documented in the PREMISv3 specification.\n To bypass this error pass the override flag to the setter.".format(key))
             self.fields[key] = []
         if not isinstance(self.fields[key], list):
             raise KeyError
         valueType = (isinstance(value, str) or isinstance(value, PremisNode) or
-                     isinstance(value, ET.Element) or isinstance(value, list))
+                     isinstance(value, list))
         if not valueType:
             raise TypeError
         self.fields[key].append(value)
-
-    def _get_from_field_by_index(self, key, index):
-        return self.fields[key][index]
 
     def _listify(self, x):
         if not isinstance(x, list):

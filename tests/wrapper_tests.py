@@ -235,6 +235,11 @@ class Test(unittest.TestCase):
         environmentDesignation.add_environmentDesignationNote('environment_designation_note_2')
         self.assertEqual(environmentDesignation.get_environmentDesignationNote(), ['environment_designation_note', 'environment_designation_note_2'])
         self.assertEqual(environmentDesignation.get_environmentDesignationNote(1), 'environment_designation_note_2')
+        environmentDesignation.set_environmentDesignationExtension('environment_designation_extension')
+        self.assertEqual(environmentDesignation.get_environmentDesignationExtension(), ['environment_designation_extension'])
+        environmentDesignation.add_environmentDesignationExtension('environment_designation_extension_2')
+        self.assertEqual(environmentDesignation.get_environmentDesignationExtension(), ['environment_designation_extension', 'environment_designation_extension_2'])
+        self.assertEqual(environmentDesignation.get_environmentDesignationExtension(1), 'environment_designation_extension_2')
         environmentDesignation_2 = EnvironmentDesignation('environment_name_2')
 
         environmentRegistry = EnvironmentRegistry('environment_registry_name', 'environment_registry_key')
@@ -284,11 +289,11 @@ class Test(unittest.TestCase):
         linkingRightsStatementIdentifier_2 = LinkingRightsStatementIdentifier('linking_rights_statement_identifier_type_2', 'linking_rights_statement_identifier_value_2')
 
         # Layer 0
-        object = Object(objectIdentifier, 'object_category', objectCharacteristics)
+        object = Object(objectIdentifier, 'file', objectCharacteristics)
         self.assertEqual(object.get_name(), 'object')
 
         self.assertEqual(object.get_objectIdentifier(), [objectIdentifier])
-        self.assertEqual(object.get_objectCategory(), 'object_category')
+        self.assertEqual(object.get_objectCategory(), 'file')
         self.assertEqual(object.get_objectCharacteristics(), [objectCharacteristics])
 
         object.set_preservationLevel(preservationLevel)
@@ -330,6 +335,12 @@ class Test(unittest.TestCase):
         self.assertEqual(object.get_environmentFunction(), [environmentFunction, environmentFunction_2])
         self.assertEqual(object.get_environmentFunction(1), environmentFunction_2)
 
+        object.set_environmentDesignation(environmentDesignation)
+        self.assertEqual(object.get_environmentDesignation(), [environmentDesignation])
+        object.add_environmentDesignation(environmentDesignation_2)
+        self.assertEqual(object.get_environmentDesignation(), [environmentDesignation, environmentDesignation_2])
+        self.assertEqual(object.get_environmentDesignation(1), environmentDesignation_2)
+
         object.set_environmentRegistry(environmentRegistry)
         self.assertEqual(object.get_environmentRegistry(), [environmentRegistry])
         object.add_environmentRegistry(environmentRegistry_2)
@@ -362,7 +373,11 @@ class Test(unittest.TestCase):
 
         record = PremisRecord(objects=[object])
         record.write_to_file('/Users/balsamo/Envs/ldr_dev/repos/uchicagoldr-premiswork/tests/testout.xml')
-#        print(xml.dom.minidom.parseString(ET.tostring(object.toXML())).toprettyxml())
+
+        record_2 = PremisRecord(filepath='/Users/balsamo/Envs/ldr_dev/repos/uchicagoldr-premiswork/tests/testout.xml')
+        record_2.write_to_file('/Users/balsamo/Envs/ldr_dev/repos/uchicagoldr-premiswork/tests/testout2.xml')
+
+        self.assertEqual(record, record_2)
 
 
     def testEvent(self):
