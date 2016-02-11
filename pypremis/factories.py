@@ -542,3 +542,62 @@ class XMLNodeFactory(object):
             eventOutcomeDetail.set_eventOutcomeDetailExtension(eventOutcomeDetailExtension)
 
         return eventOutcomeDetail
+
+    def buildAgent(self, node):
+        agentIdentifier = self._pn(self.buildAgentIdentifier, node, '{http://www.loc.gov/premis/v3}agentIdentifier', req=True)
+
+        agent = Agent(agentIdentifier)
+
+        agentName = self._find_all(node, '{http://www.loc.gov/premis/v3}agentName')
+        if agentName:
+            agent.set_agentName(agentName)
+
+        agentType = self._find(node, '{http://www.loc.gov/premis/v3}agentType')
+        if agentType:
+            agent.set_agentType(agentType)
+
+        agentVersion = self._find(node, '{http://www.loc.gov/premis/v3}agentVersion')
+        if agentVersion:
+            agent.set_agentVersion(agentVersion)
+
+        agentNote = self._find_all(node, '{http://www.loc.gov/premis/v3}agentNote')
+        if agentNote:
+            agent.set_agentNote(agentNote)
+
+        agentExtension = self._find_all(node, '{http://www.loc.gov/premis/v3}agentExtension')
+        if agentExtension:
+            agent.set_agentExtension(agentExtension)
+
+        linkingEventIdentifier = self._pn(self.buildLinkingEventIdentifier, node, '{http://www.loc.gov/premis/v3}linkingEventIdentifier')
+        if linkingEventIdentifier:
+            agent.set_linkingEventIdentifier(linkingEventIdentifier)
+
+        linkingRightsStatementIdentifier = self._pn(self.buildLinkingRightsStatementIdentifier, node, '{http://www.loc.gov/premis/v3}linkingRightsStatementIdentifier')
+        if linkingRightsStatementIdentifier:
+            agent.set_linkingRightsStatementIdentifier(linkingRightsStatementIdentifier)
+
+        linkingEnvironmentIdentifier = self._pn(self.buildLinkingEnvironmentIdentifier, node, '{http://www.loc.gov/premis/v3}linkingEnvironmentIdentifier')
+        if linkingEnvironmentIdentifier:
+            agent.set_linkingEnvironmentIdentifier(linkingEnvironmentIdentifier)
+
+        return agent
+
+    def buildAgentIdentifier(self, node):
+        agentIdentifierType = self._find(node, '{http://www.loc.gov/premis/v3}agentIdentifierType', req=True)
+        agentIdentifierValue = self._find(node, '{http://www.loc.gov/premis/v3}agentIdentifierValue', req=True)
+
+        agentIdentifier = AgentIdentifier(agentIdentifierType, agentIdentifierValue)
+
+        return agentIdentifier
+
+    def buildLinkingEnvironmentIdentifier(self, node):
+        linkingEnvironmentIdentifierType = self._find(node, '{http://www.loc.gov/premis/v3}linkingEnvironmentIdentifierType', req=True)
+        linkingEnvironmentIdentifierValue = self._find(node, '{http://www.loc.gov/premis/v3}linkingEnvironmentIdentifierValue', req=True)
+
+        linkingEnvironmentIdentifier = LinkingEnvironmentIdentifier(linkingEnvironmentIdentifierType, linkingEnvironmentIdentifierValue)
+
+        linkingEnvironmentRole = self._find_all(node, '{http://www.loc.gov/premis/v3}linkingEnvironmentRole')
+        if linkingEnvironmentRole:
+            linkingEnvironmentIdentifier.set_linkingEnvironmentRole(linkingEnvironmentRole)
+
+        return linkingEnvironmentIdentifier

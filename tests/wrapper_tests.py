@@ -580,6 +580,18 @@ class Test(unittest.TestCase):
         self.assertEqual(agent.get_linkingEnvironmentIdentifier(), [linkingEnvironmentIdentifier, linkingEnvironmentIdentifier_2])
         self.assertEqual(agent.get_linkingEnvironmentIdentifier(1), linkingEnvironmentIdentifier_2)
 
+        record = PremisRecord(agents=[agent])
+        record.write_to_file('/Users/balsamo/Envs/ldr_dev/repos/uchicagoldr-premiswork/tests/testagent1.xml')
+
+        record_2 = PremisRecord(filepath='/Users/balsamo/Envs/ldr_dev/repos/uchicagoldr-premiswork/tests/testagent1.xml')
+        record_2.write_to_file('/Users/balsamo/Envs/ldr_dev/repos/uchicagoldr-premiswork/tests/testagent2.xml')
+            
+        self.assertEqual(record, record_2)
+
+        record_2.get_agent_list()[0].add_agentIdentifier(AgentIdentifier('a','b'))
+
+        self.assertFalse(record == record_2)
+
     def testRights(self):
         # Layer 3
         copyrightDocumentationIdentifier = CopyrightDocumentationIdentifier('copyright_documentation_identifier_type', 'copyright_documentation_identifier_value')
