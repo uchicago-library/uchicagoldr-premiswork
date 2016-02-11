@@ -601,3 +601,38 @@ class XMLNodeFactory(object):
             linkingEnvironmentIdentifier.set_linkingEnvironmentRole(linkingEnvironmentRole)
 
         return linkingEnvironmentIdentifier
+
+    def buildRights(self, node):
+        rightsStatement = self._pn(self.buildRightsStatement, node, '{http://www.loc.gov/premis/v3}rightsStatement')
+        rightsExtension = self._find_all('{http://www.loc.gov/premis/v3}rightsExtension')
+
+        if not (rightsStatement or rightsExtension):
+            raise ValueError("Either a rightsStatement or a rightsExtension must be present.")
+
+        rights = Rights(rightsStatement=rightsStatement, rightsExtension=rightsExtension)
+
+        return rights
+
+    def buildRightsStatement(self, node):
+        rightsStatementIdentifier = self._pn(self.buildRightsStatementIdentifier, node, '{http://www.loc.gov/premis/v3}rightsStatementIdentifier', req=True)
+        rightsBasis = self._find(node, '{http://www.loc.gov/premis/v3}rightsBasis', req=True)
+
+        rightsStatement = RightsStatement(rightsStatementIdentifier, rightsBasis)
+
+        copyrightInformation = self._find_node(node, '{http://www.loc.gov/premis/v3}copyrightInformation')
+        if copyrightInformation:
+            rightsStatement.set_copyrightInformation(copyrightInformation)
+
+        licenseInformation = self._find_node(node, '{http://www.loc.gov/premis/v3}licenseInformation')
+        if licenseInformation:
+            rightsStatement.set_licenseInformation(licenseInformation)
+
+        statuteInformation = self._pn(buildStatuteInformation, node, '{http://www.loc.gov/premis/v3}statuteInformation')
+        if statuteInformation:
+            rightsStatement.set_statuteInformation(statuteInformation)
+
+        otherRightsInformationNode = self._find_node(node, '{http://www.loc.gov/premis/v3}otherRightsInformation')
+        if otherRightsInformationNode:
+            otherRightsInformation = self.buildOtherRightsInformation(otherRightsInformationNode)
+            rightsStatement.set_otherRightsInformation(otherRightsInformation)
+
