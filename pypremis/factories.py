@@ -11,10 +11,6 @@ class XMLNodeFactory(object):
         self.xml = tree.getroot()
 
     def _find_all(self, node, tag, req=False):
-        if node is None:
-            if req:
-                raise ValueError()
-            return False
         parse = [x for x in node.findall(tag)]
         if len(parse) < 1 and req:
             raise ValueError("The {} tag is required but was not found.".format(tag))
@@ -61,13 +57,13 @@ class XMLNodeFactory(object):
         return [self.buildObject(x) for x in self._find_all_nodes(self.xml, '{http://www.loc.gov/premis/v3}object')]
 
     def find_agents(self):
-        pass
+        return [self.buildAgent(x) for x in self._find_all_nodes(self.xml, '{http://www.loc.gov/premis/v3}agent')]
 
     def find_events(self):
-        pass
+        return [self.buildEvent(x) for x in self._find_all_nodes(self.xml, '{http://www.loc.gov/premis/v3}event')]
 
     def find_rights(self):
-        pass
+        return [self.buildRights(x) for x in self._find_all_nodes(self.xml, '{http://www.loc.gov/premis/v3}rights')]
 
     def buildObject(self, node):
         objIDs = self._pn(self.buildObjectIdentifier, node, '{http://www.loc.gov/premis/v3}objectIdentifier', req=True)
@@ -218,7 +214,6 @@ class XMLNodeFactory(object):
 
     def buildSignatureInformation(self, node):
         signatureInformation = SignatureInformation()
-
         signature = self._pn(self.buildSignature, node, '{http://www.loc.gov/premis/v3}signature')
         if signature:
             signatureInformation.set_signature(signature)
@@ -451,3 +446,99 @@ class XMLNodeFactory(object):
             formatRegistry.set_formatRegistryRole(formatRegistryRole)
 
         return formatRegistry
+
+    def buildEvent(self, node):
+        eventIdentifier = self.buildEventIdentifier(self._find_node(node, '{http://www.loc.gov/premis/v3}eventIdentifier', req=True))
+        eventType = self._find(node, '{http://www.loc.gov/premis/v3}eventType', req=True)
+        eventDateTime = self._find(node, '{http://www.loc.gov/premis/v3}eventDateTime', req=True)
+
+        event = Event(eventIdentifier, eventType, eventDateTime)
+
+        eventDetailInformation = self._pn(self.buildEventDetailInformation, node, '{http://www.loc.gov/premis/v3}eventDetailInformation')
+        if eventDetailInformation:
+            event.set_eventDetailInformation(eventDetailInformation)
+
+        eventOutcomeInformation = self._pn(self.buildEventOutcomeInformation, node, '{http://www.loc.gov/premis/v3}eventOutcomeInformation')
+        if eventOutcomeInformation:
+            event.set_eventOutcomeInformation(eventOutcomeInformation)
+
+        linkingAgentIdentifier = self._pn(self.buildLinkingAgentIdentifier, node, '{http://www.loc.gov/premis/v3}linkingAgentIdentifier')
+        if linkingAgentIdentifier:
+            event.set_linkingAgentIdentifier(linkingAgentIdentifier)
+
+        linkingObjectIdentifier = self._pn(self.buildLinkingObjectIdentifier, node, '{http://www.loc.gov/premis/v3}linkingObjectIdentifier')
+        if linkingObjectIdentifier:
+            event.set_linkingObjectIdentifier(linkingObjectIdentifier)
+
+        return event
+
+    def buildEventIdentifier(self, node):
+        eventIdentifierType = self._find(node, '{http://www.loc.gov/premis/v3}eventIdentifierType', req=True)
+        eventIdentifierValue = self._find(node, '{http://www.loc.gov/premis/v3}eventIdentifierValue', req=True)
+
+        eventIdentifier = EventIdentifier(eventIdentifierType, eventIdentifierValue)
+
+        return eventIdentifier
+
+    def buildEventDetailInformation(self, node):
+        eventDetailInformation = EventDetailInformation()
+
+        eventDetail = self._find(node, '{http://www.loc.gov/premis/v3}eventDetail')
+        if eventDetail:
+            eventDetailInformation.set_eventDetail(eventDetail)
+
+        eventDetailExtension = self._find_all(node, '{http://www.loc.gov/premis/v3}eventDetailExtension')
+        if eventDetailExtension:
+            eventDetailInformation.set_eventDetailExtension(eventDetailExtension)
+
+        return eventDetailInformation
+
+    def buildEventOutcomeInformation(self, node):
+        eventOutcomeInformation = EventOutcomeInformation()
+
+        eventOutcome = self._find(node, '{http://www.loc.gov/premis/v3}eventOutcome')
+        if eventOutcome:
+            eventOutcomeInformation.set_eventOutcome(eventOutcome)
+
+        eventOutcomeDetail = self._pn(self.buildEventOutcomeDetail, node, '{http://www.loc.gov/premis/v3}eventOutcomeDetail')
+        if eventOutcomeDetail:
+            eventOutcomeInformation.set_eventOutcomeDetail(eventOutcomeDetail)
+
+        return eventOutcomeInformation
+
+    def buildLinkingAgentIdentifier(self, node):
+        linkingAgentIdentifierType = self._find(node, '{http://www.loc.gov/premis/v3}linkingAgentIdentifierType', req=True)
+        linkingAgentIdentifierValue = self._find(node, '{http://www.loc.gov/premis/v3}linkingAgentIdentifierValue', req=True)
+
+        linkingAgentIdentifier = LinkingAgentIdentifier(linkingAgentIdentifierType, linkingAgentIdentifierValue)
+
+        linkingAgentRole = self._find_all(node, '{http://www.loc.gov/premis/v3}linkingAgentRole')
+        if linkingAgentRole:
+            linkingAgentIdentifier.set_linkingAgentRole(linkingAgentRole)
+
+        return linkingAgentIdentifier
+
+    def buildLinkingObjectIdentifier(self, node):
+        linkingObjectIdentifierType = self._find(node, '{http://www.loc.gov/premis/v3}linkingObjectIdentifierType', req=True)
+        linkingObjectIdentifierValue = self._find(node, '{http://www.loc.gov/premis/v3}linkingObjectIdentifierValue', req=True)
+
+        linkingObjectIdentifier = LinkingObjectIdentifier(linkingObjectIdentifierType, linkingObjectIdentifierValue)
+
+        linkingObjectRole = self._find_all(node, '{http://www.loc.gov/premis/v3}linkingObjectRole')
+        if linkingObjectRole:
+            linkingObjectIdentifier.set_linkingObjectRole(linkingObjectRole)
+
+        return linkingObjectIdentifier
+
+    def buildEventOutcomeDetail(self, node):
+        eventOutcomeDetail = EventOutcomeDetail()
+
+        eventOutcomeDetailNote = self._find(node, '{http://www.loc.gov/premis/v3}eventOutcomeDetailNote')
+        if eventOutcomeDetailNote:
+            eventOutcomeDetail.set_eventOutcomeDetailNote(eventOutcomeDetailNote)
+
+        eventOutcomeDetailExtension = self._find_all(node, '{http://www.loc.gov/premis/v3}eventOutcomeDetailExtension')
+        if eventOutcomeDetailExtension:
+            eventOutcomeDetail.set_eventOutcomeDetailExtension(eventOutcomeDetailExtension)
+
+        return eventOutcomeDetail

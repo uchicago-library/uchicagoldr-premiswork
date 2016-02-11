@@ -1,5 +1,7 @@
 import xml.etree.ElementTree as ET
+
 from pypremis.factories import XMLNodeFactory 
+from pypremis.nodes import *
 
 
 class PremisRecord(object):
@@ -7,8 +9,8 @@ class PremisRecord(object):
                  objects=None, events=None, agents=None, rights=None,
                  filepath=None):
 
-        if not filepath and not (objects or events or agents or rights) or \
-                filepath and (objects or events or agents or rights):
+        if (not filepath and not (objects or events or agents or rights)) or \
+                (filepath and (objects or events or agents or rights)):
             raise ValueError("Must supply either a valid file or at least "
                              "one array of valid PREMIS objects.")
 
@@ -20,9 +22,7 @@ class PremisRecord(object):
 
         if filepath:
             self.filepath = filepath
-            fact = XMLNodeFactory(self.filepath)
-            for x in fact.find_objects():
-                self.add_object(x)
+            self.populate_from_file(XMLNodeFactory)
         else:
             if objects:
                 for x in objects:
@@ -38,13 +38,19 @@ class PremisRecord(object):
                     self.add_rights(x)
 
     def __iter__(self):
-        for x in self.objects + self.events + self.agents + self.rights:
+        for x in self.get_object_list() + self.get_event_list() + self.get_rights_list() + self.get_agent_list():
             yield x
 
     def __eq__(self, other):
-        return isinstance(other, PremisRecord) and self.objects == other.objects and \
-                self.events == other.events and self.agents == other.agents and \
-                self.rights == other.rights
+        if not isinstance(other, PremisRecord):
+            return False
+        for x in self:
+            if x not in other:
+                return False
+        for x in other:
+            if x not in self:
+                return False
+        return True
 
     def add_event(self, event):
         self.events.append(event)
@@ -57,7 +63,6 @@ class PremisRecord(object):
 
     def add_object(self, obj):
         self.objects.append(obj)
-        pass
 
     def get_object(self, objID):
         pass
@@ -67,13 +72,12 @@ class PremisRecord(object):
 
     def add_agent(self, agent):
         self.agents.append(agent)
-        pass
 
     def get_agent(self, agentID):
         pass
 
     def get_agent_list(self):
-        return self.entities
+        return self.agents
 
     def add_rights(self, rights):
         self.rights.append(rights)
@@ -93,17 +97,17 @@ class PremisRecord(object):
     def validate(self):
         pass
 
-    def populate_from_file(self):
-        tree = ET.parse(self.filepath)
-        root = tree.get_root()
-        factory = NodeFactory(root)
+    def populate_from_file(self, factory, filepath=None):
+        if filepath is None:
+            filepath = self.get_filepath()
+        factory = factory(filepath)
         for event in factory.find_events():
             self.add_event(event)
         for agent in factory.find_agents():
             self.add_agent(agent)
         for rights in factory.find_rights():
             self.add_rights(rights)
-        for obj in factory._find_objects():
+        for obj in factory.find_objects():
             self.add_object(obj)
 
 

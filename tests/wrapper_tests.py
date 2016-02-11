@@ -372,12 +372,17 @@ class Test(unittest.TestCase):
         self.assertEqual(object.get_linkingRightsStatementIdentifier(1), linkingRightsStatementIdentifier_2)
 
         record = PremisRecord(objects=[object])
-        record.write_to_file('/Users/balsamo/Envs/ldr_dev/repos/uchicagoldr-premiswork/tests/testout.xml')
+        record.write_to_file('/Users/balsamo/Envs/ldr_dev/repos/uchicagoldr-premiswork/tests/testobject1.xml')
 
-        record_2 = PremisRecord(filepath='/Users/balsamo/Envs/ldr_dev/repos/uchicagoldr-premiswork/tests/testout.xml')
-        record_2.write_to_file('/Users/balsamo/Envs/ldr_dev/repos/uchicagoldr-premiswork/tests/testout2.xml')
-
+        record_2 = PremisRecord(filepath='/Users/balsamo/Envs/ldr_dev/repos/uchicagoldr-premiswork/tests/testobject1.xml')
+        record_2.write_to_file('/Users/balsamo/Envs/ldr_dev/repos/uchicagoldr-premiswork/tests/testobject2.xml')
+            
         self.assertEqual(record, record_2)
+
+        record_2.get_object_list()[0].add_objectIdentifier(ObjectIdentifier('a','b'))
+
+        self.assertFalse(record == record_2)
+
 
 
     def testEvent(self):
@@ -450,7 +455,7 @@ class Test(unittest.TestCase):
         linkingObjectIdentifier_2 = LinkingObjectIdentifier('linking_object_identifier_type_2', 'linking_object_identifier_value_2')
 
         # Layer 0
-        event = Event('event_type', eventIdentifier, 'event_date_time')
+        event = Event(eventIdentifier, 'event_type', 'event_date_time')
         self.assertEqual(event.get_name(), 'event')
 
         event.set_eventIdentifier(eventIdentifier)
@@ -477,6 +482,17 @@ class Test(unittest.TestCase):
         event.add_linkingObjectIdentifier(linkingObjectIdentifier_2)
         self.assertEqual(event.get_linkingObjectIdentifier(), [linkingObjectIdentifier, linkingObjectIdentifier_2])
         self.assertEqual(event.get_linkingObjectIdentifier(1), linkingObjectIdentifier_2)
+
+        record = PremisRecord(events=[event])
+        record.write_to_file('/Users/balsamo/Envs/ldr_dev/repos/uchicagoldr-premiswork/tests/testevent1.xml')
+
+        record_2 = PremisRecord(filepath='/Users/balsamo/Envs/ldr_dev/repos/uchicagoldr-premiswork/tests/testevent1.xml')
+        record_2.write_to_file('/Users/balsamo/Envs/ldr_dev/repos/uchicagoldr-premiswork/tests/testevent2.xml')
+
+        self.assertEqual(record, record_2)
+
+        record.get_event_list()[0].set_eventIdentifier(EventIdentifier('x','y'))
+        self.assertFalse(record == record_2)
 
     def testAgent(self):
         # Layer 1

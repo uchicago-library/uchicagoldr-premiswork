@@ -9,9 +9,17 @@ class PremisNode(object):
         return ET.tostring(self.toXML()).decode('utf-8')
 
     def __eq__(self, other):
-        return isinstance(other, PremisNode) and \
-            self.name == other.name and \
-            self.fields == other.fields
+        if not isinstance(other, PremisNode):
+            return False
+        if len(self.fields) != len(other.fields):
+            return False
+        for x in self.fields:
+            if x not in other.fields:
+                return False
+            if self.fields[x] != other.fields[x]:
+                return False
+        return True
+
 
     def toXML(self):
         root = ET.Element('premis:'+self.name)
@@ -1086,10 +1094,10 @@ class Event(PremisNode):
                    'linkingAgentIdentifier',
                    'linkingObjectIdentifier'
                    ]
-    def __init__(self, eventType, eventIdentifier, eventDateTime):
+    def __init__(self, eventIdentifier, eventType, eventDateTime):
         PremisNode.__init__(self, 'event')
-        self.set_eventType(eventType)
         self.set_eventIdentifier(eventIdentifier)
+        self.set_eventType(eventType)
         self.set_eventDateTime(eventDateTime)
 
     def set_eventIdentifier(self, eventIdentifier):
