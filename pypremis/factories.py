@@ -604,7 +604,7 @@ class XMLNodeFactory(object):
 
     def buildRights(self, node):
         rightsStatement = self._pn(self.buildRightsStatement, node, '{http://www.loc.gov/premis/v3}rightsStatement')
-        rightsExtension = self._find_all('{http://www.loc.gov/premis/v3}rightsExtension')
+        rightsExtension = self._find_all(node, '{http://www.loc.gov/premis/v3}rightsExtension')
 
         if not (rightsStatement or rightsExtension):
             raise ValueError("Either a rightsStatement or a rightsExtension must be present.")
@@ -614,20 +614,23 @@ class XMLNodeFactory(object):
         return rights
 
     def buildRightsStatement(self, node):
-        rightsStatementIdentifier = self._pn(self.buildRightsStatementIdentifier, node, '{http://www.loc.gov/premis/v3}rightsStatementIdentifier', req=True)
+        rightsStatementIdentifierNode = self._find_node(node, '{http://www.loc.gov/premis/v3}rightsStatementIdentifier', req=True)
+        rightsStatementIdentifier = self.buildRightsStatementIdentifier(rightsStatementIdentifierNode)
         rightsBasis = self._find(node, '{http://www.loc.gov/premis/v3}rightsBasis', req=True)
 
         rightsStatement = RightsStatement(rightsStatementIdentifier, rightsBasis)
 
-        copyrightInformation = self._find_node(node, '{http://www.loc.gov/premis/v3}copyrightInformation')
-        if copyrightInformation:
+        copyrightInformationNode = self._find_node(node, '{http://www.loc.gov/premis/v3}copyrightInformation')
+        if copyrightInformationNode:
+            copyrightInformation = self.buildCopyrightInformation(copyrightInformationNode)
             rightsStatement.set_copyrightInformation(copyrightInformation)
 
-        licenseInformation = self._find_node(node, '{http://www.loc.gov/premis/v3}licenseInformation')
-        if licenseInformation:
+        licenseInformationNode = self._find_node(node, '{http://www.loc.gov/premis/v3}licenseInformation')
+        if licenseInformationNode:
+            licenseInformation = self.buildLicenseInformation(licenseInformationNode)
             rightsStatement.set_licenseInformation(licenseInformation)
 
-        statuteInformation = self._pn(buildStatuteInformation, node, '{http://www.loc.gov/premis/v3}statuteInformation')
+        statuteInformation = self._pn(self.buildStatuteInformation, node, '{http://www.loc.gov/premis/v3}statuteInformation')
         if statuteInformation:
             rightsStatement.set_statuteInformation(statuteInformation)
 
@@ -636,3 +639,263 @@ class XMLNodeFactory(object):
             otherRightsInformation = self.buildOtherRightsInformation(otherRightsInformationNode)
             rightsStatement.set_otherRightsInformation(otherRightsInformation)
 
+        rightsGranted = self._pn(self.buildRightsGranted, node, '{http://www.loc.gov/premis/v3}rightsGranted')
+        if rightsGranted:
+            rightsStatement.set_rightsGranted(rightsGranted)
+
+        linkingObjectIdentifier = self._pn(self.buildLinkingObjectIdentifier, node, '{http://www.loc.gov/premis/v3}linkingObjectIdentifier')
+        if linkingObjectIdentifier:
+            rightsStatement.set_linkingObjectIdentifier(linkingObjectIdentifier)
+
+        linkingAgentIdentifier = self._pn(self.buildLinkingAgentIdentifier, node, '{http://www.loc.gov/premis/v3}linkingAgentIdentifier')
+        if linkingAgentIdentifier:
+            rightsStatement.set_linkingAgentIdentifier(linkingAgentIdentifier)
+
+        return rightsStatement
+
+    def buildRightsStatementIdentifier(self, node):
+        rightsStatementIdentifierType = self._find(node, '{http://www.loc.gov/premis/v3}rightsStatementIdentifierType', req=True)
+        rightsStatementIdentifierValue = self._find(node, '{http://www.loc.gov/premis/v3}rightsStatementIdentifierValue', req=True)
+
+        rightsStatementIdentifier = RightsStatementIdentifier(rightsStatementIdentifierType, rightsStatementIdentifierValue)
+
+        return rightsStatementIdentifier
+
+    def buildCopyrightInformation(self, node):
+        copyrightStatus = self._find(node, '{http://www.loc.gov/premis/v3}copyrightStatus', req=True)
+        copyrightJurisdiction = self._find(node, '{http://www.loc.gov/premis/v3}copyrightJurisdiction', req=True)
+
+        copyrightInformation = CopyrightInformation(copyrightStatus, copyrightJurisdiction)
+
+        copyrightStatusDeterminationDate = self._find(node, '{http://www.loc.gov/premis/v3}copyrightStatusDeterminationDate')
+        if copyrightStatusDeterminationDate:
+            copyrightInformation.set_copyrightStatusDeterminationDate(copyrightStatusDeterminationDate)
+
+        copyrightNote = self._find_all(node, '{http://www.loc.gov/premis/v3}copyrightNote')
+        if copyrightNote:
+            copyrightInformation.set_copyrightNote(copyrightNote)
+
+        copyrightDocumentationIdentifier = self._pn(self.buildCopyrightDocumentationIdentifier, node, '{http://www.loc.gov/premis/v3}copyrightDocumentationIdentifier')
+        if copyrightDocumentationIdentifier:
+            copyrightInformation.set_copyrightDocumentationIdentifier(copyrightDocumentationIdentifier)
+
+        copyrightApplicableDatesNode = self._find_node(node, '{http://www.loc.gov/premis/v3}copyrightApplicableDates')
+        if copyrightApplicableDatesNode:
+            copyrightApplicableDates = self.buildCopyrightApplicableDates(copyrightApplicableDatesNode)
+            copyrightInformation.set_copyrightApplicableDates(copyrightApplicableDates)
+
+        return copyrightInformation
+
+    def buildLicenseInformation(self, node):
+        licenseInformation = LicenseInformation()
+
+        licenseDocumentationIdentifier = self._pn(self.buildLicenseDocumentationIdentifier, node, '{http://www.loc.gov/premis/v3}licenseDocumentationIdentifier')
+        if licenseDocumentationIdentifier:
+            licenseInformation.set_licenseDocumentationIdentifier(licenseDocumentationIdentifier)
+
+        licenseTerms = self._find(node, '{http://www.loc.gov/premis/v3}licenseTerms')
+        if licenseTerms:
+            licenseInformation.set_licenseTerms(licenseTerms)
+
+        licenseNote = self._find_all(node, '{http://www.loc.gov/premis/v3}licenseNote')
+        if licenseNote:
+            licenseInformation.set_licenseNote(licenseNote)
+
+        licenseApplicableDatesNode = self._find_node(node, '{http://www.loc.gov/premis/v3}licenseApplicableDates')
+        if licenseApplicableDatesNode:
+            licenseApplicableDates = self.buildLicenseApplicableDates(licenseApplicableDatesNode)
+            licenseInformation.set_licenseApplicableDates(licenseApplicableDates)
+
+        return licenseInformation
+
+    def buildStatuteInformation(self, node):
+        statuteJurisdiction = self._find(node, '{http://www.loc.gov/premis/v3}statuteJurisdiction', req=True)
+        statuteCitation = self._find(node, '{http://www.loc.gov/premis/v3}statuteCitation', req=True)
+
+        statuteInformation = StatuteInformation(statuteJurisdiction, statuteCitation)
+
+        statuteInformationDeterminationDate = self._find(node, '{http://www.loc.gov/premis/v3}statuteInformationDeterminationDate')
+        if statuteInformationDeterminationDate:
+            statuteInformation.set_statuteInformationDeterminationDate(statuteInformationDeterminationDate)
+
+        statuteNote = self._find_all(node, '{http://www.loc.gov/premis/v3}statuteNote')
+        if statuteNote:
+            statuteInformation.set_statuteNote(statuteNote)
+
+        statuteDocumentationIdentifier = self._pn(self.buildStatuteDocumentationIdentifier, node, '{http://www.loc.gov/premis/v3}statuteDocumentationIdentifier')
+        if statuteDocumentationIdentifier:
+            statuteInformation.set_statuteDocumentationIdentifier(statuteDocumentationIdentifier)
+
+        statuteApplicableDatesNode = self._find_node(node, '{http://www.loc.gov/premis/v3}statuteApplicableDates')
+        if statuteApplicableDatesNode:
+            statuteApplicableDates = self.buildStatuteApplicableDates(statuteApplicableDatesNode)
+            statuteInformation.set_statuteApplicableDates(statuteApplicableDates)
+
+        return statuteInformation
+
+    def buildOtherRightsInformation(self, node):
+        otherRightsBasis = self._find(node, '{http://www.loc.gov/premis/v3}otherRightsBasis', req=True)
+
+        otherRightsInformation = OtherRightsInformation(otherRightsBasis)
+
+        otherRightsDocumentationIdentifier = self._pn(self.buildOtherRightsDocumentationIdentifier, node, '{http://www.loc.gov/premis/v3}otherRightsDocumentationIdentifier')
+        if otherRightsDocumentationIdentifier:
+            otherRightsInformation.set_otherRightsDocumentationIdentifier(otherRightsDocumentationIdentifier)
+
+        otherRightsApplicableDatesNode = self._find_node(node, '{http://www.loc.gov/premis/v3}otherRightsApplicableDates')
+        if otherRightsApplicableDatesNode:
+            otherRightsApplicableDates = self.buildOtherRightsApplicableDates(otherRightsApplicableDatesNode)
+            otherRightsInformation.set_otherRightsApplicableDates(otherRightsApplicableDates)
+
+        otherRightsNote = self._find_all(node, '{http://www.loc.gov/premis/v3}otherRightsNote')
+        if otherRightsNote:
+            otherRightsInformation.set_otherRightsNote(otherRightsNote)
+
+        return otherRightsInformation
+
+    def buildRightsGranted(self, node):
+        act = self._find(node, '{http://www.loc.gov/premis/v3}act', req=True)
+
+        rightsGranted = RightsGranted(act)
+
+        restriction = self._find_all(node, '{http://www.loc.gov/premis/v3}restriction')
+        if restriction:
+            rightsGranted.set_restriction(restriction)
+
+        termOfGrantNode = self._find_node(node, '{http://www.loc.gov/premis/v3}termOfGrant')
+        if termOfGrantNode:
+            termOfGrant = self.buildTermOfGrant(termOfGrantNode)
+            rightsGranted.set_termOfGrant(termOfGrant)
+
+        termOfRestrictionNode = self._find_node(node, '{http://www.loc.gov/premis/v3}termOfRestriction')
+        if termOfRestrictionNode:
+            termOfRestriction = self.buildTermOfRestriction(termOfRestrictionNode)
+            rightsGranted.set_termOfRestriction(termOfRestriction)
+
+        rightsGrantedNote = self._find_all(node, '{http://www.loc.gov/premis/v3}rightsGrantedNote')
+        if rightsGrantedNote:
+            rightsGranted.set_rightsGrantedNote(rightsGrantedNote)
+
+        return rightsGranted
+
+    def buildCopyrightDocumentationIdentifier(self, node): 
+        copyrightDocumentationIdentifierType = self._find(node, '{http://www.loc.gov/premis/v3}copyrightDocumentationIdentifierType', req=True)
+        copyrightDocumentationIdentifierValue = self._find(node, '{http://www.loc.gov/premis/v3}copyrightDocumentationIdentifierValue', req=True)
+
+        copyrightDocumentationIdentifier = CopyrightDocumentationIdentifier(copyrightDocumentationIdentifierType, copyrightDocumentationIdentifierValue)
+
+        copyrightDocumentationRole = self._find(node, '{http://www.loc.gov/premis/v3}copyrightDocumentationRole')
+        if copyrightDocumentationRole:
+            copyrightDocumentationIdentifier.set_copyrightDocumentationRole(copyrightDocumentationRole)
+
+        return copyrightDocumentationIdentifier
+
+    def buildCopyrightApplicableDates(self, node):
+        copyrightApplicableDates = CopyrightApplicableDates()
+
+        startDate = self._find(node, '{http://www.loc.gov/premis/v3}startDate')
+        if startDate:
+            copyrightApplicableDates.set_startDate(startDate)
+
+        endDate = self._find(node, '{http://www.loc.gov/premis/v3}endDate')
+        if endDate:
+            copyrightApplicableDates.set_endDate(endDate)
+
+        return copyrightApplicableDates
+
+    def buildLicenseDocumentationIdentifier(self, node):
+        licenseDocumentationIdentifierType = self._find(node, '{http://www.loc.gov/premis/v3}licenseDocumentationIdentifierType', req=True)
+        licenseDocumentationIdentifierValue = self._find(node, '{http://www.loc.gov/premis/v3}licenseDocumentationIdentifierValue', req=True)
+
+        licenseDocumentationIdentifier = LicenseDocumentationIdentifier(licenseDocumentationIdentifierType, licenseDocumentationIdentifierValue)
+
+        licenseDocumentationRole = self._find(node, '{http://www.loc.gov/premis/v3}licenseDocumentationRole')
+        if licenseDocumentationRole:
+            licenseDocumentationIdentifier.set_licenseDocumentationRole(licenseDocumentationRole)
+
+        return licenseDocumentationIdentifier
+
+    def buildLicenseApplicableDates(self, node):
+        licenseApplicableDates = LicenseApplicableDates()
+
+        startDate = self._find(node, '{http://www.loc.gov/premis/v3}startDate')
+        if startDate:
+            licenseApplicableDates.set_startDate(startDate)
+
+        endDate = self._find(node, '{http://www.loc.gov/premis/v3}endDate')
+        if endDate:
+            licenseApplicableDates.set_endDate(endDate)
+
+        return licenseApplicableDates
+
+    def buildStatuteDocumentationIdentifier(self, node):
+        statuteDocumentationIdentifierType = self._find(node, '{http://www.loc.gov/premis/v3}statuteDocumentationIdentifierType', req=True)
+        statuteDocumentationIdentifierValue = self._find(node, '{http://www.loc.gov/premis/v3}statuteDocumentationIdentifierValue', req=True)
+
+        statuteDocumentationIdentifier = StatuteDocumentationIdentifier(statuteDocumentationIdentifierType, statuteDocumentationIdentifierValue)
+
+        statuteDocumentationRole = self._find(node, '{http://www.loc.gov/premis/v3}statuteDocumentationRole')
+        if statuteDocumentationRole:
+            statuteDocumentationIdentifier.set_statuteDocumentationRole(statuteDocumentationRole)
+
+        return statuteDocumentationIdentifier
+
+    def buildStatuteApplicableDates(self, node):
+        statuteApplicableDates = StatuteApplicableDates()
+
+        startDate = self._find(node, '{http://www.loc.gov/premis/v3}startDate')
+        if startDate:
+            statuteApplicableDates.set_startDate(startDate)
+
+        endDate = self._find(node, '{http://www.loc.gov/premis/v3}endDate')
+        if endDate:
+            statuteApplicableDates.set_endDate(endDate)
+
+        return statuteApplicableDates
+
+    def buildOtherRightsDocumentationIdentifier(self, node):
+        otherRightsDocumentationIdentifierType = self._find(node, '{http://www.loc.gov/premis/v3}otherRightsDocumentationIdentifierType', req=True)
+        otherRightsDocumentationIdentifierValue = self._find(node, '{http://www.loc.gov/premis/v3}otherRightsDocumentationIdentifierValue', req=True)
+
+        otherRightsDocumentationIdentifier = OtherRightsDocumentationIdentifier(otherRightsDocumentationIdentifierType, otherRightsDocumentationIdentifierValue)
+
+        otherRightsDocumentationRole = self._find(node, '{http://www.loc.gov/premis/v3}otherRightsDocumentationRole')
+        if otherRightsDocumentationRole:
+            otherRightsDocumentationIdentifier.set_otherRightsDocumentationRole(otherRightsDocumentationRole)
+
+        return otherRightsDocumentationIdentifier
+
+    def buildOtherRightsApplicableDates(self, node):
+        otherRightsApplicableDates = OtherRightsApplicableDates()
+
+        startDate = self._find(node, '{http://www.loc.gov/premis/v3}startDate')
+        if startDate:
+            otherRightsApplicableDates.set_startDate(startDate)
+
+        endDate = self._find(node, '{http://www.loc.gov/premis/v3}endDate')
+        if endDate:
+            otherRightsApplicableDates.set_endDate(endDate)
+
+        return otherRightsApplicableDates
+
+    def buildTermOfGrant(self, node):
+        startDate = self._find(node, '{http://www.loc.gov/premis/v3}startDate')
+
+        termOfGrant = TermOfGrant(startDate)
+
+        endDate = self._find(node, '{http://www.loc.gov/premis/v3}endDate')
+        if endDate:
+            termOfGrant.set_endDate(endDate)
+
+        return termOfGrant
+
+    def buildTermOfRestriction(self, node):
+        startDate = self._find(node, '{http://www.loc.gov/premis/v3}startDate')
+
+        termOfRestriction = TermOfRestriction(startDate)
+
+        endDate = self._find(node, '{http://www.loc.gov/premis/v3}endDate')
+        if endDate:
+            termOfRestriction.set_endDate(endDate)
+
+        return termOfRestriction

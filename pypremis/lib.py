@@ -7,21 +7,20 @@ from pypremis.nodes import *
 class PremisRecord(object):
     def __init__(self,
                  objects=None, events=None, agents=None, rights=None,
-                 filepath=None):
+                 frompath=None):
 
-        if (not filepath and not (objects or events or agents or rights)) or \
-                (filepath and (objects or events or agents or rights)):
+        if (frompath and (objects or events or agents or rights)):
             raise ValueError("Must supply either a valid file or at least "
                              "one array of valid PREMIS objects.")
 
-        self.events = []
-        self.objects = []
-        self.agents = []
-        self.rights = []
+        self.events_list = []
+        self.objects_list = []
+        self.agents_list = []
+        self.rights_list = []
         self.filepath = None
 
-        if filepath:
-            self.filepath = filepath
+        if frompath:
+            self.filepath = frompath
             self.populate_from_file(XMLNodeFactory)
         else:
             if objects:
@@ -38,7 +37,8 @@ class PremisRecord(object):
                     self.add_rights(x)
 
     def __iter__(self):
-        for x in self.get_object_list() + self.get_event_list() + self.get_rights_list() + self.get_agent_list():
+        for x in self.get_object_list() + self.get_event_list() + \
+                self.get_rights_list() + self.get_agent_list():
             yield x
 
     def __eq__(self, other):
@@ -53,40 +53,40 @@ class PremisRecord(object):
         return True
 
     def add_event(self, event):
-        self.events.append(event)
+        self.events_list.append(event)
 
     def get_event(self, eventID):
         pass
 
     def get_event_list(self):
-        return self.events
+        return self.events_list
 
     def add_object(self, obj):
-        self.objects.append(obj)
+        self.objects_list.append(obj)
 
     def get_object(self, objID):
         pass
 
     def get_object_list(self):
-        return self.objects
+        return self.objects_list
 
     def add_agent(self, agent):
-        self.agents.append(agent)
+        self.agents_list.append(agent)
 
     def get_agent(self, agentID):
         pass
 
     def get_agent_list(self):
-        return self.agents
+        return self.agents_list
 
     def add_rights(self, rights):
-        self.rights.append(rights)
+        self.rights_list.append(rights)
 
     def get_rights(self, rightsID):
         pass
 
     def get_rights_list(self):
-        return self.rights
+        return self.rights_list
 
     def set_filepath(self, filepath):
         self.filepath = filepath
