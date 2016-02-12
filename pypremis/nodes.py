@@ -20,6 +20,8 @@ class PremisNode(object):
                 return False
         return True
 
+    def _notApplicable(self):
+        raise ValueError("Inapplicable elements may not be be added.")
 
     def toXML(self):
         root = ET.Element('premis:'+self.name)
@@ -148,12 +150,16 @@ class Object(PremisNode):
         return self._get_field('objectCategory')
 
     def set_preservationLevel(self, preservationLevel):
+        if self.get_objectCategory() == 'bitstream':
+            self._notApplicable()
         self._set_field('preservationLevel', self._listify(preservationLevel))
 
     def get_preservationLevel(self, index=None):
         return self._list_getter('preservationLevel', index)
 
     def add_preservationLevel(self, preservationLevel):
+        if self.get_objectCategory() == 'bitstream':
+            self._notApplicable()
         self._add_to_field('preservationLevel', preservationLevel)
 
     def set_significantProperties(self, significantProperties):
@@ -166,12 +172,16 @@ class Object(PremisNode):
         self._add_to_field('significantProperties', significantProperties)
 
     def set_objectCharacteristics(self, objectCharacteristics):
+        if self.get_objectCategory() == 'intellectual entity' or self.get_objectCategory() == 'representation':
+            self._notApplicable()
         self._set_field('objectCharacteristics', self._listify(objectCharacteristics))
 
     def get_objectCharacteristics(self, index=None):
         return self._list_getter('objectCharacteristics', index)
 
     def add_objectCharacteristics(self, objectCharacteristics):
+        if self.get_objectCategory() == 'intellectual entity' or self.get_objectCategory() == 'representation':
+            self._notApplicable()
         self._add_to_field('objectCharacteristics', objectCharacteristics)
 
     def set_originalName(self, originalName):
@@ -181,24 +191,34 @@ class Object(PremisNode):
         return self._get_field('originalName')
 
     def set_storage(self, storage):
+        if self.get_objectCategory() == 'intellectual entity' or self.get_objectCategory() == 'representation':
+            self._notApplicable()
         self._set_field('storage', self._listify(storage))
 
     def get_storage(self, index=None):
         return self._list_getter('storage', index)
 
     def add_storage(self, storage):
+        if self.get_objectCategory() == 'intellectual entity' or self.get_objectCategory() == 'representation':
+            self._notApplicable()
         self._add_to_field('storage', storage)
 
     def set_signatureInformation(self, signatureInformation):
+        if self.get_objectCategory() == 'intellectual entity' or self.get_objectCategory() == 'representation':
+            self._notApplicable()
         self._set_field('signatureInformation', self._listify(signatureInformation))
 
     def get_signatureInformation(self, index=None):
         return self._list_getter('signatureInformation', index)
 
     def add_signatureInformation(self, signatureInformation):
+        if self.get_objectCategory() == 'intellectual entity' or self.get_objectCategory() == 'representation':
+            self._notApplicable()
         self._add_to_field('signatureInformation', signatureInformation)
 
     def set_environmentFunction(self, environmentFunction):
+        if self.get_objectCategory() != 'intellectual entity':
+            self._notApplicable()
         self._set_field('environmentFunction', self._listify(environmentFunction))
 
     def get_environmentFunction(self, index=None):
@@ -612,7 +632,7 @@ class EnvironmentFunction(PremisNode):
     field_order = ['environmentFunctionType',
                    'environmentFunctionLevel'
                    ]
-    def __init__(self, environmentFunctionType, environmentFunctionLevel):
+    def __init__(self, environmentFunctionType, environmentFunctionLevel="1"):
         PremisNode.__init__(self, 'environmentFunction')
         self.set_environmentFunctionType(environmentFunctionType)
         self.set_environmentFunctionLevel(environmentFunctionLevel)
@@ -906,8 +926,14 @@ class Format(PremisNode):
                    'formatRegistry',
                    'formatNote'
                    ]
-    def __init__(self):
+    def __init__(self, formatDesignation=None, formatRegistry=None):
+        if not (formatDesignation or formatRegistry):
+            raise ValueError("formatDesignation and/or formatRegistry must be provided for the format node.")
         PremisNode.__init__(self, 'format')
+        if formatDesignation:
+            self.set_formatDesignation(formatDesignation)
+        if formatRegistry:
+            self.set_formatRegistry
 
     def set_formatDesignation(self, formatDesignation):
         self._set_field('formatDesignation', formatDesignation)
@@ -1015,8 +1041,14 @@ class SignificantProperties(PremisNode):
                    'significantPropertiesValue',
                    'significantPropertiesExtension'
                    ]
-    def __init__(self):
+    def __init__(self, significantPropertiesValue=None, significantPropertiesExtension=None):
+        if not (significantPropertiesValue or significantPropertiesExtension):
+            raise ValueError("Either significantPropertiesValue and/or significantPropertiesExtension must be specified")
         PremisNode.__init__(self, 'significantProperties')
+        if significantPropertiesValue:
+            self.set_significantPropertiesValue(significantPropertiesValue)
+        if significantPropertiesExtension:
+            self.set_significantPropertiesExtension(significantPropertiesExtension)
 
     def set_significantPropertiesType(self, significantPropertiesType):
         self._set_field('significantPropertiesType', significantPropertiesType)
@@ -1159,7 +1191,9 @@ class EventOutcomeInformation(PremisNode):
     field_order = ['eventOutcome',
                    'eventOutcomeDetail'
                    ]
-    def __init__(self):
+    def __init__(self, eventOutcome=None, eventOutcomeDetail=None):
+        if not (eventOutcome or eventOutcomeDetail):
+            raise ValueError("eventOutcome and/or eventOutcome detail are required in order to create an eventOutcomeInformation node.")
         PremisNode.__init__(self, 'eventOutcomeInformation')
 
     def set_eventOutcome(self, eventOutcome):
@@ -1191,8 +1225,14 @@ class EventDetailInformation(PremisNode):
     field_order = ['eventDetail',
                    'eventDetailExtension'
                    ]
-    def __init__(self):
+    def __init__(self, eventDetail=None, eventDetailExtension=None):
+        if not (eventDetail or eventDetailExtension):
+            raise ValueError('eventDetail and/or eventDetailExtension must be specified in an eventDetailInformationNode')
         PremisNode.__init__(self, 'eventDetailInformation')
+        if eventDetail:
+            self.set_eventDetail(eventDetail)
+        if eventDetailExtension:
+            self.set_eventDetailExtension(eventDetailExtension)
 
     def set_eventDetail(self, eventDetail):
         self._set_field('eventDetail', eventDetail)
@@ -1214,8 +1254,16 @@ class EventOutcomeDetail(PremisNode):
     field_order = ['eventOutcomeDetailNote',
                    'eventOutcomeDetailExtension'
                    ]
-    def __init__(self):
+    def __init__(self, eventOutcomeDetailNote=None, eventOutcomeDetailExtension=None):
+        if not (eventOutcomeDetailNote or eventOutcomeDetailExtension):
+            raise ValueError("eventOutcomeDetailNote and/or eventOutcomeDetailExtension is required to create an eventOutcomeDetail node.")
         PremisNode.__init__(self, 'eventOutcomeDetail')
+
+        if eventOutcomeDetailNote:
+            self.set_eventOutcomeDetailNote(eventOutcomeDetailNote)
+
+        if eventOutcomeDetailExtension:
+            self.set_eventOutcomeDetailExtension(eventOutcomeDetailExtension)
 
     def set_eventOutcomeDetailNote(self, eventOutcomeDetailNote):
         self._set_field('eventOutcomeDetailNote', eventOutcomeDetailNote)

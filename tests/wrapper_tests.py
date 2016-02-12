@@ -11,6 +11,7 @@ class Test(unittest.TestCase):
         # Layer 3
         formatDesignation = FormatDesignation('format_name')
         self.assertEqual(formatDesignation.get_name(), 'formatDesignation')
+        formatDesignation_2 = FormatDesignation('format_name_2')
 
         self.assertEqual(formatDesignation.get_formatName(), 'format_name')
         formatDesignation.set_formatVersion('format_version')
@@ -34,10 +35,9 @@ class Test(unittest.TestCase):
         self.assertEqual(fixity.get_messageDigestOriginator(), 'message_digest_originator')
         fixity_2 = Fixity('message_digest_algorithm_2', 'message_digest_2')
 
-        format = Format()
+        format = Format(formatDesignation=formatDesignation)
         self.assertEqual(format.get_name(), 'format')
 
-        format.set_formatDesignation(formatDesignation)
         self.assertEqual(format.get_formatDesignation(), formatDesignation)
         format.set_formatRegistry(formatRegistry)
         self.assertEqual(format.get_formatRegistry(), formatRegistry)
@@ -46,7 +46,7 @@ class Test(unittest.TestCase):
         format.add_formatNote('format_note_2')
         self.assertEqual(format.get_formatNote(), ['format_note', 'format_note_2'])
         self.assertEqual(format.get_formatNote(1), 'format_note_2')
-        format_2 = Format()
+        format_2 = Format(formatDesignation=formatDesignation_2)
 
         creatingApplication = CreatingApplication()
         self.assertEqual(creatingApplication.get_name(), 'creatingApplication')
@@ -143,19 +143,18 @@ class Test(unittest.TestCase):
         self.assertEqual(preservationLevel.get_preservationLevelDateAssigned(), 'preservation_level_date_assigned')
         preservationLevel_2 = PreservationLevel('preservation_level_value_2')
 
-        significantProperties = SignificantProperties()
+        significantProperties = SignificantProperties(significantPropertiesValue='significant_properties_value')
         self.assertEqual(significantProperties.get_name(), 'significantProperties')
 
         significantProperties.set_significantPropertiesType('significant_properties_type')
         self.assertEqual(significantProperties.get_significantPropertiesType(), 'significant_properties_type')
-        significantProperties.set_significantPropertiesValue('significant_properties_value')
         self.assertEqual(significantProperties.get_significantPropertiesValue(), 'significant_properties_value')
         significantProperties.set_significantPropertiesExtension('significant_properties_extension')
         self.assertEqual(significantProperties.get_significantPropertiesExtension(), ['significant_properties_extension'])
         significantProperties.add_significantPropertiesExtension('significant_properties_extension_2')
         self.assertEqual(significantProperties.get_significantPropertiesExtension(), ['significant_properties_extension', 'significant_properties_extension_2'])
         self.assertEqual(significantProperties.get_significantPropertiesExtension(1), 'significant_properties_extension_2')
-        significantProperties_2 = SignificantProperties()
+        significantProperties_2 = SignificantProperties(significantPropertiesValue='significant_properties_value_2')
 
         objectCharacteristics = ObjectCharacteristics(format)
         self.assertEqual(objectCharacteristics.get_name(), 'objectCharacteristics')
@@ -329,29 +328,32 @@ class Test(unittest.TestCase):
         self.assertEqual(obj.get_signatureInformation(), [signatureInformation, signatureInformation_2])
         self.assertEqual(obj.get_signatureInformation(1), signatureInformation_2)
 
-        obj.set_environmentFunction(environmentFunction)
-        self.assertEqual(obj.get_environmentFunction(), [environmentFunction])
-        obj.add_environmentFunction(environmentFunction_2)
-        self.assertEqual(obj.get_environmentFunction(), [environmentFunction, environmentFunction_2])
-        self.assertEqual(obj.get_environmentFunction(1), environmentFunction_2)
+        obj2 = obj
+        obj2.set_objectCategory('intellectual entity')
 
-        obj.set_environmentDesignation(environmentDesignation)
-        self.assertEqual(obj.get_environmentDesignation(), [environmentDesignation])
-        obj.add_environmentDesignation(environmentDesignation_2)
-        self.assertEqual(obj.get_environmentDesignation(), [environmentDesignation, environmentDesignation_2])
-        self.assertEqual(obj.get_environmentDesignation(1), environmentDesignation_2)
+        obj2.set_environmentFunction(environmentFunction)
+        self.assertEqual(obj2.get_environmentFunction(), [environmentFunction])
+        obj2.add_environmentFunction(environmentFunction_2)
+        self.assertEqual(obj2.get_environmentFunction(), [environmentFunction, environmentFunction_2])
+        self.assertEqual(obj2.get_environmentFunction(1), environmentFunction_2)
 
-        obj.set_environmentRegistry(environmentRegistry)
-        self.assertEqual(obj.get_environmentRegistry(), [environmentRegistry])
-        obj.add_environmentRegistry(environmentRegistry_2)
-        self.assertEqual(obj.get_environmentRegistry(), [environmentRegistry, environmentRegistry_2])
-        self.assertEqual(obj.get_environmentRegistry(1), environmentRegistry_2)
+        obj2.set_environmentDesignation(environmentDesignation)
+        self.assertEqual(obj2.get_environmentDesignation(), [environmentDesignation])
+        obj2.add_environmentDesignation(environmentDesignation_2)
+        self.assertEqual(obj2.get_environmentDesignation(), [environmentDesignation, environmentDesignation_2])
+        self.assertEqual(obj2.get_environmentDesignation(1), environmentDesignation_2)
 
-        obj.set_environmentExtension('environment_extension')
-        self.assertEqual(obj.get_environmentExtension(), ['environment_extension'])
+        obj2.set_environmentRegistry(environmentRegistry)
+        self.assertEqual(obj2.get_environmentRegistry(), [environmentRegistry])
+        obj2.add_environmentRegistry(environmentRegistry_2)
+        self.assertEqual(obj2.get_environmentRegistry(), [environmentRegistry, environmentRegistry_2])
+        self.assertEqual(obj2.get_environmentRegistry(1), environmentRegistry_2)
+
+        obj2.set_environmentExtension('environment_extension')
+        self.assertEqual(obj2.get_environmentExtension(), ['environment_extension'])
         obj.add_environmentExtension('environment_extension_2')
-        self.assertEqual(obj.get_environmentExtension(), ['environment_extension', 'environment_extension_2'])
-        self.assertEqual(obj.get_environmentExtension(1), 'environment_extension_2')
+        self.assertEqual(obj2.get_environmentExtension(), ['environment_extension', 'environment_extension_2'])
+        self.assertEqual(obj2.get_environmentExtension(1), 'environment_extension_2')
 
         obj.set_relationship(relationship)
         self.assertEqual(obj.get_relationship(), [relationship])

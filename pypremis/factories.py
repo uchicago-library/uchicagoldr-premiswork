@@ -152,19 +152,24 @@ class XMLNodeFactory(object):
         return preservationLevel
 
     def buildSignificantProperties(self, node):
-        significantProperties = SignificantProperties()
+        significantPropertiesValue = None
+        significantPropertiesExtension = None
+
+        significantPropertiesValue = self._find(node, '{http://www.loc.gov/premis/v3}significantPropertiesValue')
+        significantPropertiesExtension = self._find_all(node, '{http://www.loc.gov/premis/v3}significantPropertiesExtension')
+
+        if not (significantPropertiesValue or significantPropertiesExtension):
+            raiseValueError('missing required significantPropertiesValue or significantPropertiesExtension')
+        elif significantPropertiesValue and not significantPropertiesExtension:
+            significantProperties=SignificantProperties(significantPropertiesValue=significantPropertiesValue)
+        elif significantPropertiesExtension and not significantPropertiesValue:
+            significantProperties=SignificantProperties(significantPropertiesExtension=significantPropertiesExtension)
+        else:
+            significantProperties = SignificantProperties(significantPropertiesValue=significantPropertiesValue, significantPropertiesExtension=significantPropertiesExtension)
 
         significantPropertiesType = self._find(node, '{http://www.loc.gov/premis/v3}significantPropertiesType')
         if significantPropertiesType:
             significantProperties.set_significantPropertiesType(significantPropertiesType)
-
-        significantPropertiesValue = self._find(node, '{http://www.loc.gov/premis/v3}significantPropertiesValue')
-        if significantPropertiesValue:
-            significantProperties.set_significantPropertiesValue(significantPropertiesValue)
-
-        significantPropertiesExtension = self._find_all(node, '{http://www.loc.gov/premis/v3}significantPropertiesExtension')
-        if significantPropertiesExtension:
-            significantProperties.set_significantPropertiesExtension(significantPropertiesExtension)
 
         return significantProperties
 
@@ -317,17 +322,25 @@ class XMLNodeFactory(object):
         return fixity
 
     def buildFormat(self, node):
-        format = Format()
+        formatDesignation = None
+        formatRegistry = None
 
         formatDesignationNode = self._find_node(node, '{http://www.loc.gov/premis/v3}formatDesignation')
         if formatDesignationNode:
             formatDesignation = self.buildFormatDesignation(formatDesignationNode)
-            format.set_formatDesignation(formatDesignation)
 
         formatRegistryNode = self._find_node(node, '{http://www.loc.gov/premis/v3}formatRegistry')
         if formatRegistryNode:
             formatRegistry = self.buildFormatRegistry(formatRegistryNode)
-            format.set_formatRegistry(formatRegistry)
+
+        if not (formatDesignation or formatRegistry):
+            raise ValueError("missing essential node: formatDesignation or formatRegistry")
+        elif formatDesignation and not formatRegistry:
+            format = Format(formatDesignation=formatDesignation)
+        elif formatRegistry and not formatDesignation:
+            format = Format(formatRegistry=formatRegistry)
+        else:
+            format = Format(formatDesignation=formatDesignation, formatRegistry=formatRegistry)
 
         formatNote = self._find_all(node, '{http://www.loc.gov/premis/v3}formatNote')
         if formatNote:

@@ -126,6 +126,7 @@ class PremisNode(object):
     def __init__(self, nodeName):
         self._set_fields({})
         self._set_name(nodeName)
+        self.field_order = []
 
     def __repr__(self):
         return ET.tostring(self.toXML()).decode('utf-8')
