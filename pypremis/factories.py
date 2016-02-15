@@ -494,28 +494,33 @@ class XMLNodeFactory(object):
         return eventIdentifier
 
     def buildEventDetailInformation(self, node):
-        eventDetailInformation = EventDetailInformation()
-
         eventDetail = self._find(node, '{http://www.loc.gov/premis/v3}eventDetail')
-        if eventDetail:
-            eventDetailInformation.set_eventDetail(eventDetail)
-
         eventDetailExtension = self._find_all(node, '{http://www.loc.gov/premis/v3}eventDetailExtension')
-        if eventDetailExtension:
-            eventDetailInformation.set_eventDetailExtension(eventDetailExtension)
+
+        if not (eventDetail or eventDetailExtension):
+            raise ValueError("eventDetail and/or eventDetailExtension must be present in order to construct an eventDetailInformation node.")
+        elif eventDetail and not eventDetailExtension:
+            eventDetailInformation = EventDetailInformation(eventDetail=eventDetail)
+        elif eventDetailExtension and not eventDetail:
+            eventDetailInformation = EventDetailInformation(eventDetailExtension=eventDetailExtension)
+        else:
+            eventDetailInformation = EventDetailInformation(eventDetail=eventDetail, eventDetailExtension=eventDetailExtension)
+
 
         return eventDetailInformation
 
     def buildEventOutcomeInformation(self, node):
-        eventOutcomeInformation = EventOutcomeInformation()
-
         eventOutcome = self._find(node, '{http://www.loc.gov/premis/v3}eventOutcome')
-        if eventOutcome:
-            eventOutcomeInformation.set_eventOutcome(eventOutcome)
-
         eventOutcomeDetail = self._pn(self.buildEventOutcomeDetail, node, '{http://www.loc.gov/premis/v3}eventOutcomeDetail')
-        if eventOutcomeDetail:
-            eventOutcomeInformation.set_eventOutcomeDetail(eventOutcomeDetail)
+
+        if not (eventOutcome or eventOutcomeDetail):
+            raise ValueError("eventOutcome and/or eventOutcomeExtension must be present in order to construct an eventOutcomeInformation node.")
+        elif eventOutcome and not eventOutcomeDetail:
+            eventOutcomeInformation = EventOutcomeInformation(eventOutcome=eventOutcome)
+        elif eventOutcomeDetail and not eventOutcome:
+            eventOutcomeInformation = EventOutcomeInformation(eventOutcomeDetail=eventOutcomeDetail)
+        else:
+            eventOutcomeInformation = EventOutcomeInformation(eventOutcome=eventOutcome, eventOutcomeDetail=eventOutcomeDetail)
 
         return eventOutcomeInformation
 
@@ -544,15 +549,17 @@ class XMLNodeFactory(object):
         return linkingObjectIdentifier
 
     def buildEventOutcomeDetail(self, node):
-        eventOutcomeDetail = EventOutcomeDetail()
-
         eventOutcomeDetailNote = self._find(node, '{http://www.loc.gov/premis/v3}eventOutcomeDetailNote')
-        if eventOutcomeDetailNote:
-            eventOutcomeDetail.set_eventOutcomeDetailNote(eventOutcomeDetailNote)
-
         eventOutcomeDetailExtension = self._find_all(node, '{http://www.loc.gov/premis/v3}eventOutcomeDetailExtension')
-        if eventOutcomeDetailExtension:
-            eventOutcomeDetail.set_eventOutcomeDetailExtension(eventOutcomeDetailExtension)
+
+        if not (eventOutcomeDetailNote or eventOutcomeDetailExtension): 
+            raise ValueError("eventOutcomeDetailNote and/or eventOutcomeDetailExtension required to construct an eventOutcomeDetail node.")
+        elif eventOutcomeDetailNote and not eventOutcomeDetailExtension:
+            eventOutcomeDetail = EventOutcomeDetail(eventOutcomeDetailNote=eventOutcomeDetailNote)
+        elif eventOutcomeDetailExtension and not eventOutcomeDetailExtension:
+            eventOutcomeDetail = EventOutcomeDetail(eventOutcomeDetailExtension=eventOutcomeDetailExtension)
+        else:
+            eventOutcomeDetail = EventOutcomeDetail(eventOutcomeDetailNote=eventOutcomeDetailNote, eventOutcomeDetailExtension=eventOutcomeDetailExtension)
 
         return eventOutcomeDetail
 

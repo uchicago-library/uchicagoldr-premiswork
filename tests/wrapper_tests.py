@@ -1,6 +1,7 @@
 import unittest
 import xml.etree.ElementTree as ET
 import xml.dom.minidom
+from copy import deepcopy
 
 from pypremis.nodes import *
 from pypremis.lib import PremisRecord
@@ -168,7 +169,7 @@ class Test(unittest.TestCase):
         self.assertEqual(objectCharacteristics.get_fixity(1), fixity_2)
         objectCharacteristics.set_size('size')
         self.assertEqual(objectCharacteristics.get_size(), 'size')
-        objectCharacteristics.set_format(format)
+#        objectCharacteristics.set_format(format)
         self.assertEqual(objectCharacteristics.get_format(), [format])
         objectCharacteristics.add_format(format_2)
         self.assertEqual(objectCharacteristics.get_format(), [format, format_2])
@@ -328,7 +329,7 @@ class Test(unittest.TestCase):
         self.assertEqual(obj.get_signatureInformation(), [signatureInformation, signatureInformation_2])
         self.assertEqual(obj.get_signatureInformation(1), signatureInformation_2)
 
-        obj2 = obj
+        obj2 = deepcopy(obj)
         obj2.set_objectCategory('intellectual entity')
 
         obj2.set_environmentFunction(environmentFunction)
@@ -351,7 +352,7 @@ class Test(unittest.TestCase):
 
         obj2.set_environmentExtension('environment_extension')
         self.assertEqual(obj2.get_environmentExtension(), ['environment_extension'])
-        obj.add_environmentExtension('environment_extension_2')
+        obj2.add_environmentExtension('environment_extension_2')
         self.assertEqual(obj2.get_environmentExtension(), ['environment_extension', 'environment_extension_2'])
         self.assertEqual(obj2.get_environmentExtension(1), 'environment_extension_2')
 
@@ -390,8 +391,9 @@ class Test(unittest.TestCase):
 
     def testEvent(self):
         # Layer 2
-        eventOutcomeDetail = EventOutcomeDetail()
+        eventOutcomeDetail = EventOutcomeDetail(eventOutcomeDetailNote = 'event_outcome_detail_note_init')
         self.assertEqual(eventOutcomeDetail.get_name(), 'eventOutcomeDetail')
+        self.assertEqual(eventOutcomeDetail.get_eventOutcomeDetailNote(), 'event_outcome_detail_note_init')
 
         eventOutcomeDetail.set_eventOutcomeDetailNote('event_outcome_detail_note')
         self.assertEqual(eventOutcomeDetail.get_eventOutcomeDetailNote(), 'event_outcome_detail_note')
@@ -400,7 +402,7 @@ class Test(unittest.TestCase):
         eventOutcomeDetail.add_eventOutcomeDetailExtension('event_outcome_detail_extension_2')
         self.assertEqual(eventOutcomeDetail.get_eventOutcomeDetailExtension(), ['event_outcome_detail_extension', 'event_outcome_detail_extension_2'])
         self.assertEqual(eventOutcomeDetail.get_eventOutcomeDetailExtension(1), 'event_outcome_detail_extension_2')
-        eventOutcomeDetail_2 = EventOutcomeDetail()
+        eventOutcomeDetail_2 = EventOutcomeDetail(eventOutcomeDetailNote='event_outcome_detail_note_2')
 
         # Layer 1
         eventIdentifier = EventIdentifier('event_identifier_type', 'event_identifier_value')
@@ -409,8 +411,9 @@ class Test(unittest.TestCase):
         self.assertEqual(eventIdentifier.get_eventIdentifierType(), 'event_identifier_type')
         self.assertEqual(eventIdentifier.get_eventIdentifierValue(), 'event_identifier_value')
 
-        eventDetailInformation = EventDetailInformation()
+        eventDetailInformation = EventDetailInformation(eventDetail='event_detail_init')
         self.assertEqual(eventDetailInformation.get_name(), 'eventDetailInformation')
+        self.assertEqual(eventDetailInformation.get_eventDetail(), 'event_detail_init')
 
         eventDetailInformation.set_eventDetail('event_detail')
         self.assertEqual(eventDetailInformation.get_eventDetail(), 'event_detail')
@@ -419,10 +422,11 @@ class Test(unittest.TestCase):
         eventDetailInformation.add_eventDetailExtension('event_detail_extension_2')
         self.assertEqual(eventDetailInformation.get_eventDetailExtension(), ['event_detail_extension', 'event_detail_extension_2'])
         self.assertEqual(eventDetailInformation.get_eventDetailExtension(1), 'event_detail_extension_2')
-        eventDetailInformation_2 = EventDetailInformation()
+        eventDetailInformation_2 = EventDetailInformation(eventDetail='event_detail_2')
 
-        eventOutcomeInformation = EventOutcomeInformation()
+        eventOutcomeInformation = EventOutcomeInformation(eventOutcome='event_outcome_init')
         self.assertEqual(eventOutcomeInformation.get_name(), 'eventOutcomeInformation')
+        self.assertEqual(eventOutcomeInformation.get_eventOutcome(), 'event_outcome_init')
 
         eventOutcomeInformation.set_eventOutcome('event_outcome')
         self.assertEqual(eventOutcomeInformation.get_eventOutcome(), 'event_outcome')
@@ -431,7 +435,7 @@ class Test(unittest.TestCase):
         eventOutcomeInformation.add_eventOutcomeDetail(eventOutcomeDetail_2)
         self.assertEqual(eventOutcomeInformation.get_eventOutcomeDetail(), [eventOutcomeDetail, eventOutcomeDetail_2])
         self.assertEqual(eventOutcomeInformation.get_eventOutcomeDetail(1), eventOutcomeDetail_2)
-        eventOutcomeInformation_2 = EventOutcomeInformation()
+        eventOutcomeInformation_2 = EventOutcomeInformation(eventOutcome='event_outcome_2')
 
         linkingAgentIdentifier = LinkingAgentIdentifier('linking_agent_identifier_type', 'linking_agent_identifier_value')
         self.assertEqual(linkingAgentIdentifier.get_name(), 'linkingAgentIdentifier')

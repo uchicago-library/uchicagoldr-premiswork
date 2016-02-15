@@ -933,7 +933,7 @@ class Format(PremisNode):
         if formatDesignation:
             self.set_formatDesignation(formatDesignation)
         if formatRegistry:
-            self.set_formatRegistry
+            self.set_formatRegistry(formatRegistry)
 
     def set_formatDesignation(self, formatDesignation):
         self._set_field('formatDesignation', formatDesignation)
@@ -1195,6 +1195,11 @@ class EventOutcomeInformation(PremisNode):
         if not (eventOutcome or eventOutcomeDetail):
             raise ValueError("eventOutcome and/or eventOutcome detail are required in order to create an eventOutcomeInformation node.")
         PremisNode.__init__(self, 'eventOutcomeInformation')
+
+        if eventOutcome:
+            self.set_eventOutcome(eventOutcome)
+        if eventOutcomeDetail:
+            self.set_eventOutcomeDetail(eventOutcomeDetail)
 
     def set_eventOutcome(self, eventOutcome):
         self._set_field('eventOutcome', eventOutcome)
