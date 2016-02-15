@@ -111,6 +111,90 @@ class PremisNode(object):
         if not isinstance(x, type_it_should_be):
             raise TypeError
 
+
+class ExtensionNode(PremisNode):
+    def __init__(self, rootName):
+        PremisNode.__init__(self, rootName)
+
+    def set_field(self, key, value, override=False):
+        self._set_field(self, key, value, override)
+
+    def get_field(self, key):
+        return self._get_field(self, key)
+
+    def add_to_field(self, key, value, override=False):
+        self._add_to_field(self, key, value, override)
+
+    def set_name(self, name):
+        self._set_name(self, name)
+
+    def toXML(self):
+        root = ET.Element(self.name)
+        for key in self.fields:
+            value = self.fields[x]
+            if isinstance(value, str):
+                e = ET.Element(key)
+                e.text = value
+                root.append(e)
+            elif isinstance(value, PremisNode):
+                e = value.toXML()
+                root.append(e)
+            elif isinstance(value, list):
+                for x in value:
+                    if isinstance(x, str):
+                        e = ET.Element(key)
+                        e.text = x
+                        root.append(e)
+                    elif isinstance(x, PremisNode):
+                        e = x.toXML()
+                        root.append(e)
+                    else:
+                        raise ValueError
+            else:
+                raise ValueError
+        return root
+
+
+class ExtendedNode(PremisNode):
+    def __init__(self, rootName):
+        PremisNode.__init__(self, rootName)
+
+    def set_field(self, key, value, override=True):
+        self._set_field(self, key, value, override)
+
+    def get_field(self, key):
+        return self._get_field(self, key)
+
+    def add_to_field(self, key, value, override=True):
+        self._add_to_field(self, key, value, override)
+
+    def toXML(self):
+        root = ET.Element('premis:'+self.name)
+        for key in self.fields:
+            values = self.fields[x]
+            if isinstance(value, str):
+                e = ET.Element(key)
+                e.text = value
+                root.append(e)
+            elif isinstance(value, ExtensionNode):
+                e = value.toXML()
+                root.append(e)
+            elif isinstance(value, list):
+                for x in value:
+                    if isinstance(x, str):
+                        e = ET.Element(key)
+                        e.text = x
+                        root.append(e)
+                    elif isinstance(x, ExtensionNode):
+                        e = x.toXML()
+                        root.append(e)
+                    else:
+                        raise ValueError
+            else:
+                raise ValueError
+        return root
+
+
 class Object(PremisNode):
     field_order = ['objectIdentifier',
                    'objectCategory',
