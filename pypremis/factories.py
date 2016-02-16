@@ -65,6 +65,58 @@ class XMLNodeFactory(object):
     def find_rights(self):
         return [self.buildRights(x) for x in self._find_all_nodes(self.xml, '{http://www.loc.gov/premis/v3}rights')]
 
+    def buildExtensionNode(self, node):
+        result = ExtensionNode(node.tag)
+        for child in node:
+            if len(child) == 0:
+                result.add_to_field(child.tag, child.text)
+            else:
+                result.set_field(child.tag, [self.buildExtensionNode(x) for x in child])
+        return result
+
+    def buildExtendedNode(self, extendedNode, node):
+        result = extendedNode()
+        for child in node:
+            if len(child) == 0:
+                result.add_to_field(child.tag, child.text)
+            else:
+                result.add_to_field(child.tag, self.buildExtensionNode(child))
+        return result
+
+    def buildSignificantPropertiesExtension(self, node):
+        return self.buildExtendedNode(SignificantPropertiesExtension, node)
+
+    def buildCreatingApplicationExtension(self, node):
+        return self.buildExtendedNode(CreatingApplicationExtension, node)
+
+    def buildObjectCharacteristicsExtension(self, node):
+        return self.buildExtendedNode(ObjectCharacteristicsExtension, node)
+
+    def buildKeyInformation(self, node):
+        return self.buildExtendedNode(KeyInformation, node)
+
+    def buildSignatureInformationExtension(self, node):
+        return self.buildExtendedNode(SignatureInformationExtension, node)
+
+    def buildEnvironmentDesignationExtension(self, node):
+        return self.buildExtendedNode(EnvironmentDesignationExtension, node)
+
+    def buildEnvironmentExtension(self, node):
+        return self.buildExtendedNode(EnvironmentExtension, node)
+    
+    def buildEventDetailExtension(self, node):
+        return self.buildExtendedNode(EventDetailExtension, node)
+
+    def buildEventOutcomeDetailExtension(self, node):
+        return self.buildExtendedNode(EventOutcomeDetailExtension, node)
+
+    def buildAgentExtension(self, node):
+        return self.buildExtendedNode(AgentExtension, node)
+
+    def buildRightsExtension(self, node):
+        return self.buildExtendedNode(RightsExtension, node)
+
+
     def buildObject(self, node):
         objIDs = self._pn(self.buildObjectIdentifier, node, '{http://www.loc.gov/premis/v3}objectIdentifier', req=True)
         objectCategory = node.get('{http://www.w3.org/2001/XMLSchema-instance}type').lstrip('premis:')
@@ -107,7 +159,7 @@ class XMLNodeFactory(object):
 
         environmentExtension = self._find_all(node, '{http://www.loc.gov/premis/v3}environmentExtension')
         if environmentExtension:
-            obj.set_environmentExtension(environmentExtension)
+            obj.set_environmentExtension(self._pn(self.buildEnvironmentExtension, node, '{http://www.loc.gov/premis/v3}environmentExtension'))
 
         relationship = self._pn(self.buildRelationship, node, '{http://www.loc.gov/premis/v3}relationship')
         if relationship:
@@ -156,16 +208,16 @@ class XMLNodeFactory(object):
         significantPropertiesExtension = None
 
         significantPropertiesValue = self._find(node, '{http://www.loc.gov/premis/v3}significantPropertiesValue')
-        significantPropertiesExtension = self._find_all(node, '{http://www.loc.gov/premis/v3}significantPropertiesExtension')
+        significantPropertiesExtension = self._find_all_nodes(node, '{http://www.loc.gov/premis/v3}significantPropertiesExtension')
 
         if not (significantPropertiesValue or significantPropertiesExtension):
             raiseValueError('missing required significantPropertiesValue or significantPropertiesExtension')
         elif significantPropertiesValue and not significantPropertiesExtension:
             significantProperties=SignificantProperties(significantPropertiesValue=significantPropertiesValue)
         elif significantPropertiesExtension and not significantPropertiesValue:
-            significantProperties=SignificantProperties(significantPropertiesExtension=significantPropertiesExtension)
+            significantProperties=SignificantProperties(significantPropertiesExtension=self._pn(self.buildSignificantPropertiesExtension, node, '{http://www.loc.gov/premis/v3}significantPropertiesExtension'))
         else:
-            significantProperties = SignificantProperties(significantPropertiesValue=significantPropertiesValue, significantPropertiesExtension=significantPropertiesExtension)
+            significantProperties = SignificantProperties(significantPropertiesValue=significantPropertiesValue, significantPropertiesExtension=self._pn(self.buildSignificantPropertiesExtension, node, '{http://www.loc.gov/premis/v3}significantPropertiesExtension'))
 
         significantPropertiesType = self._find(node, '{http://www.loc.gov/premis/v3}significantPropertiesType')
         if significantPropertiesType:
@@ -199,7 +251,7 @@ class XMLNodeFactory(object):
 
         objectCharacteristicsExtension = self._find_all(node, '{http://www.loc.gov/premis/v3}objectCharacteristicsExtension')
         if objectCharacteristicsExtension:
-            objectCharacteristics.set_objectCharacteristicsExtension(objectCharacteristicsExtension)
+            objectCharacteristics.set_objectCharacteristicsExtension(self._pn(self.buildObjectCharacteristicsExtension, node, '{http://www.loc.gov/premis/v3}objectCharacteristicsExtension'))
 
         return objectCharacteristics
 
@@ -225,7 +277,7 @@ class XMLNodeFactory(object):
 
         signatureInformationExtension = self._find_all(node, '{http://www.loc.gov/premis/v3}signatureInformationExtension')
         if signatureInformationExtension:
-            signatureInformation.set_signatureInformationExtension(signatureInformationExtension)
+            signatureInformation.set_signatureInformationExtension(self._pn(self.buildSignatureInformationExtension, node, '{http://www.loc.gov/premis/v3}signatureInformationExtension'))
 
         return signatureInformation
 
@@ -256,7 +308,7 @@ class XMLNodeFactory(object):
 
         environmentDesignationExtension = self._find_all(node, '{http://www.loc.gov/premis/v3}environmentDesignationExtension')
         if environmentDesignationExtension:
-            environmentDesignation.set_environmentDesignationExtension(environmentDesignationExtension)
+            environmentDesignation.set_environmentDesignationExtension(self._pn(self.buildEnvironmentDesignationExtension, node, '{http://www.loc.gov/premis/v3}environmentDesignationExtension'))
 
         return environmentDesignation
 
@@ -365,7 +417,7 @@ class XMLNodeFactory(object):
 
         creatingApplicationExtension = self._find_all(node, '{http://www.loc.gov/premis/v3}creatingApplicationExtension')
         if creatingApplicationExtension:
-            creatingApplication.set_creatingApplicationExtension(creatingApplicationExtension)
+            creatingApplication.set_creatingApplicationExtension(self._pn(self.buildCreatingApplicationExtension, node, '{http://www.loc.gov/premis/v3}creatingApplicationExtension'))
 
         return creatingApplication
 
@@ -408,9 +460,9 @@ class XMLNodeFactory(object):
         if signatureProperties:
             signature.set_signatureProperties(signatureProperties)
 
-        keyInformation = self._find(node, '{http://www.loc.gov/premis/v3}keyInformation')
-        if keyInformation:
-            signature.set_keyInformation(keyInformation)
+        keyInformationNode = self._find_node(node, '{http://www.loc.gov/premis/v3}keyInformation')
+        if keyInformationNode:
+            signature.set_keyInformation(self.buildKeyInformation(keyInformationNode))
 
         return signature
 
@@ -502,9 +554,9 @@ class XMLNodeFactory(object):
         elif eventDetail and not eventDetailExtension:
             eventDetailInformation = EventDetailInformation(eventDetail=eventDetail)
         elif eventDetailExtension and not eventDetail:
-            eventDetailInformation = EventDetailInformation(eventDetailExtension=eventDetailExtension)
+            eventDetailInformation = EventDetailInformation(eventDetailExtension=self._pn(self.buildEventDetailExtension, node, '{http://www.loc.gov/premis/v3}eventDetailExtension'))
         else:
-            eventDetailInformation = EventDetailInformation(eventDetail=eventDetail, eventDetailExtension=eventDetailExtension)
+            eventDetailInformation = EventDetailInformation(eventDetail=eventDetail, eventDetailExtension=self._pn(self.buildEventDetailExtension, node, '{http://www.loc.gov/premis/v3}eventDetailExtension'))
 
 
         return eventDetailInformation
@@ -557,9 +609,9 @@ class XMLNodeFactory(object):
         elif eventOutcomeDetailNote and not eventOutcomeDetailExtension:
             eventOutcomeDetail = EventOutcomeDetail(eventOutcomeDetailNote=eventOutcomeDetailNote)
         elif eventOutcomeDetailExtension and not eventOutcomeDetailExtension:
-            eventOutcomeDetail = EventOutcomeDetail(eventOutcomeDetailExtension=eventOutcomeDetailExtension)
+            eventOutcomeDetail = EventOutcomeDetail(eventOutcomeDetailExtension=self._pn(self.buildEventOutcomeDetailExtension, node, '{http://www.loc.gov/premis/v3}eventOutcomeDetailExtension'))
         else:
-            eventOutcomeDetail = EventOutcomeDetail(eventOutcomeDetailNote=eventOutcomeDetailNote, eventOutcomeDetailExtension=eventOutcomeDetailExtension)
+            eventOutcomeDetail = EventOutcomeDetail(eventOutcomeDetailNote=eventOutcomeDetailNote, eventOutcomeDetailExtension=self._pn(self.buildEventOutcomeDetailExtension, node, '{http://www.loc.gov/premis/v3}eventOutcomeDetailExtension'))
 
         return eventOutcomeDetail
 
@@ -586,7 +638,7 @@ class XMLNodeFactory(object):
 
         agentExtension = self._find_all(node, '{http://www.loc.gov/premis/v3}agentExtension')
         if agentExtension:
-            agent.set_agentExtension(agentExtension)
+            agent.set_agentExtension(self._pn(self.buildAgentExtension, node, '{http://www.loc.gov/premis/v3}agentExtension'))
 
         linkingEventIdentifier = self._pn(self.buildLinkingEventIdentifier, node, '{http://www.loc.gov/premis/v3}linkingEventIdentifier')
         if linkingEventIdentifier:
@@ -628,8 +680,12 @@ class XMLNodeFactory(object):
 
         if not (rightsStatement or rightsExtension):
             raise ValueError("Either a rightsStatement or a rightsExtension must be present.")
-
-        rights = Rights(rightsStatement=rightsStatement, rightsExtension=rightsExtension)
+        elif rightsStatement and not rightsExtension:
+            rights = Rights(rightsStatement=rightsStatement)
+        elif rightsExtension and not rightsStatement:
+            rights = Rights(rightsExtension=self._pn(self.buildRightsExtension, node, '{http://www.loc.gov/premis/v3}rightsExtension'))
+        else:
+            rights = Rights(rightsStatement=rightsStatement, rightsExtension=self._pn(self.buildRightsExtension, node, '{http://www.loc.gov/premis/v3}rightsExtension'))
 
         return rights
 

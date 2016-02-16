@@ -26,6 +26,36 @@ class Test(unittest.TestCase):
         formatRegistry.set_formatRegistryRole('format_registry_role')
         self.assertEqual(formatRegistry.get_formatRegistryRole(), 'format_registry_role')
 
+        creatingApplicationExtension = CreatingApplicationExtension()
+        creatingApplicationExtension.set_field('a','b')
+        creatingApplicationExtension_2 = CreatingApplicationExtension()
+        creatingApplicationExtension_2.set_field('a','b')
+
+        objectCharacteristicsExtension = ObjectCharacteristicsExtension()
+        extend = ExtensionNode('nest')
+        extend.set_field('nested','value')
+        objectCharacteristicsExtension.set_field('a',extend)
+        objectCharacteristicsExtension_2 = ObjectCharacteristicsExtension()
+        objectCharacteristicsExtension.set_field('ab','ba')
+
+        keyInformation = KeyInformation()
+        keyInformation.set_field('a','b')
+
+        signatureInformationExtension = SignatureInformationExtension()
+        signatureInformationExtension.set_field('a','b')
+        signatureInformationExtension_2 = SignatureInformationExtension()
+        signatureInformationExtension_2.set_field('a','b')
+
+        environmentDesignationExtension = EnvironmentDesignationExtension()
+        environmentDesignationExtension.set_field('a','b')
+        environmentDesignationExtension_2 = EnvironmentDesignationExtension()
+        environmentDesignationExtension_2.set_field('a','b')
+
+        environmentExtension = EnvironmentExtension()
+        environmentExtension.set_field('a','b')
+        environmentExtension_2 = EnvironmentExtension()
+        environmentExtension_2.set_field('a', 'b')
+
         # Layer 2
         fixity = Fixity('message_digest_algorithm', 'message_digest')
         self.assertEqual(fixity.get_name(), 'fixity')
@@ -58,11 +88,11 @@ class Test(unittest.TestCase):
         self.assertEqual(creatingApplication.get_creatingApplicationVersion(), 'creating_application_version')
         creatingApplication.set_dateCreatedByApplication('date_created_by_application')
         self.assertEqual(creatingApplication.get_dateCreatedByApplication(), 'date_created_by_application')
-        creatingApplication.set_creatingApplicationExtension('creating_application_extension')
-        self.assertEqual(creatingApplication.get_creatingApplicationExtension(), ['creating_application_extension'])
-        creatingApplication.add_creatingApplicationExtension('creating_application_extension_2')
-        self.assertEqual(creatingApplication.get_creatingApplicationExtension(), ['creating_application_extension', 'creating_application_extension_2'])
-        self.assertEqual(creatingApplication.get_creatingApplicationExtension(1), 'creating_application_extension_2')
+        creatingApplication.set_creatingApplicationExtension(creatingApplicationExtension)
+        self.assertEqual(creatingApplication.get_creatingApplicationExtension(), [creatingApplicationExtension])
+        creatingApplication.add_creatingApplicationExtension(creatingApplicationExtension_2)
+        self.assertEqual(creatingApplication.get_creatingApplicationExtension(), [creatingApplicationExtension,creatingApplicationExtension_2])
+        self.assertEqual(creatingApplication.get_creatingApplicationExtension(1), creatingApplicationExtension_2)
         creatingApplication_2 = CreatingApplication()
 
         inhibitors = Inhibitors('inhibitor_type')
@@ -98,8 +128,8 @@ class Test(unittest.TestCase):
         signature.add_signatureProperties('signature_properties_2')
         self.assertEqual(signature.get_signatureProperties(), ['signature_properties', 'signature_properties_2'])
         self.assertEqual(signature.get_signatureProperties(1), 'signature_properties_2')
-        signature.set_keyInformation('key_information')
-        self.assertEqual(signature.get_keyInformation(), 'key_information')
+        signature.set_keyInformation(keyInformation)
+        self.assertEqual(signature.get_keyInformation(), keyInformation)
         signature_2 = Signature('signature_encoding_2', 'signature_method_2', 'signature_value_2', 'signature_validation_rules_2')
 
         relatedObjectIdentifier = RelatedObjectIdentifier('related_object_identifier_type', 'related_object_identifier_value')
@@ -119,6 +149,22 @@ class Test(unittest.TestCase):
         relatedEventIdentifier.set_relatedEventSequence('related_event_sequence')
         self.assertEqual(relatedEventIdentifier.get_relatedEventSequence(), 'related_event_sequence')
         relatedEventIdentifier_2 = RelatedEventIdentifier('related_event_identifier_type_2', 'related_event_identifier_value_2')
+
+        significantPropertiesExtension = SignificantPropertiesExtension()
+        self.assertEqual(significantPropertiesExtension.get_name(), 'significantPropertiesExtension')
+
+        significantPropertiesExtension.set_field('test', 'a')
+        self.assertEqual(significantPropertiesExtension.get_field('test'), ['a'])
+        significantPropertiesExtension.set_field('test_2', ['b', 'c'])
+        self.assertEqual(significantPropertiesExtension.get_field('test_2'), ['b','c'])
+        significantPropertiesExtensionChild = ExtensionNode('significantPropertiesExtensionChild')
+        significantPropertiesExtensionChild.set_field('test_3','d')
+        self.assertEqual(significantPropertiesExtensionChild.get_field('test_3'), ['d'])
+        significantPropertiesExtensionChild.set_field('test_4', ['e', 'f'])
+        self.assertEqual(significantPropertiesExtensionChild.get_field('test_4'), ['e', 'f'])
+
+        significantPropertiesExtension_2 = SignificantPropertiesExtension()
+        significantPropertiesExtension_2.set_field('a','b')
 
         # Layer 1
         objectIdentifier = ObjectIdentifier('object_identifier_type', 'object_identifier_value')
@@ -150,11 +196,11 @@ class Test(unittest.TestCase):
         significantProperties.set_significantPropertiesType('significant_properties_type')
         self.assertEqual(significantProperties.get_significantPropertiesType(), 'significant_properties_type')
         self.assertEqual(significantProperties.get_significantPropertiesValue(), 'significant_properties_value')
-        significantProperties.set_significantPropertiesExtension('significant_properties_extension')
-        self.assertEqual(significantProperties.get_significantPropertiesExtension(), ['significant_properties_extension'])
-        significantProperties.add_significantPropertiesExtension('significant_properties_extension_2')
-        self.assertEqual(significantProperties.get_significantPropertiesExtension(), ['significant_properties_extension', 'significant_properties_extension_2'])
-        self.assertEqual(significantProperties.get_significantPropertiesExtension(1), 'significant_properties_extension_2')
+        significantProperties.set_significantPropertiesExtension(significantPropertiesExtension)
+        self.assertEqual(significantProperties.get_significantPropertiesExtension(), [significantPropertiesExtension])
+        significantProperties.add_significantPropertiesExtension(significantPropertiesExtension_2)
+        self.assertEqual(significantProperties.get_significantPropertiesExtension(), [significantPropertiesExtension, significantPropertiesExtension_2])
+        self.assertEqual(significantProperties.get_significantPropertiesExtension(1), significantPropertiesExtension_2)
         significantProperties_2 = SignificantProperties(significantPropertiesValue='significant_properties_value_2')
 
         objectCharacteristics = ObjectCharacteristics(format)
@@ -184,11 +230,11 @@ class Test(unittest.TestCase):
         objectCharacteristics.add_inhibitors(inhibitors_2)
         self.assertEqual(objectCharacteristics.get_inhibitors(), [inhibitors, inhibitors_2])
         self.assertEqual(objectCharacteristics.get_inhibitors(1), inhibitors_2)
-        objectCharacteristics.set_objectCharacteristicsExtension('object_characteristics_extension')
-        self.assertEqual(objectCharacteristics.get_objectCharacteristicsExtension(), ['object_characteristics_extension'])
-        objectCharacteristics.add_objectCharacteristicsExtension('object_characteristics_extension_2')
-        self.assertEqual(objectCharacteristics.get_objectCharacteristicsExtension(), ['object_characteristics_extension', 'object_characteristics_extension_2'])
-        self.assertEqual(objectCharacteristics.get_objectCharacteristicsExtension(1), 'object_characteristics_extension_2')
+        objectCharacteristics.set_objectCharacteristicsExtension(objectCharacteristicsExtension)
+        self.assertEqual(objectCharacteristics.get_objectCharacteristicsExtension(), [objectCharacteristicsExtension])
+        objectCharacteristics.add_objectCharacteristicsExtension(objectCharacteristicsExtension_2)
+        self.assertEqual(objectCharacteristics.get_objectCharacteristicsExtension(), [objectCharacteristicsExtension, objectCharacteristicsExtension_2])
+        self.assertEqual(objectCharacteristics.get_objectCharacteristicsExtension(1), objectCharacteristicsExtension_2)
         objectCharacteristics_2 = ObjectCharacteristics(format_2)
 
         storage = Storage()
@@ -208,11 +254,11 @@ class Test(unittest.TestCase):
         signatureInformation.add_signature(signature_2)
         self.assertEqual(signatureInformation.get_signature(), [signature, signature_2])
         self.assertEqual(signatureInformation.get_signature(1), signature_2)
-        signatureInformation.set_signatureInformationExtension('signature_information_extension')
-        self.assertEqual(signatureInformation.get_signatureInformationExtension(), ['signature_information_extension'])
-        signatureInformation.add_signatureInformationExtension('signature_information_extension_2')
-        self.assertEqual(signatureInformation.get_signatureInformationExtension(), ['signature_information_extension', 'signature_information_extension_2'])
-        self.assertEqual(signatureInformation.get_signatureInformationExtension(1), 'signature_information_extension_2')
+        signatureInformation.set_signatureInformationExtension(signatureInformationExtension)
+        self.assertEqual(signatureInformation.get_signatureInformationExtension(), [signatureInformationExtension])
+        signatureInformation.add_signatureInformationExtension(signatureInformationExtension_2)
+        self.assertEqual(signatureInformation.get_signatureInformationExtension(), [signatureInformationExtension, signatureInformationExtension_2])
+        self.assertEqual(signatureInformation.get_signatureInformationExtension(1), signatureInformationExtension_2)
         signatureInformation_2 = SignatureInformation()
 
         environmentFunction = EnvironmentFunction('environment_function_type', 'environment_function_level')
@@ -350,11 +396,11 @@ class Test(unittest.TestCase):
         self.assertEqual(obj2.get_environmentRegistry(), [environmentRegistry, environmentRegistry_2])
         self.assertEqual(obj2.get_environmentRegistry(1), environmentRegistry_2)
 
-        obj2.set_environmentExtension('environment_extension')
-        self.assertEqual(obj2.get_environmentExtension(), ['environment_extension'])
-        obj2.add_environmentExtension('environment_extension_2')
-        self.assertEqual(obj2.get_environmentExtension(), ['environment_extension', 'environment_extension_2'])
-        self.assertEqual(obj2.get_environmentExtension(1), 'environment_extension_2')
+        obj2.set_environmentExtension(environmentExtension)
+        self.assertEqual(obj2.get_environmentExtension(), [environmentExtension])
+        obj2.add_environmentExtension(environmentExtension_2)
+        self.assertEqual(obj2.get_environmentExtension(), [environmentExtension, environmentExtension_2])
+        self.assertEqual(obj2.get_environmentExtension(1), environmentExtension_2)
 
         obj.set_relationship(relationship)
         self.assertEqual(obj.get_relationship(), [relationship])
@@ -390,6 +436,29 @@ class Test(unittest.TestCase):
 
 
     def testEvent(self):
+
+        eventDetailExtension = EventDetailExtension()
+        self.assertEqual(eventDetailExtension.get_name(), 'eventDetailExtension')
+        eventOutcomeDetailExtension = EventOutcomeDetailExtension()
+        self.assertEqual(eventOutcomeDetailExtension.get_name(), 'eventOutcomeDetailExtension')
+
+        child_1 = ExtensionNode('child_node_1')
+        child_1.set_field('a','b')
+
+        child_2 = ExtensionNode('child_node_2')
+        child_2.set_field('a','b')
+
+        eventDetailExtension.set_field('test', child_1)
+        eventDetailExtension.set_field('a','b')
+        eventOutcomeDetailExtension.set_field('test', child_2)
+        eventOutcomeDetailExtension.set_field('a','b')
+
+        eventOutcomeDetailExtension_2 = EventOutcomeDetailExtension()
+        eventOutcomeDetailExtension_2.set_field('a','b')
+
+        eventDetailExtension_2 = EventDetailExtension()
+        eventDetailExtension_2.set_field('a','b')
+
         # Layer 2
         eventOutcomeDetail = EventOutcomeDetail(eventOutcomeDetailNote = 'event_outcome_detail_note_init')
         self.assertEqual(eventOutcomeDetail.get_name(), 'eventOutcomeDetail')
@@ -397,11 +466,11 @@ class Test(unittest.TestCase):
 
         eventOutcomeDetail.set_eventOutcomeDetailNote('event_outcome_detail_note')
         self.assertEqual(eventOutcomeDetail.get_eventOutcomeDetailNote(), 'event_outcome_detail_note')
-        eventOutcomeDetail.set_eventOutcomeDetailExtension('event_outcome_detail_extension')
-        self.assertEqual(eventOutcomeDetail.get_eventOutcomeDetailExtension(), ['event_outcome_detail_extension'])
-        eventOutcomeDetail.add_eventOutcomeDetailExtension('event_outcome_detail_extension_2')
-        self.assertEqual(eventOutcomeDetail.get_eventOutcomeDetailExtension(), ['event_outcome_detail_extension', 'event_outcome_detail_extension_2'])
-        self.assertEqual(eventOutcomeDetail.get_eventOutcomeDetailExtension(1), 'event_outcome_detail_extension_2')
+        eventOutcomeDetail.set_eventOutcomeDetailExtension(eventOutcomeDetailExtension)
+        self.assertEqual(eventOutcomeDetail.get_eventOutcomeDetailExtension(), [eventOutcomeDetailExtension])
+        eventOutcomeDetail.add_eventOutcomeDetailExtension(eventOutcomeDetailExtension_2)
+        self.assertEqual(eventOutcomeDetail.get_eventOutcomeDetailExtension(), [eventOutcomeDetailExtension, eventOutcomeDetailExtension_2])
+        self.assertEqual(eventOutcomeDetail.get_eventOutcomeDetailExtension(1), eventOutcomeDetailExtension_2)
         eventOutcomeDetail_2 = EventOutcomeDetail(eventOutcomeDetailNote='event_outcome_detail_note_2')
 
         # Layer 1
@@ -417,11 +486,11 @@ class Test(unittest.TestCase):
 
         eventDetailInformation.set_eventDetail('event_detail')
         self.assertEqual(eventDetailInformation.get_eventDetail(), 'event_detail')
-        eventDetailInformation.set_eventDetailExtension('event_detail_extension')
-        self.assertEqual(eventDetailInformation.get_eventDetailExtension(), ['event_detail_extension'])
-        eventDetailInformation.add_eventDetailExtension('event_detail_extension_2')
-        self.assertEqual(eventDetailInformation.get_eventDetailExtension(), ['event_detail_extension', 'event_detail_extension_2'])
-        self.assertEqual(eventDetailInformation.get_eventDetailExtension(1), 'event_detail_extension_2')
+        eventDetailInformation.set_eventDetailExtension(eventDetailExtension)
+        self.assertEqual(eventDetailInformation.get_eventDetailExtension(), [eventDetailExtension])
+        eventDetailInformation.add_eventDetailExtension(eventDetailExtension_2)
+        self.assertEqual(eventDetailInformation.get_eventDetailExtension(), [eventDetailExtension, eventDetailExtension_2])
+        self.assertEqual(eventDetailInformation.get_eventDetailExtension(1), eventDetailExtension_2)
         eventDetailInformation_2 = EventDetailInformation(eventDetail='event_detail_2')
 
         eventOutcomeInformation = EventOutcomeInformation(eventOutcome='event_outcome_init')

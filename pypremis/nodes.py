@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 
 class PremisNode(object):
+    field_order = []
     def __init__(self, nodeName):
         self._set_fields({})
         self._set_name(nodeName)
@@ -13,12 +14,21 @@ class PremisNode(object):
             return False
         if len(self.fields) != len(other.fields):
             return False
-        for x in self.fields:
-            if x not in other.fields:
-                return False
-            if self.fields[x] != other.fields[x]:
-                return False
+        for entry in self.fields:
+            if isinstance(self.fields[entry], str):
+                if self.fields[entry] != other.fields[entry]:
+                    return False
+            elif isinstance(self.fields[entry], PremisNode):
+                if self.fields[entry] not in other.fields.values():
+                    return False
+            elif isinstance(self.fields[entry], list):
+                for x in self.fields[entry]:
+                    if x not in other.fields[entry]:
+                        return False
+            else:
+                raise ValueError
         return True
+
 
     def _notApplicable(self):
         raise ValueError("Inapplicable elements may not be be added.")
@@ -116,22 +126,23 @@ class ExtensionNode(PremisNode):
     def __init__(self, rootName):
         PremisNode.__init__(self, rootName)
 
-    def set_field(self, key, value, override=False):
-        self._set_field(self, key, value, override)
+    def set_field(self, key, value, override=True):
+        value = self._listify(value)
+        self._set_field(key, value, override)
 
     def get_field(self, key):
-        return self._get_field(self, key)
+        return self._get_field(key)
 
-    def add_to_field(self, key, value, override=False):
-        self._add_to_field(self, key, value, override)
+    def add_to_field(self, key, value, override=True):
+        self._add_to_field(key, value, override)
 
     def set_name(self, name):
-        self._set_name(self, name)
+        self._set_name(name)
 
     def toXML(self):
         root = ET.Element(self.name)
         for key in self.fields:
-            value = self.fields[x]
+            value = self.fields[key]
             if isinstance(value, str):
                 e = ET.Element(key)
                 e.text = value
@@ -160,18 +171,19 @@ class ExtendedNode(PremisNode):
         PremisNode.__init__(self, rootName)
 
     def set_field(self, key, value, override=True):
-        self._set_field(self, key, value, override)
+        value = self._listify(value)
+        self._set_field(key, value, override)
 
     def get_field(self, key):
-        return self._get_field(self, key)
+        return self._get_field(key)
 
     def add_to_field(self, key, value, override=True):
-        self._add_to_field(self, key, value, override)
+        self._add_to_field(key, value, override)
 
     def toXML(self):
         root = ET.Element('premis:'+self.name)
         for key in self.fields:
-            values = self.fields[x]
+            value = self.fields[key]
             if isinstance(value, str):
                 e = ET.Element(key)
                 e.text = value
@@ -194,6 +206,60 @@ class ExtendedNode(PremisNode):
                 raise ValueError
         return root
 
+
+class SignificantPropertiesExtension(ExtendedNode):
+    def __init__(self):
+        ExtendedNode.__init__(self, 'significantPropertiesExtension')
+
+
+class CreatingApplicationExtension(ExtendedNode):
+    def __init__(self):
+        ExtendedNode.__init__(self, 'creatingApplicationExtension')
+
+
+class ObjectCharacteristicsExtension(ExtendedNode):
+    def __init__(self):
+        ExtendedNode.__init__(self, 'objectCharacteristicsExtension')
+
+
+class KeyInformation(ExtendedNode):
+    def __init__(self):
+        ExtendedNode.__init__(self, 'keyInformation')
+
+
+class SignatureInformationExtension(ExtendedNode):
+    def __init__(self):
+        ExtendedNode.__init__(self, 'signatureInformationExtension')
+
+
+class EnvironmentDesignationExtension(ExtendedNode):
+    def __init__(self):
+        ExtendedNode.__init__(self, 'environmentDesignationExtension')
+
+
+class EnvironmentExtension(ExtendedNode):
+    def __init__(self):
+        ExtendedNode.__init__(self, 'environmentExtension')
+
+
+class EventDetailExtension(ExtendedNode):
+    def __init__(self):
+        ExtendedNode.__init__(self, 'eventDetailExtension')
+
+
+class EventOutcomeDetailExtension(ExtendedNode):
+    def __init__(self):
+        ExtendedNode.__init__(self, 'eventOutcomeDetailExtension')
+
+
+class AgentExtension(ExtendedNode):
+    def __init__(self):
+        ExtendedNode.__init__(self, 'agentExtension')
+
+
+class RightsExtension(ExtendedNode):
+    def __init__(self):
+        ExtendedNode.__init__(self, 'agentExtension')
 
 class Object(PremisNode):
     field_order = ['objectIdentifier',
@@ -373,28 +439,27 @@ class Object(PremisNode):
                 continue
             if key not in self.fields:
                 continue
-            values = [self.fields[x] for x in self.fields if x is key]
-            for value in values:
-                if isinstance(value, str):
-                    e = ET.Element('premis:'+key)
-                    e.text = value
-                    root.append(e)
-                elif isinstance(value, PremisNode):
-                    e = value.toXML()
-                    root.append(e)
-                elif isinstance(value, list):
-                    for x in value:
-                        if isinstance(x, str):
-                            e = ET.Element('premis:'+key)
-                            e.text = x
-                            root.append(e)
-                        elif isinstance(x, PremisNode):
-                            e = x.toXML()
-                            root.append(e)
-                        else:
-                            raise ValueError
-                else:
-                    raise ValueError
+            value = self.fields[key]
+            if isinstance(value, str):
+                e = ET.Element('premis:'+key)
+                e.text = value
+                root.append(e)
+            elif isinstance(value, PremisNode):
+                e = value.toXML()
+                root.append(e)
+            elif isinstance(value, list):
+                for x in value:
+                    if isinstance(x, str):
+                        e = ET.Element('premis:'+key)
+                        e.text = x
+                        root.append(e)
+                    elif isinstance(x, PremisNode):
+                        e = x.toXML()
+                        root.append(e)
+                    else:
+                        raise ValueError
+            else:
+                raise ValueError
         return root
 
 class ObjectIdentifier(PremisNode):
