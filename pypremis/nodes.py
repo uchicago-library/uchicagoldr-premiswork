@@ -14,21 +14,18 @@ class PremisNode(object):
             return False
         if len(self.fields) != len(other.fields):
             return False
-        for entry in self.fields:
-            if isinstance(self.fields[entry], str):
-                if self.fields[entry] != other.fields[entry]:
+        if set(self.fields) != set(other.fields):
+            return False
+        for entry in self._get_fields():
+            if isinstance(self._get_fields()[entry], str):
+                if self._get_fields()[entry] != other._get_fields()[entry]:
                     return False
-            elif isinstance(self.fields[entry], PremisNode):
-                if self.fields[entry] not in other.fields.values():
+            elif isinstance(self._get_fields()[entry], PremisNode):
+                if self._get_fields()[entry] not in other._get_fields().values():
                     return False
-            elif isinstance(self.fields[entry], list):
-                for x in self.fields[entry]:
-                    try:
-                        if x not in other.fields[entry]:
-                            return False
-                    except KeyError:
-                        if other.fields[entry]:
-                            print('the universe is broken')
+            elif isinstance(self._get_fields()[entry], list):
+                for x in self._get_fields()[entry]:
+                    if x not in other._get_fields()[entry]:
                         return False
             else:
                 raise ValueError
