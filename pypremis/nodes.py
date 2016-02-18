@@ -23,7 +23,12 @@ class PremisNode(object):
                     return False
             elif isinstance(self.fields[entry], list):
                 for x in self.fields[entry]:
-                    if x not in other.fields[entry]:
+                    try:
+                        if x not in other.fields[entry]:
+                            return False
+                    except KeyError:
+                        if other.fields[entry]:
+                            print('the universe is broken')
                         return False
             else:
                 raise ValueError
@@ -123,8 +128,8 @@ class PremisNode(object):
 
 
 class ExtensionNode(PremisNode):
-    def __init__(self, rootName):
-        PremisNode.__init__(self, rootName)
+    def __init__(self):
+        PremisNode.__init__(self, 'root')
 
     def set_field(self, key, value, override=True):
         value = self._listify(value)
@@ -147,24 +152,27 @@ class ExtensionNode(PremisNode):
                 e = ET.Element(key)
                 e.text = value
                 root.append(e)
-            elif isinstance(value, PremisNode):
-                e = value.toXML()
+            elif isinstance(value, ExtensionNode):
+                e = ET.Element(key)
+                for x in value.toXML():
+                    e.append(x)
                 root.append(e)
             elif isinstance(value, list):
-                for x in value:
-                    if isinstance(x, str):
+                for entry in value:
+                    if isinstance(entry, str):
                         e = ET.Element(key)
-                        e.text = x
+                        e.text = entry
                         root.append(e)
-                    elif isinstance(x, PremisNode):
-                        e = x.toXML()
+                    elif isinstance(entry, ExtensionNode):
+                        e = ET.Element(key)
+                        for n in entry.toXML():
+                            e.append(n)
                         root.append(e)
                     else:
                         raise ValueError
             else:
                 raise ValueError
         return root
-
 
 class ExtendedNode(PremisNode):
     def __init__(self, rootName):
@@ -182,29 +190,11 @@ class ExtendedNode(PremisNode):
 
     def toXML(self):
         root = ET.Element('premis:'+self.name)
-        for key in self.fields:
-            value = self.fields[key]
-            if isinstance(value, str):
-                e = ET.Element(key)
-                e.text = value
-                root.append(e)
-            elif isinstance(value, ExtensionNode):
-                e = value.toXML()
-                root.append(e)
-            elif isinstance(value, list):
-                for x in value:
-                    if isinstance(x, str):
-                        e = ET.Element(key)
-                        e.text = x
-                        root.append(e)
-                    elif isinstance(x, ExtensionNode):
-                        e = x.toXML()
-                        root.append(e)
-                    else:
-                        raise ValueError
-            else:
-                raise ValueError
-        return root
+        orig_name = self.name
+        self.name = 'premis:'+self.name
+        result = ExtensionNode.toXML(self)
+        self.name = orig_name
+        return result
 
 
 class SignificantPropertiesExtension(ExtendedNode):
@@ -259,7 +249,7 @@ class AgentExtension(ExtendedNode):
 
 class RightsExtension(ExtendedNode):
     def __init__(self):
-        ExtendedNode.__init__(self, 'agentExtension')
+        ExtendedNode.__init__(self, 'rightsExtension')
 
 class Object(PremisNode):
     field_order = ['objectIdentifier',

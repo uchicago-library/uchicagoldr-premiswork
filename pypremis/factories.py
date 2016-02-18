@@ -66,12 +66,12 @@ class XMLNodeFactory(object):
         return [self.buildRights(x) for x in self._find_all_nodes(self.xml, '{http://www.loc.gov/premis/v3}rights')]
 
     def buildExtensionNode(self, node):
-        result = ExtensionNode(node.tag)
+        result = ExtensionNode()
         for child in node:
             if len(child) == 0:
                 result.add_to_field(child.tag, child.text)
             else:
-                result.set_field(child.tag, [self.buildExtensionNode(x) for x in child])
+                result.add_to_field(child.tag, self.buildExtensionNode(child))
         return result
 
     def buildExtendedNode(self, extendedNode, node):
