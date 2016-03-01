@@ -103,7 +103,7 @@ class XMLNodeFactory(object):
 
     def buildEnvironmentExtension(self, node):
         return self.buildExtendedNode(EnvironmentExtension, node)
-    
+
     def buildEventDetailExtension(self, node):
         return self.buildExtendedNode(EventDetailExtension, node)
 
@@ -115,7 +115,6 @@ class XMLNodeFactory(object):
 
     def buildRightsExtension(self, node):
         return self.buildExtendedNode(RightsExtension, node)
-
 
     def buildObject(self, node):
         objIDs = self._pn(self.buildObjectIdentifier, node, '{http://www.loc.gov/premis/v3}objectIdentifier', req=True)
@@ -604,7 +603,7 @@ class XMLNodeFactory(object):
         eventOutcomeDetailNote = self._find(node, '{http://www.loc.gov/premis/v3}eventOutcomeDetailNote')
         eventOutcomeDetailExtension = self._find_all(node, '{http://www.loc.gov/premis/v3}eventOutcomeDetailExtension')
 
-        if not (eventOutcomeDetailNote or eventOutcomeDetailExtension): 
+        if not (eventOutcomeDetailNote or eventOutcomeDetailExtension):
             raise ValueError("eventOutcomeDetailNote and/or eventOutcomeDetailExtension required to construct an eventOutcomeDetail node.")
         elif eventOutcomeDetailNote and not eventOutcomeDetailExtension:
             eventOutcomeDetail = EventOutcomeDetail(eventOutcomeDetailNote=eventOutcomeDetailNote)
@@ -854,7 +853,7 @@ class XMLNodeFactory(object):
 
         return rightsGranted
 
-    def buildCopyrightDocumentationIdentifier(self, node): 
+    def buildCopyrightDocumentationIdentifier(self, node):
         copyrightDocumentationIdentifierType = self._find(node, '{http://www.loc.gov/premis/v3}copyrightDocumentationIdentifierType', req=True)
         copyrightDocumentationIdentifierValue = self._find(node, '{http://www.loc.gov/premis/v3}copyrightDocumentationIdentifierValue', req=True)
 

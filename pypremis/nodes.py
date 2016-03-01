@@ -1,15 +1,65 @@
 import xml.etree.ElementTree as ET
 
+
+"""
+### Classes meant to model entries in the PREMIS data model ###
+
+1. ** PremisNode ** is a super class meant to provide functionality common
+to all elements of the PREMIS data model. It shouldn't be called directly
+from application code.
+2. ** Extended Node ** is a super class meant to provide the linkage between
+the tightly controlled PREMIS data model, and the more free form extension
+spaces in the appropriate spaces in the data model. It shouldn't be called
+directly from application code.
+3. ** Extension Node ** is a super class meant to provide functionality for
+uncontrolled nodes used in specific places to extend the PREMIS data model.
+4. ** All Others ** are specific nodes implementing getters and setters
+for their contained nodes which inherit from either PremisNode or
+ExtendedNode as appropriate. There __init__'s represent the stated requirements
+of the PREMIS data model.
+"""
+
+
 class PremisNode(object):
+    """
+    __Attributes__
+
+    1. field_order: A list containing strings specifying field order for
+    compliance with serializations that enforce ordering of contained nodes
+    2. fields: A dictionary which contains each contained field name and its
+    value. Value's may be strings or PremisNode instances where nesting occurs.
+    3. name: The name of the specific type of PremisNode being implemented
+    by the instance.
+    """
     field_order = []
     def __init__(self, nodeName):
+        """
+        __Args__
+
+        1. nodeName: a string which corresponds to the intended value of the
+        name attribute.
+
+        Initializes a PremisNode instance with a blank fields dictionary and
+        the supplied name
+        """
         self._set_fields({})
         self._set_name(nodeName)
 
     def __repr__(self):
+        """
+        Return an xml representation of the node object. This XML may
+        not be valid on its own.
+        """
         return ET.tostring(self.toXML()).decode('utf-8')
 
     def __eq__(self, other):
+        """
+        __Args__
+
+        1. other: an object to test equality against.
+
+        Recursively test equality to another PremisNode instance.
+        """
         if not isinstance(other, PremisNode):
             return False
         if len(self.fields) != len(other.fields):
@@ -31,11 +81,167 @@ class PremisNode(object):
                 raise ValueError
         return True
 
-
     def _notApplicable(self):
+        """
+        Raise a preformatted error when attempting to add an inapplicable
+        element
+        """
         raise ValueError("Inapplicable elements may not be be added.")
 
+    def _set_fields(self, fields):
+        """
+        __Args__
+
+        1. fields: a dictionary corresponding to the fields internal data
+        organization of the class.
+
+        set the instances fields attribute.
+        """
+        if not isinstance(fields, dict):
+            raise TypeError
+        self.fields = fields
+
+    def _get_fields(self):
+        """
+        return the fields attribute
+        """
+        return self.fields
+
+    def _set_name(self, name):
+        """
+        __Args__
+
+        1. name: a string representative of the portion of the PREMIS data model
+        that corresponds to the node instance.
+
+        sets the name attribute
+        """
+        if not isinstance(name, str):
+            raise TypeError
+        self.name = name
+
+    def _set_field(self, key, value, override=False):
+        """
+        __Args__
+
+        1. key: a string representative of the portion of the data structure
+        this dictionary entry models.
+        2. value: a string, list (of strings or PremisNodes), or PremisNode
+        representative of the value(s) associated with the given key
+
+        __KWArgs__
+
+        * override: a bool which allows settings fields not specified in the
+        PREMIS data dictionary if set to True.
+
+        sets a field value in the internal dict data structure.
+        """
+        if not isinstance(key, str):
+            raise TypeError
+        valueType = (isinstance(value, str) or isinstance(value, PremisNode) or
+                     isinstance(value, list))
+        if not valueType:
+            raise TypeError
+        if key not in self.field_order and not override:
+            raise ValueError("You have attempted to set a field ({}) which is not documented in the PREMISv3 specification.\n To bypass this error pass the override flag to the setter.".format(key))
+        self.fields[key] = value
+
+    def _get_field(self, key):
+        """
+        __Args__
+
+        1. key: the key of the desired dictionary entry.
+
+        returns a field value from the internal dict data structure.
+        """
+        return self.fields[key]
+
+    def _add_to_field(self, key, value, override=False):
+        """
+        __Args__
+
+        1. key: the key of the desired dictionary entry
+        2. value: the value to set or append
+
+        __KWArgs__
+
+        * override: A boolean which allows setting/appending to fields not
+        specified in the PREMIS data dictionary.
+
+        Set fields which don't exist to the specified value. Otherwise appends
+        the specified value to existing values in the internal dict data
+        structure.
+        """
+        if key not in self.fields:
+            if key not in self.field_order and not override:
+                raise ValueError("You have attempted to set a field ({}) which is not documented in the PREMISv3 specification.\n To bypass this error pass the override flag to the setter.".format(key))
+            self.fields[key] = []
+        if not isinstance(self.fields[key], list):
+            raise KeyError
+        valueType = (isinstance(value, str) or isinstance(value, PremisNode) or
+                     isinstance(value, list))
+        if not valueType:
+            raise TypeError
+        self.fields[key].append(value)
+
+    def _listify(self, x):
+        """
+        __Args__
+
+        1. x: any thing
+
+        if the input isn't a list, return a list with it as the only entry,
+        otherwise return the input. For use in fields which are repeatable to
+        simplify ingest into the internal dictionary structure and abstract
+        field repeatability from the outwards facing API.
+        """
+        if not isinstance(x, list):
+            return [x]
+        else:
+            return x
+
+    def _list_getter(self, key, index):
+        """
+        __Args__
+
+        1. key: a string which corresponds to the key of the desired value in the
+        internal dictionary data structure.
+        2. index: an integer which corresponds to the index of the desired value
+        in the internal dictionary data structure. If none return the list which
+        corresponds to the above key.
+
+        return the value at [index] in the list located at [key] in the internal
+        dictionary data structure.
+        """
+        if index is None:
+            return self.fields[key]
+        else:
+            return self.fields[key][index]
+
+    def _type_check(self, x, type_it_should_be):
+        """
+        __Args__
+
+        1. x: the thing to be checked
+        2. type_it_should_be: An instance of a subclass of the 'type' class to be
+        used to confirm the type of x
+
+        check the type of x, if it isn't what it should be raise a TypeError
+        """
+        if not isinstance(x, type_it_should_be):
+            raise TypeError
+
+    def get_name(self):
+        """
+        return the instance's name attribute
+        """
+        return self.name
+
     def toXML(self):
+        """
+        return an ElementTree.Element object which models the node as PREMIS
+        xml.
+        """
         root = ET.Element('premis:'+self.name)
         for key in self.field_order:
             if key not in self.fields:
@@ -64,84 +270,95 @@ class PremisNode(object):
                     raise ValueError
         return root
 
-    def _set_fields(self, fields):
-        if not isinstance(fields, dict):
-            raise TypeError
-        self.fields = fields
 
-    def _get_fields(self):
-        return self.fields
+class ExtendedNode(PremisNode):
+    def __init__(self, rootName):
+        """
+        __Args__
 
-    def _set_name(self, name):
-        if not isinstance(name, str):
-            raise TypeError
-        self.name = name
+        1. rootName: the name of the root node, passed to the superclass init
+        to establish the name of the instance.
 
-    def get_name(self):
-        return self.name
-
-    def _set_field(self, key, value, override=False):
-        if not isinstance(key, str):
-            raise TypeError
-        valueType = (isinstance(value, str) or isinstance(value, PremisNode) or
-                     isinstance(value, list))
-        if not valueType:
-            raise TypeError
-        if key not in self.field_order and not override:
-            raise ValueError("You have attempted to set a field ({}) which is not documented in the PREMISv3 specification.\n To bypass this error pass the override flag to the setter.".format(key))
-        self.fields[key] = value
-
-    def _get_field(self, key):
-        return self.fields[key]
-
-    def _add_to_field(self, key, value, override=False):
-        if key not in self.fields:
-            if key not in self.field_order and not override:
-                raise ValueError("You have attempted to set a field ({}) which is not documented in the PREMISv3 specification.\n To bypass this error pass the override flag to the setter.".format(key))
-            self.fields[key] = []
-        if not isinstance(self.fields[key], list):
-            raise KeyError
-        valueType = (isinstance(value, str) or isinstance(value, PremisNode) or
-                     isinstance(value, list))
-        if not valueType:
-            raise TypeError
-        self.fields[key].append(value)
-
-    def _listify(self, x):
-        if not isinstance(x, list):
-            return [x]
-        else:
-            return x
-
-    def _list_getter(self, key, index):
-        if index is None:
-            return self.fields[key]
-        else:
-            return self.fields[key][index]
-
-    def _type_check(self, x, type_it_should_be):
-        if not isinstance(x, type_it_should_be):
-            raise TypeError
-
-
-class ExtensionNode(PremisNode):
-    def __init__(self):
-        PremisNode.__init__(self, 'root')
+        See documentation in PremisNode.__init__()
+        """
+        PremisNode.__init__(self, rootName)
 
     def set_field(self, key, value, override=True):
+        """
+        wraps PremisNode._set_field(). Listifies all input as cardinality
+        of uncontrolled nodes can not be known ahead of time. Exposes
+        functionality for uncontrolled nodes.
+        """
         value = self._listify(value)
         self._set_field(key, value, override)
 
     def get_field(self, key):
+        """
+        wraps PremisNode._get_field(). Exposes functionality for uncontrolled
+        nodes.
+        """
         return self._get_field(key)
 
     def add_to_field(self, key, value, override=True):
+        """
+        wraps PremisNode._add_to_field(). Exposes functionality for uncontrolled
+        nodes.
+        """
+        self._add_to_field(key, value, override)
+
+    def toXML(self):
+        """
+        wraps ExtensionNode.toXML(). Temporarily sets self.name to include
+        premis: namespace.
+        """
+        orig_name = self.name
+        self.name = 'premis:'+self.name
+        result = ExtensionNode.toXML(self)
+        self.name = orig_name
+        return result
+
+
+class ExtensionNode(PremisNode):
+    def __init__(self):
+        """
+        Initialize an extension node whose name is dictated by the key of the
+        field to which it belongs.
+        """
+        PremisNode.__init__(self, 'root')
+
+    def set_field(self, key, value, override=True):
+        """
+        wraps PremisNode._set_field(). Listifies all input as cardinality
+        of uncontrolled nodes can not be known ahead of time. Exposes
+        functionality for uncontrolled nodes.
+        """
+        value = self._listify(value)
+        self._set_field(key, value, override)
+
+    def get_field(self, key):
+        """
+        wraps PremisNode._get_field(). Exposes functionality for uncontrolled
+        nodes.
+        """
+        return self._get_field(key)
+
+    def add_to_field(self, key, value, override=True):
+        """
+        wraps PremisNode._add_to_field(). Exposes functionality for uncontrolled
+        nodes.
+        """
         self._add_to_field(key, value, override)
 
     def set_name(self, name):
+        """
+        wraps PremisNode._set_name()
+        """
         self._set_name(name)
 
     def toXML(self):
+        """
+        return an ElementTree.Element object which models the node as xml.
+        """
         root = ET.Element(self.name)
         for key in self.fields:
             value = self.fields[key]
@@ -170,28 +387,6 @@ class ExtensionNode(PremisNode):
             else:
                 raise ValueError
         return root
-
-class ExtendedNode(PremisNode):
-    def __init__(self, rootName):
-        PremisNode.__init__(self, rootName)
-
-    def set_field(self, key, value, override=True):
-        value = self._listify(value)
-        self._set_field(key, value, override)
-
-    def get_field(self, key):
-        return self._get_field(key)
-
-    def add_to_field(self, key, value, override=True):
-        self._add_to_field(key, value, override)
-
-    def toXML(self):
-        root = ET.Element('premis:'+self.name)
-        orig_name = self.name
-        self.name = 'premis:'+self.name
-        result = ExtensionNode.toXML(self)
-        self.name = orig_name
-        return result
 
 
 class SignificantPropertiesExtension(ExtendedNode):
@@ -247,6 +442,7 @@ class AgentExtension(ExtendedNode):
 class RightsExtension(ExtendedNode):
     def __init__(self):
         ExtendedNode.__init__(self, 'rightsExtension')
+
 
 class Object(PremisNode):
     field_order = ['objectIdentifier',
@@ -448,6 +644,7 @@ class Object(PremisNode):
             else:
                 raise ValueError
         return root
+
 
 class ObjectIdentifier(PremisNode):
     field_order = ['objectIdentifierType',
