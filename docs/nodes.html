@@ -56,7 +56,8 @@ of the PREMIS data model.</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-2'>#</a>
       </div>
-      <p><strong>Attributes</strong></p>
+      <p>A super class for developing functionality for all "standard" premis nodes</p>
+<p><strong>Attributes</strong></p>
 <ol>
 <li>field_order: A list containing strings specifying field order for
 compliance with serializations that enforce ordering of contained nodes</li>
@@ -88,13 +89,13 @@ by the instance.</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-4'>#</a>
       </div>
-      <p><strong>Args</strong></p>
+      <p>Initializes a PremisNode instance with a blank fields dictionary and
+the supplied name</p>
+<p><strong>Args</strong></p>
 <ol>
 <li>nodeName: a string which corresponds to the intended value of the
 name attribute.</li>
 </ol>
-<p>Initializes a PremisNode instance with a blank fields dictionary and
-the supplied name</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeName</span><span class="p">):</span></pre></div>
@@ -144,11 +145,11 @@ not be valid on its own.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-8'>#</a>
       </div>
-      <p><strong>Args</strong></p>
+      <p>Recursively test equality to another PremisNode instance.</p>
+<p><strong>Args</strong></p>
 <ol>
 <li>other: an object to test equality against.</li>
 </ol>
-<p>Recursively test equality to another PremisNode instance.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span></pre></div>
@@ -216,12 +217,12 @@ element</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-12'>#</a>
       </div>
-      <p><strong>Args</strong></p>
+      <p>set the instances fields attribute.</p>
+<p><strong>Args</strong></p>
 <ol>
 <li>fields: a dictionary corresponding to the fields internal data
 organization of the class.</li>
 </ol>
-<p>set the instances fields attribute.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_set_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="p">):</span></pre></div>
@@ -271,12 +272,12 @@ organization of the class.</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-16'>#</a>
       </div>
-      <p><strong>Args</strong></p>
+      <p>sets the name attribute</p>
+<p><strong>Args</strong></p>
 <ol>
 <li>name: a string representative of the portion of the PREMIS data model
 that corresponds to the node instance.</li>
 </ol>
-<p>sets the name attribute</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span></pre></div>
@@ -302,7 +303,8 @@ that corresponds to the node instance.</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-18'>#</a>
       </div>
-      <p><strong>Args</strong></p>
+      <p>sets a field value in the internal dict data structure.</p>
+<p><strong>Args</strong></p>
 <ol>
 <li>key: a string representative of the portion of the data structure
 this dictionary entry models.</li>
@@ -314,7 +316,6 @@ representative of the value(s) associated with the given key</li>
 <li>override: a bool which allows settings fields not specified in the
 PREMIS data dictionary if set to True.</li>
 </ul>
-<p>sets a field value in the internal dict data structure.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_set_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">override</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span></pre></div>
@@ -336,7 +337,10 @@ PREMIS data dictionary if set to True.</li>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">valueType</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_order</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">override</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;You have attempted to set a field ({}) which is not documented in the PREMISv3 specification.</span><span class="se">\n</span><span class="s2"> To bypass this error pass the override flag to the setter.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;You have attempted to set a field ({})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">+</span>
+                             <span class="s2">&quot;which is not documented in the PREMISv3 &quot;</span> <span class="o">+</span>
+                             <span class="s2">&quot;specification.</span><span class="se">\n</span><span class="s2"> To bypass this error pass &quot;</span> <span class="o">+</span>
+                             <span class="s2">&quot;the override flag to the setter.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></pre></div>
     </div>
   </div>
@@ -346,11 +350,11 @@ PREMIS data dictionary if set to True.</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-20'>#</a>
       </div>
-      <p><strong>Args</strong></p>
+      <p>returns a field value from the internal dict data structure.</p>
+<p><strong>Args</strong></p>
 <ol>
 <li>key: the key of the desired dictionary entry.</li>
 </ol>
-<p>returns a field value from the internal dict data structure.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_get_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span></pre></div>
@@ -374,7 +378,10 @@ PREMIS data dictionary if set to True.</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-22'>#</a>
       </div>
-      <p><strong>Args</strong></p>
+      <p>Set fields which don't exist to the specified value. Otherwise appends
+the specified value to existing values in the internal dict data
+structure.</p>
+<p><strong>Args</strong></p>
 <ol>
 <li>key: the key of the desired dictionary entry</li>
 <li>value: the value to set or append</li>
@@ -384,9 +391,6 @@ PREMIS data dictionary if set to True.</li>
 <li>override: A boolean which allows setting/appending to fields not
 specified in the PREMIS data dictionary.</li>
 </ul>
-<p>Set fields which don't exist to the specified value. Otherwise appends
-the specified value to existing values in the internal dict data
-structure.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_add_to_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">override</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span></pre></div>
@@ -403,7 +407,10 @@ structure.</p>
     <div class='code'>
       <div class="highlight"><pre>        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_order</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">override</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;You have attempted to set a field ({}) which is not documented in the PREMISv3 specification.</span><span class="se">\n</span><span class="s2"> To bypass this error pass the override flag to the setter.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;You have attempted to set a field ({})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">+</span>
+                                 <span class="s2">&quot;which is not documented in the PREMISv3 &quot;</span> <span class="o">+</span>
+                                 <span class="s2">&quot;specification.</span><span class="se">\n</span><span class="s2"> To bypass this error pass &quot;</span> <span class="o">+</span>
+                                 <span class="s2">&quot;the override flag to the setter.&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">KeyError</span>
@@ -420,14 +427,14 @@ structure.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-24'>#</a>
       </div>
-      <p><strong>Args</strong></p>
-<ol>
-<li>x: any thing</li>
-</ol>
-<p>if the input isn't a list, return a list with it as the only entry,
+      <p>if the input isn't a list, return a list with it as the only entry,
 otherwise return the input. For use in fields which are repeatable to
 simplify ingest into the internal dictionary structure and abstract
 field repeatability from the outwards facing API.</p>
+<p><strong>Args</strong></p>
+<ol>
+<li>x: any thing</li>
+</ol>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_listify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span></pre></div>
@@ -454,7 +461,9 @@ field repeatability from the outwards facing API.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-26'>#</a>
       </div>
-      <p><strong>Args</strong></p>
+      <p>return the value at [index] in the list located at [key] in the internal
+dictionary data structure.</p>
+<p><strong>Args</strong></p>
 <ol>
 <li>key: a string which corresponds to the key of the desired value in the
 internal dictionary data structure.</li>
@@ -462,8 +471,6 @@ internal dictionary data structure.</li>
 in the internal dictionary data structure. If none return the list which
 corresponds to the above key.</li>
 </ol>
-<p>return the value at [index] in the list located at [key] in the internal
-dictionary data structure.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_list_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span></pre></div>
@@ -490,13 +497,13 @@ dictionary data structure.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-28'>#</a>
       </div>
-      <p><strong>Args</strong></p>
+      <p>check the type of x, if it isn't what it should be raise a TypeError</p>
+<p><strong>Args</strong></p>
 <ol>
 <li>x: the thing to be checked</li>
 <li>type_it_should_be: An instance of a subclass of the 'type' class to be
 used to confirm the type of x</li>
 </ol>
-<p>check the type of x, if it isn't what it should be raise a TypeError</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_type_check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">type_it_should_be</span><span class="p">):</span></pre></div>
@@ -608,12 +615,12 @@ xml.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-35'>#</a>
       </div>
-      <p><strong>Args</strong></p>
+      <p>See documentation in PremisNode.<strong>init</strong>()</p>
+<p><strong>Args</strong></p>
 <ol>
 <li>rootName: the name of the root node, passed to the superclass init
 to establish the name of the instance.</li>
 </ol>
-<p>See documentation in PremisNode.<strong>init</strong>()</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rootName</span><span class="p">):</span></pre></div>
@@ -1833,7 +1840,7 @@ nodes.</p>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">toXML</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">root</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s1">&#39;premis:&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="n">root</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;xsi:type&quot;</span><span class="p">,</span><span class="s1">&#39;premis:&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">get_objectCategory</span><span class="p">())</span>
+        <span class="n">root</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;xsi:type&quot;</span><span class="p">,</span> <span class="s1">&#39;premis:&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">get_objectCategory</span><span class="p">())</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_order</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="s2">&quot;objectCategory&quot;</span><span class="p">:</span>
                 <span class="k">continue</span>
@@ -8407,10 +8414,10 @@ nodes.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">class</span> <span class="nc">CopyrightDocumentationIdentifier</span><span class="p">(</span><span class="n">PremisNode</span><span class="p">):</span>
-    <span class="n">field_order</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;copyrightDocumentationIdentifierType&#39;</span><span class="p">,</span>
-                  <span class="s1">&#39;copyrightDocumentationIdentifierValue&#39;</span><span class="p">,</span>
-                  <span class="s1">&#39;copyrightDocumentationRole&#39;</span>
-                  <span class="p">]</span></pre></div>
+    <span class="n">field_order</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;copyrightDocumentationIdentifierType&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;copyrightDocumentationIdentifierValue&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;copyrightDocumentationRole&#39;</span>
+                   <span class="p">]</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>

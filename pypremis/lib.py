@@ -5,12 +5,17 @@ from pypremis.nodes import *
 
 """
 ### Classes for general use in pypremis ###
+
 1. **PremisRecord** is a containing class meant to hold a list of sorted nodes
 and facilitate writing them to reading and writing serializations.
 """
 
+
 class PremisRecord(object):
     """
+    A class for holding PremisNode objects. Facilitates reading and writing
+    to disk
+
     __Attributes__
 
     1. objects_list is a list of instances of object nodes
@@ -24,6 +29,10 @@ class PremisRecord(object):
                  objects=None, events=None, agents=None, rights=None,
                  frompath=None):
         """
+        Initializes a PremisRecord object from either a list of
+        pre-existing nodes or an existing xml file on disk. Requires
+        one or the other to be supplied on init.
+
         __KWArgs__
 
         * objects is a list to initially populate objects_list
@@ -32,10 +41,6 @@ class PremisRecord(object):
         * rights is a list to initially populate rights_list
         * frompath is a string meant to set the location of an originating
         xml file
-
-        Initializes a PremisRecord object from either a list of
-        pre-existing nodes or an existing xml file on disk. Requires
-        one or the other to be supplied on init.
         """
 
         if (frompath and (objects or events or agents or rights)):
@@ -75,11 +80,11 @@ class PremisRecord(object):
 
     def __eq__(self, other):
         """
+        Computes equality between two PremisRecord objects.
+
         __Args__
 
         1. other: an object to compute equality with.
-
-        Computes equality between two PremisRecord objects.
         """
         if not isinstance(other, PremisRecord):
             return False
@@ -93,22 +98,22 @@ class PremisRecord(object):
 
     def add_event(self, event):
         """
+        Adds an event node to the event list.
+
         __Args__
 
         1. event: an Event PremisNode instance.
-
-        Adds an event node to the event list.
         """
         self.events_list.append(event)
 
     def get_event(self, eventID):
         """
+        Returns the event node with the corresponding eventID.
+
         __Args__
 
         1. eventID: A string which corresponds to one of the
         eventIdentifierValue's specified in an Event PremisNode instance.
-
-        Returns the event node with the corresponding eventID.
         """
         pass
 
@@ -120,22 +125,22 @@ class PremisRecord(object):
 
     def add_object(self, obj):
         """
+        Adds an object node to the object list.
+
         __Args__
 
         1. obj: an Object PremisNode instance
-
-        Adds an object node to the object list.
         """
         self.objects_list.append(obj)
 
     def get_object(self, objID):
         """
+        Returns the object node with the corresponding objectID
+
         __Args__
 
         1. objID: A string which corresponds with one of the
         objectIdentifierValue's specified in an Object PremisNode instance
-
-        Returns the object node with the corresponding objectID
         """
         pass
 
@@ -147,22 +152,22 @@ class PremisRecord(object):
 
     def add_agent(self, agent):
         """
+        Adds an agent node to the agent list.
+
         __Args__
 
         1. agent: an Agent PremisNode instance
-
-        Adds an agent node to the agent list.
         """
         self.agents_list.append(agent)
 
     def get_agent(self, agentID):
         """
+        Returns the agent node with the corresponding agentID.
+
         __Args__
 
         1. agentID: A string which corresponds with one of the
         agentIdentifierValue's specified in an Agent PremisNode instance
-
-        Returns the agent node with the corresponding agentID.
         """
         pass
 
@@ -174,22 +179,22 @@ class PremisRecord(object):
 
     def add_rights(self, rights):
         """
+        Adds a rights node to the rights list.
+
         __Args__
 
         1. rights: a Rights PremisNode instance
-
-        Adds a rights node to the rights list.
         """
         self.rights_list.append(rights)
 
     def get_rights(self, rightsID):
         """
+        Returns the rights node with the corresponding rightsID
+
         __Args__
 
         1. rightsID: A string which corresponds with one of the
         rightsIdentifierValue's specified in a Rights PremisNode instance.
-
-        Returns the rights node with the corresponding rightsID
         """
         pass
 
@@ -201,12 +206,12 @@ class PremisRecord(object):
 
     def set_filepath(self, filepath):
         """
+        Sets the filepath attribute.
+
         __Args__
 
         1. filepath: A string corresponding to a filepath on disk that specifies
         the location of a pre-existing premis xml record
-
-        Sets the filepath attribute.
         """
         self.filepath = filepath
 
@@ -224,6 +229,9 @@ class PremisRecord(object):
 
     def populate_from_file(self, factory, filepath=None):
         """
+        Populates the object, event, agent, and rights lists from an existing
+        premis xml file
+
         __Args__
 
         1. factory: A factory class which implements .find_events(),
@@ -236,9 +244,6 @@ class PremisRecord(object):
         * filepath: A string which specifies the location of a serialization
         supported by the given factory class. If not provided the instances
         filepath attribute is assumed.
-
-        Populates the object, event, agent, and rights lists from an existing
-        premis xml file
         """
         if filepath is None:
             filepath = self.get_filepath()
@@ -252,22 +257,24 @@ class PremisRecord(object):
         for obj in factory.find_objects():
             self.add_object(obj)
 
-
     def write_to_file(self, targetpath):
         """
+        Writes the contained premis data structure out to disk as the
+        specified path as an xml document.
+
         __Args__
 
         1. targetpath: a str corresponding to the intended location on disk
         to write the premis xml file to.
-
-        Writes the contained premis data structure out to disk as the
-        specified path as an xml document.
         """
         tree = ET.ElementTree(element=ET.Element('premis:premis'))
         root = tree.getroot()
-        root.set('xmlns:premis',"http://www.loc.gov/premis/v3")
+        root.set('xmlns:premis', "http://www.loc.gov/premis/v3")
         root.set('xmlns:xsi', "http://www.w3.org/2001/XMLSchema-instance")
-        root.set('version',"3.0")
+        root.set('version', "3.0")
         for entry in self:
             root.append(entry.toXML())
-        tree.write(targetpath, xml_declaration = True, encoding = 'utf-8', method = 'xml')
+        tree.write(targetpath,
+                   xml_declaration=True,
+                   encoding='utf-8',
+                   method='xml')

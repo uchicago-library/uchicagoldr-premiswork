@@ -4,6 +4,7 @@ from pypremis.nodes import *
 
 """
 ### Factory classes for building pypremis nodes from serializations ###
+
 1. **XMLNodeFactory** is a class implementing .find_objects(), .find_events(),
 .find_rights(), and .find_agents() meant to build PremisNode instances from
 valid premis XML records
@@ -12,6 +13,8 @@ valid premis XML records
 
 class XMLNodeFactory(object):
     """
+    A class for ingesting an xml document and building PremisNodes out of it.
+
     __Attributes__
 
     1. xml: an ElementTree xml Element object meant to act as the root to attach
@@ -19,12 +22,12 @@ class XMLNodeFactory(object):
     """
     def __init__(self, xmlfile):
         """
+        Initializes an XML node factory and points it to a PREMIS xml file
+        to be used to build PremisNode instances.
+
         __Args__
 
         1. xmlfile: the path to a PREMIS xml serialization on disk
-
-        Initializes an XML node factory and points it to a PREMIS xml file
-        to be used to build PremisNode instances.
         """
         ET.register_namespace('premis', "http://www.loc.gov/premis/v3")
         ET.register_namespace('xsi', "http://www.w3.org/2001/XMLSchema-instance")
@@ -33,6 +36,9 @@ class XMLNodeFactory(object):
 
     def _find_all(self, node, tag, req=False):
         """
+        Searches a given Element instance for all values corresponding to the
+        given [tag] in [node].
+
         __Args__
 
         1. node: an ElementTree Element instance to search
@@ -41,9 +47,6 @@ class XMLNodeFactory(object):
         __KWArgs__
 
         * req: A bool, if set to true and no nodes are found raise a ValueError
-
-        Searches a given Element instance for all values corresponding to the
-        given [tag] in [node].
         """
         parse = [x for x in node.findall(tag)]
         if len(parse) < 1 and req:
@@ -53,6 +56,9 @@ class XMLNodeFactory(object):
 
     def _find(self, node, tag, req=False):
         """
+        Searches a given Element instance for the value corresponding to the
+        given [tag] in [node].
+
         __Args__
 
         1. node: an ElementTree Element instance to search
@@ -62,9 +68,6 @@ class XMLNodeFactory(object):
 
         * req: A bool, if set to true if no element with that tag is found
         in the given node raise a ValueError
-
-        Searches a given Element instance for the value corresponding to the
-        given [tag] in [node].
         """
         parse = node.find(tag)
         if parse is None and req:
@@ -77,6 +80,9 @@ class XMLNodeFactory(object):
 
     def _find_node(self, node, tag, req=False):
         """
+        Searches a given Element instance for a tag and returns the whole
+        Element instances which has that tag.
+
         __Args__
 
         1. node: an ElementTree Element instance to search
@@ -86,9 +92,6 @@ class XMLNodeFactory(object):
 
         * req: A bool, if set to true if no element with the specified tag
         in the specified node is found raise a ValueError
-
-        Searches a given Element instance for a tag and returns the whole
-        Element instances which has that tag.
         """
         parse = node.find(tag)
         if parse is None and req:
@@ -99,6 +102,9 @@ class XMLNodeFactory(object):
 
     def _find_all_nodes(self, node, tag, req=False):
         """
+        Searches a given Element instance for a tag and returns a list of
+        Element instances which have that tag.
+
         __Args__
 
         1. node: an ElementTree Element instance to search
@@ -108,9 +114,6 @@ class XMLNodeFactory(object):
 
         * req: A bool, if set to true if no element with the specified tag is
         found in the given node raise a ValueError
-
-        Searches a given Element instance for a tag and returns a list of
-        Element instances which have that tag.
         """
         parse = node.findall(tag)
         if not parse and req:
@@ -121,6 +124,11 @@ class XMLNodeFactory(object):
 
     def _process_nodes(self, func, node, tag, req=False):
         """
+        Search a given [node] for all children with the the given [tag].
+        Feed the resulting list, item by item, into a function. Return
+        a list of the function return values for each entry in the original
+        list.
+
         __Args__
 
         1. func: A function to be used to process the nodes
@@ -131,11 +139,6 @@ class XMLNodeFactory(object):
 
         * req: A boo, if set to True if no element with the specified tag is
         found in the given node instance raise a ValueError
-
-        Search a given [node] for all children with the the given [tag].
-        Feed the resulting list, item by item, into a function. Return
-        a list of the function return values for each entry in the original
-        list.
         """
         parse = self._find_all_nodes(node, tag, req)
         if parse:
@@ -180,12 +183,12 @@ class XMLNodeFactory(object):
 
     def buildExtensionNode(self, node):
         """
+        build an uncontrolled ExtensionNode PremisNode and return it.
+
         __Args__
 
         1. node: an ElementTree Element instance to turn into a PremisNode
         ExtensionNode instance.
-
-        build an uncontrolled ExtensionNode PremisNode and return it.
         """
         result = ExtensionNode()
         for child in node:
@@ -197,13 +200,13 @@ class XMLNodeFactory(object):
 
     def buildExtendedNode(self, extendedNode, node):
         """
+        Wraps tacking Extension nodes to extended nodes.
+
         __Args__
 
         1. extendedNode: a class, the specific ExtendedNode PremisNode
         2. node: the ElementTree Element instance to turn into an
         ExtendedNode PremisNode instance.
-
-        Wraps tacking Extension nodes to extended nodes.
         """
         result = extendedNode()
         for child in node:
@@ -348,9 +351,9 @@ class XMLNodeFactory(object):
         if not (significantPropertiesValue or significantPropertiesExtension):
             raiseValueError('missing required significantPropertiesValue or significantPropertiesExtension')
         elif significantPropertiesValue and not significantPropertiesExtension:
-            significantProperties=SignificantProperties(significantPropertiesValue=significantPropertiesValue)
+            significantProperties = SignificantProperties(significantPropertiesValue=significantPropertiesValue)
         elif significantPropertiesExtension and not significantPropertiesValue:
-            significantProperties=SignificantProperties(significantPropertiesExtension=self._pn(self.buildSignificantPropertiesExtension, node, '{http://www.loc.gov/premis/v3}significantPropertiesExtension'))
+            significantProperties = SignificantProperties(significantPropertiesExtension=self._pn(self.buildSignificantPropertiesExtension, node, '{http://www.loc.gov/premis/v3}significantPropertiesExtension'))
         else:
             significantProperties = SignificantProperties(significantPropertiesValue=significantPropertiesValue, significantPropertiesExtension=self._pn(self.buildSignificantPropertiesExtension, node, '{http://www.loc.gov/premis/v3}significantPropertiesExtension'))
 
@@ -692,8 +695,6 @@ class XMLNodeFactory(object):
             eventDetailInformation = EventDetailInformation(eventDetailExtension=self._pn(self.buildEventDetailExtension, node, '{http://www.loc.gov/premis/v3}eventDetailExtension'))
         else:
             eventDetailInformation = EventDetailInformation(eventDetail=eventDetail, eventDetailExtension=self._pn(self.buildEventDetailExtension, node, '{http://www.loc.gov/premis/v3}eventDetailExtension'))
-
-
         return eventDetailInformation
 
     def buildEventOutcomeInformation(self, node):

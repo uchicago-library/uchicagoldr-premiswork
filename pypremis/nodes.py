@@ -22,6 +22,8 @@ of the PREMIS data model.
 
 class PremisNode(object):
     """
+    A super class for developing functionality for all "standard" premis nodes
+
     __Attributes__
 
     1. field_order: A list containing strings specifying field order for
@@ -32,16 +34,18 @@ class PremisNode(object):
     by the instance.
     """
     field_order = []
+
     def __init__(self, nodeName):
         """
+        Initializes a PremisNode instance with a blank fields dictionary and
+        the supplied name
+
         __Args__
 
         1. nodeName: a string which corresponds to the intended value of the
         name attribute.
-
-        Initializes a PremisNode instance with a blank fields dictionary and
-        the supplied name
         """
+
         self._set_fields({})
         self._set_name(nodeName)
 
@@ -54,11 +58,11 @@ class PremisNode(object):
 
     def __eq__(self, other):
         """
+        Recursively test equality to another PremisNode instance.
+
         __Args__
 
         1. other: an object to test equality against.
-
-        Recursively test equality to another PremisNode instance.
         """
         if not isinstance(other, PremisNode):
             return False
@@ -90,12 +94,12 @@ class PremisNode(object):
 
     def _set_fields(self, fields):
         """
+        set the instances fields attribute.
+
         __Args__
 
         1. fields: a dictionary corresponding to the fields internal data
         organization of the class.
-
-        set the instances fields attribute.
         """
         if not isinstance(fields, dict):
             raise TypeError
@@ -109,12 +113,12 @@ class PremisNode(object):
 
     def _set_name(self, name):
         """
+        sets the name attribute
+
         __Args__
 
         1. name: a string representative of the portion of the PREMIS data model
         that corresponds to the node instance.
-
-        sets the name attribute
         """
         if not isinstance(name, str):
             raise TypeError
@@ -122,6 +126,8 @@ class PremisNode(object):
 
     def _set_field(self, key, value, override=False):
         """
+        sets a field value in the internal dict data structure.
+
         __Args__
 
         1. key: a string representative of the portion of the data structure
@@ -133,8 +139,6 @@ class PremisNode(object):
 
         * override: a bool which allows settings fields not specified in the
         PREMIS data dictionary if set to True.
-
-        sets a field value in the internal dict data structure.
         """
         if not isinstance(key, str):
             raise TypeError
@@ -143,21 +147,28 @@ class PremisNode(object):
         if not valueType:
             raise TypeError
         if key not in self.field_order and not override:
-            raise ValueError("You have attempted to set a field ({}) which is not documented in the PREMISv3 specification.\n To bypass this error pass the override flag to the setter.".format(key))
+            raise ValueError("You have attempted to set a field ({})".format(key) +
+                             "which is not documented in the PREMISv3 " +
+                             "specification.\n To bypass this error pass " +
+                             "the override flag to the setter.")
         self.fields[key] = value
 
     def _get_field(self, key):
         """
+        returns a field value from the internal dict data structure.
+
         __Args__
 
         1. key: the key of the desired dictionary entry.
-
-        returns a field value from the internal dict data structure.
         """
         return self.fields[key]
 
     def _add_to_field(self, key, value, override=False):
         """
+        Set fields which don't exist to the specified value. Otherwise appends
+        the specified value to existing values in the internal dict data
+        structure.
+
         __Args__
 
         1. key: the key of the desired dictionary entry
@@ -167,14 +178,13 @@ class PremisNode(object):
 
         * override: A boolean which allows setting/appending to fields not
         specified in the PREMIS data dictionary.
-
-        Set fields which don't exist to the specified value. Otherwise appends
-        the specified value to existing values in the internal dict data
-        structure.
         """
         if key not in self.fields:
             if key not in self.field_order and not override:
-                raise ValueError("You have attempted to set a field ({}) which is not documented in the PREMISv3 specification.\n To bypass this error pass the override flag to the setter.".format(key))
+                raise ValueError("You have attempted to set a field ({})".format(key) +
+                                 "which is not documented in the PREMISv3 " +
+                                 "specification.\n To bypass this error pass " +
+                                 "the override flag to the setter.")
             self.fields[key] = []
         if not isinstance(self.fields[key], list):
             raise KeyError
@@ -186,14 +196,14 @@ class PremisNode(object):
 
     def _listify(self, x):
         """
-        __Args__
-
-        1. x: any thing
-
         if the input isn't a list, return a list with it as the only entry,
         otherwise return the input. For use in fields which are repeatable to
         simplify ingest into the internal dictionary structure and abstract
         field repeatability from the outwards facing API.
+
+        __Args__
+
+        1. x: any thing
         """
         if not isinstance(x, list):
             return [x]
@@ -202,6 +212,9 @@ class PremisNode(object):
 
     def _list_getter(self, key, index):
         """
+        return the value at [index] in the list located at [key] in the internal
+        dictionary data structure.
+
         __Args__
 
         1. key: a string which corresponds to the key of the desired value in the
@@ -209,9 +222,6 @@ class PremisNode(object):
         2. index: an integer which corresponds to the index of the desired value
         in the internal dictionary data structure. If none return the list which
         corresponds to the above key.
-
-        return the value at [index] in the list located at [key] in the internal
-        dictionary data structure.
         """
         if index is None:
             return self.fields[key]
@@ -220,13 +230,13 @@ class PremisNode(object):
 
     def _type_check(self, x, type_it_should_be):
         """
+        check the type of x, if it isn't what it should be raise a TypeError
+
         __Args__
 
         1. x: the thing to be checked
         2. type_it_should_be: An instance of a subclass of the 'type' class to be
         used to confirm the type of x
-
-        check the type of x, if it isn't what it should be raise a TypeError
         """
         if not isinstance(x, type_it_should_be):
             raise TypeError
@@ -274,12 +284,12 @@ class PremisNode(object):
 class ExtendedNode(PremisNode):
     def __init__(self, rootName):
         """
+        See documentation in PremisNode.__init__()
+
         __Args__
 
         1. rootName: the name of the root node, passed to the superclass init
         to establish the name of the instance.
-
-        See documentation in PremisNode.__init__()
         """
         PremisNode.__init__(self, rootName)
 
@@ -461,6 +471,7 @@ class Object(PremisNode):
                    'linkingEventIdentifier',
                    'linkingRightsStatementIdentifier'
                    ]
+
     def __init__(self, objectIdentifier, objectCategory, objectCharacteristics):
         PremisNode.__init__(self, 'object')
         self.set_objectIdentifier(objectIdentifier)
@@ -616,7 +627,7 @@ class Object(PremisNode):
 
     def toXML(self):
         root = ET.Element('premis:'+self.name)
-        root.set("xsi:type",'premis:'+self.get_objectCategory())
+        root.set("xsi:type", 'premis:'+self.get_objectCategory())
         for key in self.field_order:
             if key is "objectCategory":
                 continue
@@ -650,6 +661,7 @@ class ObjectIdentifier(PremisNode):
     field_order = ['objectIdentifierType',
                    'objectIdentifierValue'
                    ]
+
     def __init__(self, objectIdentifierType, objectIdentifierValue):
         PremisNode.__init__(self, 'objectIdentifier')
         self.set_objectIdentifierType(objectIdentifierType)
@@ -673,6 +685,7 @@ class LinkingObjectIdentifier(PremisNode):
                    'linkingObjectIdentifierValue',
                    'linkingObjectRole'
                    ]
+
     def __init__(self, linkingObjectIdentifierType, linkingObjectIdentifierValue):
         PremisNode.__init__(self, 'linkingObjectIdentifier')
         self.set_linkingObjectIdentifierType(linkingObjectIdentifierType)
@@ -704,6 +717,7 @@ class EventIdentifier(PremisNode):
     field_order = ['eventIdentifierType',
                    'eventIdentifierValue'
                    ]
+
     def __init__(self, eventIdentifierType, eventIdentifierValue):
         PremisNode.__init__(self, 'eventIdentifier')
         self.set_eventIdentifierType(eventIdentifierType)
@@ -726,6 +740,7 @@ class LinkingEventIdentifier(PremisNode):
     field_order = ['linkingEventIdentifierType',
                    'linkingEventIdentifierValue'
                    ]
+
     def __init__(self, linkingEventIdentiferType, linkingEventIdentifierValue):
         PremisNode.__init__(self, 'linkingEventIdentifier')
         self.set_linkingEventIdentifierType(linkingEventIdentiferType)
@@ -748,6 +763,7 @@ class LinkingRightsStatementIdentifier(PremisNode):
     field_order = ['linkingRightsStatementIdentifierType',
                    'linkingRightsStatementIdentifierValue'
                    ]
+
     def __init__(self, linkingRightsStatementIdentifierType, linkingRightsStatementIdentifierValue):
         PremisNode.__init__(self, 'linkingRightsStatementIdentifier')
         self.set_linkingRightsStatementIdentifierType(linkingRightsStatementIdentifierType)
@@ -774,6 +790,7 @@ class Relationship(PremisNode):
                    'relatedEnvironmentPurpose',
                    'relatedEnvironmentCharacteristic'
                    ]
+
     def __init__(self, relationshipType, relationshipSubType, relatedObjectIdentifier):
         PremisNode.__init__(self, 'relationship')
         self.set_relationshipType(relationshipType)
@@ -831,6 +848,7 @@ class RelatedEventIdentifier(PremisNode):
                    'relatedEventIdentifierValue',
                    'relatedEventSequence'
                    ]
+
     def __init__(self, relatedEventIdentifierType, relatedEventIdentifierValue):
         PremisNode.__init__(self, 'relatedEventIdentifier')
         self.set_relatedEventIdentifierType(relatedEventIdentifierType)
@@ -860,6 +878,7 @@ class RelatedObjectIdentifier(PremisNode):
                    'relatedObjectIdentifierValue',
                    'relatedObjectSequence'
                    ]
+
     def __init__(self, relatedObjectIdentifierType, relatedObjectIdentifierValue):
         PremisNode.__init__(self, 'relatedObjectIdentifier')
         self.set_relatedObjectIdentifierType(relatedObjectIdentifierType)
@@ -889,6 +908,7 @@ class EnvironmentRegistry(PremisNode):
                    'environmentRegistryKey',
                    'environmentRegistryRole'
                    ]
+
     def __init__(self, environmentRegistryName, environmentRegistryKey):
         PremisNode.__init__(self, 'environmentRegistry')
         self.set_environmentRegistryName(environmentRegistryName)
@@ -920,6 +940,7 @@ class EnvironmentDesignation(PremisNode):
                    'environmentDesignationNote',
                    'environmentDesignationExtension'
                    ]
+
     def __init__(self, environmentName):
         PremisNode.__init__(self, 'environmentDesignation')
         self.set_environmentName(environmentName)
@@ -965,6 +986,7 @@ class EnvironmentFunction(PremisNode):
     field_order = ['environmentFunctionType',
                    'environmentFunctionLevel'
                    ]
+
     def __init__(self, environmentFunctionType, environmentFunctionLevel="1"):
         PremisNode.__init__(self, 'environmentFunction')
         self.set_environmentFunctionType(environmentFunctionType)
@@ -987,6 +1009,7 @@ class SignatureInformation(PremisNode):
     field_order = ['signature',
                    'signatureInformationExtension'
                    ]
+
     def __init__(self):
         PremisNode.__init__(self, 'signatureInformation')
 
@@ -1018,6 +1041,7 @@ class Signature(PremisNode):
                    'signatureProperties',
                    'keyInformation'
                    ]
+
     def __init__(self, signatureEncoding, signatureMethod, signatureValue, signatureValidationRules):
         PremisNode.__init__(self, 'signature')
         self.set_signatureEncoding(signatureEncoding)
@@ -1075,6 +1099,7 @@ class Storage(PremisNode):
     field_order = ['contentLocation',
                    'storageMedium'
                    ]
+
     def __init__(self):
         PremisNode.__init__(self, 'storage')
 
@@ -1096,6 +1121,7 @@ class ContentLocation(PremisNode):
     field_order = ['contentLocationType',
                    'contentLocationValue'
                    ]
+
     def __init__(self, contentLocationType, contentLocationValue):
         PremisNode.__init__(self, 'contentLocation')
         self.set_contentLocationType(contentLocationType)
@@ -1123,6 +1149,7 @@ class ObjectCharacteristics(PremisNode):
                    'inhibitors',
                    'objectCharacteristicsExtension'
                    ]
+
     def __init__(self, format):
         PremisNode.__init__(self, 'objectCharacteristics')
         self.set_format(format)
@@ -1191,6 +1218,7 @@ class Inhibitors(PremisNode):
                    'inhibitorTarget',
                    'inhibitorKey'
                    ]
+
     def __init__(self, inhibitorType):
         PremisNode.__init__(self, 'inhibitors')
         self.set_inhibitorType(inhibitorType)
@@ -1223,6 +1251,7 @@ class CreatingApplication(PremisNode):
                    'dateCreatedByApplication',
                    'creatingApplicationExtension'
                    ]
+
     def __init__(self):
         PremisNode.__init__(self, 'creatingApplication')
 
@@ -1259,6 +1288,7 @@ class Format(PremisNode):
                    'formatRegistry',
                    'formatNote'
                    ]
+
     def __init__(self, formatDesignation=None, formatRegistry=None):
         if not (formatDesignation or formatRegistry):
             raise ValueError("formatDesignation and/or formatRegistry must be provided for the format node.")
@@ -1294,6 +1324,7 @@ class FormatDesignation(PremisNode):
     field_order = ['formatName',
                    'formatVersion'
                    ]
+
     def __init__(self, formatName):
         PremisNode.__init__(self, 'formatDesignation')
         self.set_formatName(formatName)
@@ -1316,6 +1347,7 @@ class FormatRegistry(PremisNode):
                    'formatRegistryKey',
                    'formatRegistryRole'
                    ]
+
     def __init__(self, formatRegistryName, formatRegistryKey):
         PremisNode.__init__(self, 'formatRegistry')
         self.set_formatRegistryName(formatRegistryName)
@@ -1345,6 +1377,7 @@ class Fixity(PremisNode):
                    'messageDigest',
                    'messageDigestOriginator'
                    ]
+
     def __init__(self, messageDigestAlgorithm, messageDigest):
         PremisNode.__init__(self, 'fixity')
         self.set_messageDigestAlgorithm(messageDigestAlgorithm)
@@ -1374,6 +1407,7 @@ class SignificantProperties(PremisNode):
                    'significantPropertiesValue',
                    'significantPropertiesExtension'
                    ]
+
     def __init__(self, significantPropertiesValue=None, significantPropertiesExtension=None):
         if not (significantPropertiesValue or significantPropertiesExtension):
             raise ValueError("Either significantPropertiesValue and/or significantPropertiesExtension must be specified")
@@ -1412,6 +1446,7 @@ class PreservationLevel(PremisNode):
                    'preservationLevelRationale',
                    'preservationLevelDateAssigned'
                    ]
+
     def __init__(self, preservationLevelValue):
         PremisNode.__init__(self, 'preservationLevel')
         self._set_field('preservationLevelValue', preservationLevelValue)
@@ -1459,6 +1494,7 @@ class Event(PremisNode):
                    'linkingAgentIdentifier',
                    'linkingObjectIdentifier'
                    ]
+
     def __init__(self, eventIdentifier, eventType, eventDateTime):
         PremisNode.__init__(self, 'event')
         self.set_eventIdentifier(eventIdentifier)
@@ -1524,6 +1560,7 @@ class EventOutcomeInformation(PremisNode):
     field_order = ['eventOutcome',
                    'eventOutcomeDetail'
                    ]
+
     def __init__(self, eventOutcome=None, eventOutcomeDetail=None):
         if not (eventOutcome or eventOutcomeDetail):
             raise ValueError("eventOutcome and/or eventOutcome detail are required in order to create an eventOutcomeInformation node.")
@@ -1563,6 +1600,7 @@ class EventDetailInformation(PremisNode):
     field_order = ['eventDetail',
                    'eventDetailExtension'
                    ]
+
     def __init__(self, eventDetail=None, eventDetailExtension=None):
         if not (eventDetail or eventDetailExtension):
             raise ValueError('eventDetail and/or eventDetailExtension must be specified in an eventDetailInformationNode')
@@ -1592,6 +1630,7 @@ class EventOutcomeDetail(PremisNode):
     field_order = ['eventOutcomeDetailNote',
                    'eventOutcomeDetailExtension'
                    ]
+
     def __init__(self, eventOutcomeDetailNote=None, eventOutcomeDetailExtension=None):
         if not (eventOutcomeDetailNote or eventOutcomeDetailExtension):
             raise ValueError("eventOutcomeDetailNote and/or eventOutcomeDetailExtension is required to create an eventOutcomeDetail node.")
@@ -1630,6 +1669,7 @@ class Agent(PremisNode):
                    'linkingRightsStatementIdentifier',
                    'linkingEnvironmentIdentifier'
                    ]
+
     def __init__(self, agentIdentifier):
         PremisNode.__init__(self, 'agent')
         self.set_agentIdentifier(agentIdentifier)
@@ -1714,6 +1754,7 @@ class AgentIdentifier(PremisNode):
     field_order = ['agentIdentifierType',
                    'agentIdentifierValue'
                    ]
+
     def __init__(self, agentIdentifierType, agentIdentifierValue):
         PremisNode.__init__(self, 'agentIdentifier')
         self.set_agentIdentifierType(agentIdentifierType)
@@ -1737,6 +1778,7 @@ class LinkingEnvironmentIdentifier(PremisNode):
                    'linkingEnvironmentIdentifierValue',
                    'linkingEnvironmentRole'
                    ]
+
     def __init__(self, linkingEnvironmentIdentifierType, linkingEnvironmentIdentifierValue):
         PremisNode.__init__(self, 'linkingEnvironmentIdentifier')
         self.set_linkingEnvironmentIdentifierType(linkingEnvironmentIdentifierType)
@@ -1769,6 +1811,7 @@ class LinkingAgentIdentifier(PremisNode):
                    'linkingAgentIdentifierValue',
                    'linkingAgentRole'
                    ]
+
     def __init__(self, linkingAgentIdentifierType, linkingAgentIdentifierValue):
         PremisNode.__init__(self, 'linkingAgentIdentifier')
         self.set_linkingAgentIdentifierType(linkingAgentIdentifierType)
@@ -1800,6 +1843,7 @@ class Rights(PremisNode):
     field_order = ['rightsStatement',
                    'rightsExtension'
                    ]
+
     def __init__(self, rightsStatement=None, rightsExtension=None):
         if rightsStatement is None and rightsExtension is None:
             raise ValueError("Either rightsStatement or rightsExtension must be supplied.")
@@ -1839,6 +1883,7 @@ class RightsStatement(PremisNode):
                    'linkingObjectIdentifier',
                    'linkingAgentIdentifier'
                    ]
+
     def __init__(self, rightsStatementIdentifier, rightsBasis):
         PremisNode.__init__(self, 'rightsStatement')
         self.set_rightsStatementIdentifier(rightsStatementIdentifier)
@@ -1918,6 +1963,7 @@ class RightsGranted(PremisNode):
                    'termOfRestriction',
                    'rightsGrantedNote'
                    ]
+
     def __init__(self, act):
         PremisNode.__init__(self, 'rightsGranted')
         self.set_act(act)
@@ -1963,6 +2009,7 @@ class TermOfRestriction(PremisNode):
     field_order = ['startDate',
                    'endDate'
                    ]
+
     def __init__(self, startDate):
         PremisNode.__init__(self, 'termOfRestriction')
         self.set_startDate(startDate)
@@ -1984,6 +2031,7 @@ class TermOfGrant(PremisNode):
     field_order = ['startDate',
                    'endDate'
                    ]
+
     def __init__(self, startDate):
         PremisNode.__init__(self, 'termOfGrant')
         self.set_startDate(startDate)
@@ -2007,6 +2055,7 @@ class OtherRightsInformation(PremisNode):
                    'otherRightsApplicableDates',
                    'otherRightsNote'
                    ]
+
     def __init__(self, otherRightsBasis):
         PremisNode.__init__(self, 'otherRightsInformation')
         self.set_otherRightsBasis(otherRightsBasis)
@@ -2046,6 +2095,7 @@ class OtherRightsApplicableDates(PremisNode):
     field_order = ['startDate',
                    'endDate'
                    ]
+
     def __init__(self):
         PremisNode.__init__(self, 'otherRightsApplicableDates')
 
@@ -2067,6 +2117,7 @@ class OtherRightsDocumentationIdentifier(PremisNode):
                    'otherRightsDocumentationIdentifierValue',
                    'otherRightsDocumentationRole'
                    ]
+
     def __init__(self, otherRightsDocumentationIdentifierType, otherRightsDocumentationIdentifierValue):
         PremisNode.__init__(self, 'otherRightsDocumentationIdentifier')
         self.set_otherRightsDocumentationIdentifierType(otherRightsDocumentationIdentifierType)
@@ -2099,6 +2150,7 @@ class StatuteInformation(PremisNode):
                    'statuteDocumentationIdentifier',
                    'statuteApplicableDates'
                    ]
+
     def __init__(self, statuteJurisdiction, statuteCitation):
         PremisNode.__init__(self, 'statuteInformation')
         self.set_statuteJurisdiction(statuteJurisdiction)
@@ -2151,6 +2203,7 @@ class StatuteApplicableDates(PremisNode):
     field_order = ['startDate',
                    'endDate'
                    ]
+
     def __init__(self):
         PremisNode.__init__(self, 'statuteApplicableDates')
 
@@ -2172,6 +2225,7 @@ class StatuteDocumentationIdentifier(PremisNode):
                    'statuteDocumentationIdentifierValue',
                    'statuteDocumentationRole'
                    ]
+
     def __init__(self, statuteDocumentationIdentifierType, statuteDocumentationIdentifierValue):
         PremisNode.__init__(self, 'statuteDocumentationIdentifier')
         self.set_statuteDocumentationIdentifierType(statuteDocumentationIdentifierType)
@@ -2202,6 +2256,7 @@ class LicenseInformation(PremisNode):
                    'licenseNote',
                    'licenseApplicableDates'
                    ]
+
     def __init__(self):
         PremisNode.__init__(self, 'licenseInformation')
 
@@ -2240,6 +2295,7 @@ class LicenseApplicableDates(PremisNode):
     field_order = ['startDate',
                    'endDate'
                    ]
+
     def __init__(self):
         PremisNode.__init__(self, 'licenseApplicableDates')
 
@@ -2261,6 +2317,7 @@ class LicenseDocumentationIdentifier(PremisNode):
                    'licenseDocumentationIdentifierValue',
                    'licenseDocumentationRole'
                    ]
+
     def __init__(self, licenseDocumentationIdentifierType, licenseDocumentationIdentifierValue):
         PremisNode.__init__(self, 'licenseDocumentationIdentifier')
         self.set_licenseDocumentationIdentifierType(licenseDocumentationIdentifierType)
@@ -2293,6 +2350,7 @@ class CopyrightInformation(PremisNode):
                    'copyrightDocumentationIdentifier',
                    'copyrightApplicableDates'
                    ]
+
     def __init__(self, copyrightStatus, copyrightJurisdiction):
         PremisNode.__init__(self, 'copyrightInformation')
         self.set_copyrightStatus(copyrightStatus)
@@ -2344,6 +2402,7 @@ class CopyrightInformation(PremisNode):
 class CopyrightApplicableDates(PremisNode):
     field_order = ['startDate',
                    'endDate']
+
     def __init__(self):
         PremisNode.__init__(self, 'copyrightApplicableDates')
 
@@ -2361,10 +2420,11 @@ class CopyrightApplicableDates(PremisNode):
 
 
 class CopyrightDocumentationIdentifier(PremisNode):
-    field_order =['copyrightDocumentationIdentifierType',
-                  'copyrightDocumentationIdentifierValue',
-                  'copyrightDocumentationRole'
-                  ]
+    field_order = ['copyrightDocumentationIdentifierType',
+                   'copyrightDocumentationIdentifierValue',
+                   'copyrightDocumentationRole'
+                   ]
+
     def __init__(self, copyrightDocumentationIdentifierType, copyrightDocumentationIdentifierValue):
         PremisNode.__init__(self, 'copyrightDocumentationIdentifier')
         self.set_copyrightDocumentationIdentifierType(copyrightDocumentationIdentifierType)
@@ -2393,6 +2453,7 @@ class RightsStatementIdentifier(PremisNode):
     field_order = ['rightsStatementIdentifierType',
                    'rightsStatementIdentifierValue'
                    ]
+
     def __init__(self, rightsStatementIdentifierType, rightsStatementIdentifierValue):
         PremisNode.__init__(self, 'rightsStatementIdentifier')
         self.set_rightsStatementIdentifierType(rightsStatementIdentifierType)

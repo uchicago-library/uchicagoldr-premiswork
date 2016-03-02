@@ -48,7 +48,8 @@ valid premis XML records</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-2'>#</a>
       </div>
-      <p><strong>Attributes</strong></p>
+      <p>A class for ingesting an xml document and building PremisNodes out of it.</p>
+<p><strong>Attributes</strong></p>
 <ol>
 <li>xml: an ElementTree xml Element object meant to act as the root to attach
 objects too from the xml.</li>
@@ -64,12 +65,12 @@ objects too from the xml.</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-3'>#</a>
       </div>
-      <p><strong>Args</strong></p>
+      <p>Initializes an XML node factory and points it to a PREMIS xml file
+to be used to build PremisNode instances.</p>
+<p><strong>Args</strong></p>
 <ol>
 <li>xmlfile: the path to a PREMIS xml serialization on disk</li>
 </ol>
-<p>Initializes an XML node factory and points it to a PREMIS xml file
-to be used to build PremisNode instances.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xmlfile</span><span class="p">):</span></pre></div>
@@ -96,7 +97,9 @@ to be used to build PremisNode instances.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-5'>#</a>
       </div>
-      <p><strong>Args</strong></p>
+      <p>Searches a given Element instance for all values corresponding to the
+given [tag] in [node].</p>
+<p><strong>Args</strong></p>
 <ol>
 <li>node: an ElementTree Element instance to search</li>
 <li>tag: a string, the tag name to find</li>
@@ -105,8 +108,6 @@ to be used to build PremisNode instances.</p>
 <ul>
 <li>req: A bool, if set to true and no nodes are found raise a ValueError</li>
 </ul>
-<p>Searches a given Element instance for all values corresponding to the
-given [tag] in [node].</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_find_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">req</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span></pre></div>
@@ -134,7 +135,9 @@ given [tag] in [node].</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-7'>#</a>
       </div>
-      <p><strong>Args</strong></p>
+      <p>Searches a given Element instance for the value corresponding to the
+given [tag] in [node].</p>
+<p><strong>Args</strong></p>
 <ol>
 <li>node: an ElementTree Element instance to search</li>
 <li>tag: a string, the tag name to find</li>
@@ -144,8 +147,6 @@ given [tag] in [node].</p>
 <li>req: A bool, if set to true if no element with that tag is found
 in the given node raise a ValueError</li>
 </ul>
-<p>Searches a given Element instance for the value corresponding to the
-given [tag] in [node].</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_find</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">req</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span></pre></div>
@@ -176,7 +177,9 @@ given [tag] in [node].</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-9'>#</a>
       </div>
-      <p><strong>Args</strong></p>
+      <p>Searches a given Element instance for a tag and returns the whole
+Element instances which has that tag.</p>
+<p><strong>Args</strong></p>
 <ol>
 <li>node: an ElementTree Element instance to search</li>
 <li>tag: a string, the tag to find</li>
@@ -186,8 +189,6 @@ given [tag] in [node].</p>
 <li>req: A bool, if set to true if no element with the specified tag
 in the specified node is found raise a ValueError</li>
 </ul>
-<p>Searches a given Element instance for a tag and returns the whole
-Element instances which has that tag.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_find_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">req</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span></pre></div>
@@ -216,7 +217,9 @@ Element instances which has that tag.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-11'>#</a>
       </div>
-      <p><strong>Args</strong></p>
+      <p>Searches a given Element instance for a tag and returns a list of
+Element instances which have that tag.</p>
+<p><strong>Args</strong></p>
 <ol>
 <li>node: an ElementTree Element instance to search</li>
 <li>tag: a string, the tag to find</li>
@@ -226,8 +229,6 @@ Element instances which has that tag.</p>
 <li>req: A bool, if set to true if no element with the specified tag is
 found in the given node raise a ValueError</li>
 </ul>
-<p>Searches a given Element instance for a tag and returns a list of
-Element instances which have that tag.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_find_all_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">req</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span></pre></div>
@@ -256,7 +257,11 @@ Element instances which have that tag.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-13'>#</a>
       </div>
-      <p><strong>Args</strong></p>
+      <p>Search a given [node] for all children with the the given [tag].
+Feed the resulting list, item by item, into a function. Return
+a list of the function return values for each entry in the original
+list.</p>
+<p><strong>Args</strong></p>
 <ol>
 <li>func: A function to be used to process the nodes</li>
 <li>node: A node to search for children to process</li>
@@ -267,10 +272,6 @@ Element instances which have that tag.</p>
 <li>req: A boo, if set to True if no element with the specified tag is
 found in the given node instance raise a ValueError</li>
 </ul>
-<p>Search a given [node] for all children with the the given [tag].
-Feed the resulting list, item by item, into a function. Return
-a list of the function return values for each entry in the original
-list.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_process_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">req</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span></pre></div>
@@ -423,12 +424,12 @@ from them. Returns a list of these nodes.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-25'>#</a>
       </div>
-      <p><strong>Args</strong></p>
+      <p>build an uncontrolled ExtensionNode PremisNode and return it.</p>
+<p><strong>Args</strong></p>
 <ol>
 <li>node: an ElementTree Element instance to turn into a PremisNode
 ExtensionNode instance.</li>
 </ol>
-<p>build an uncontrolled ExtensionNode PremisNode and return it.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">buildExtensionNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span></pre></div>
@@ -458,13 +459,13 @@ ExtensionNode instance.</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-27'>#</a>
       </div>
-      <p><strong>Args</strong></p>
+      <p>Wraps tacking Extension nodes to extended nodes.</p>
+<p><strong>Args</strong></p>
 <ol>
 <li>extendedNode: a class, the specific ExtendedNode PremisNode</li>
 <li>node: the ElementTree Element instance to turn into an
 ExtendedNode PremisNode instance.</li>
 </ol>
-<p>Wraps tacking Extension nodes to extended nodes.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">buildExtendedNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extendedNode</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span></pre></div>
@@ -782,9 +783,9 @@ in the PREMISv3 data dictionary.</p>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">significantPropertiesValue</span> <span class="ow">or</span> <span class="n">significantPropertiesExtension</span><span class="p">):</span>
             <span class="n">raiseValueError</span><span class="p">(</span><span class="s1">&#39;missing required significantPropertiesValue or significantPropertiesExtension&#39;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">significantPropertiesValue</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">significantPropertiesExtension</span><span class="p">:</span>
-            <span class="n">significantProperties</span><span class="o">=</span><span class="n">SignificantProperties</span><span class="p">(</span><span class="n">significantPropertiesValue</span><span class="o">=</span><span class="n">significantPropertiesValue</span><span class="p">)</span>
+            <span class="n">significantProperties</span> <span class="o">=</span> <span class="n">SignificantProperties</span><span class="p">(</span><span class="n">significantPropertiesValue</span><span class="o">=</span><span class="n">significantPropertiesValue</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">significantPropertiesExtension</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">significantPropertiesValue</span><span class="p">:</span>
-            <span class="n">significantProperties</span><span class="o">=</span><span class="n">SignificantProperties</span><span class="p">(</span><span class="n">significantPropertiesExtension</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_pn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buildSignificantPropertiesExtension</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;{http://www.loc.gov/premis/v3}significantPropertiesExtension&#39;</span><span class="p">))</span>
+            <span class="n">significantProperties</span> <span class="o">=</span> <span class="n">SignificantProperties</span><span class="p">(</span><span class="n">significantPropertiesExtension</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_pn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buildSignificantPropertiesExtension</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;{http://www.loc.gov/premis/v3}significantPropertiesExtension&#39;</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">significantProperties</span> <span class="o">=</span> <span class="n">SignificantProperties</span><span class="p">(</span><span class="n">significantPropertiesValue</span><span class="o">=</span><span class="n">significantPropertiesValue</span><span class="p">,</span> <span class="n">significantPropertiesExtension</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_pn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buildSignificantPropertiesExtension</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;{http://www.loc.gov/premis/v3}significantPropertiesExtension&#39;</span><span class="p">))</span>
 
@@ -1346,8 +1347,6 @@ in the PREMISv3 data dictionary.</p>
             <span class="n">eventDetailInformation</span> <span class="o">=</span> <span class="n">EventDetailInformation</span><span class="p">(</span><span class="n">eventDetailExtension</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_pn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buildEventDetailExtension</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;{http://www.loc.gov/premis/v3}eventDetailExtension&#39;</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">eventDetailInformation</span> <span class="o">=</span> <span class="n">EventDetailInformation</span><span class="p">(</span><span class="n">eventDetail</span><span class="o">=</span><span class="n">eventDetail</span><span class="p">,</span> <span class="n">eventDetailExtension</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_pn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buildEventDetailExtension</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="s1">&#39;{http://www.loc.gov/premis/v3}eventDetailExtension&#39;</span><span class="p">))</span>
-
-
         <span class="k">return</span> <span class="n">eventDetailInformation</span></pre></div>
     </div>
   </div>
