@@ -2,15 +2,49 @@ import xml.etree.ElementTree as ET
 
 from pypremis.nodes import *
 
+"""
+### Factory classes for building pypremis nodes from serializations ###
+1. **XMLNodeFactory** is a class implementing .find_objects(), .find_events(),
+.find_rights(), and .find_agents() meant to build PremisNode instances from
+valid premis XML records
+"""
+
 
 class XMLNodeFactory(object):
+    """
+    __Attributes__
+
+    1. xml: an ElementTree xml Element object meant to act as the root to attach
+    objects too from the xml.
+    """
     def __init__(self, xmlfile):
+        """
+        __Args__
+
+        1. xmlfile: the path to a PREMIS xml serialization on disk
+
+        Initializes an XML node factory and points it to a PREMIS xml file
+        to be used to build PremisNode instances.
+        """
         ET.register_namespace('premis', "http://www.loc.gov/premis/v3")
         ET.register_namespace('xsi', "http://www.w3.org/2001/XMLSchema-instance")
         tree = ET.parse(xmlfile)
         self.xml = tree.getroot()
 
     def _find_all(self, node, tag, req=False):
+        """
+        __Args__
+
+        1. node: an ElementTree Element instance to search
+        2. tag: a string, the tag name to find
+
+        __KWArgs__
+
+        * req: A bool, if set to true and no nodes are found raise a ValueError
+
+        Searches a given Element instance for all values corresponding to the
+        given [tag] in [node].
+        """
         parse = [x for x in node.findall(tag)]
         if len(parse) < 1 and req:
             raise ValueError("The {} tag is required but was not found.".format(tag))
@@ -18,6 +52,20 @@ class XMLNodeFactory(object):
         return result
 
     def _find(self, node, tag, req=False):
+        """
+        __Args__
+
+        1. node: an ElementTree Element instance to search
+        2. tag: a string, the tag name to find
+
+        __KWArgs__
+
+        * req: A bool, if set to true if no element with that tag is found
+        in the given node raise a ValueError
+
+        Searches a given Element instance for the value corresponding to the
+        given [tag] in [node].
+        """
         parse = node.find(tag)
         if parse is None and req:
             raise ValueError("The {} tag is required but was not found.".format(tag))
@@ -28,6 +76,20 @@ class XMLNodeFactory(object):
             return ""
 
     def _find_node(self, node, tag, req=False):
+        """
+        __Args__
+
+        1. node: an ElementTree Element instance to search
+        2. tag: a string, the tag to find
+
+        __KWArgs__
+
+        * req: A bool, if set to true if no element with the specified tag
+        in the specified node is found raise a ValueError
+
+        Searches a given Element instance for a tag and returns the whole
+        Element instances which has that tag.
+        """
         parse = node.find(tag)
         if parse is None and req:
             raise ValueError("The {} tag is required but was not found.".format(tag))
@@ -36,6 +98,20 @@ class XMLNodeFactory(object):
         return parse
 
     def _find_all_nodes(self, node, tag, req=False):
+        """
+        __Args__
+
+        1. node: an ElementTree Element instance to search
+        2. tag: a string, the tag to find
+
+        __KWArgs__
+
+        * req: A bool, if set to true if no element with the specified tag is
+        found in the given node raise a ValueError
+
+        Searches a given Element instance for a tag and returns a list of
+        Element instances which have that tag.
+        """
         parse = node.findall(tag)
         if not parse and req:
             raise ValueError("The {} tag is required but was not found.".format(tag))
@@ -44,6 +120,23 @@ class XMLNodeFactory(object):
         return parse
 
     def _process_nodes(self, func, node, tag, req=False):
+        """
+        __Args__
+
+        1. func: A function to be used to process the nodes
+        2. node: A node to search for children to process
+        3. tag: The tag of the children which will be processed by the function
+
+        __KWArgs__
+
+        * req: A boo, if set to True if no element with the specified tag is
+        found in the given node instance raise a ValueError
+
+        Search a given [node] for all children with the the given [tag].
+        Feed the resulting list, item by item, into a function. Return
+        a list of the function return values for each entry in the original
+        list.
+        """
         parse = self._find_all_nodes(node, tag, req)
         if parse:
             result = [func(x) for x in parse]
@@ -51,21 +144,49 @@ class XMLNodeFactory(object):
         return False
 
     def _pn(self, func, node, tag, req=False):
+        """
+        wraps ._process_nodes(), because I got tired of typing the whole thing
+        so many times.
+        """
         return self._process_nodes(func, node, tag, req)
 
     def find_objects(self):
+        """
+        finds all of the objects in an xml record and builds Object PremisNodes
+        from them. Returns a list of these nodes.
+        """
         return [self.buildObject(x) for x in self._find_all_nodes(self.xml, '{http://www.loc.gov/premis/v3}object')]
 
     def find_agents(self):
+        """
+        finds all of the agents in an xml record and builds Agent PremisNodes
+        from them. Returns a list of these nodes.
+        """
         return [self.buildAgent(x) for x in self._find_all_nodes(self.xml, '{http://www.loc.gov/premis/v3}agent')]
 
     def find_events(self):
+        """
+        finds all of the events in an xml record and builds Event PremisNodes
+        from them. Returns a list of these nodes.
+        """
         return [self.buildEvent(x) for x in self._find_all_nodes(self.xml, '{http://www.loc.gov/premis/v3}event')]
 
     def find_rights(self):
+        """
+        finds all of the rights in an xml record and builds Rights PremisNodes
+        from them. Returns a list of these nodes.
+        """
         return [self.buildRights(x) for x in self._find_all_nodes(self.xml, '{http://www.loc.gov/premis/v3}rights')]
 
     def buildExtensionNode(self, node):
+        """
+        __Args__
+
+        1. node: an ElementTree Element instance to turn into a PremisNode
+        ExtensionNode instance.
+
+        build an uncontrolled ExtensionNode PremisNode and return it.
+        """
         result = ExtensionNode()
         for child in node:
             if len(child) == 0:
@@ -75,6 +196,15 @@ class XMLNodeFactory(object):
         return result
 
     def buildExtendedNode(self, extendedNode, node):
+        """
+        __Args__
+
+        1. extendedNode: a class, the specific ExtendedNode PremisNode
+        2. node: the ElementTree Element instance to turn into an
+        ExtendedNode PremisNode instance.
+
+        Wraps tacking Extension nodes to extended nodes.
+        """
         result = extendedNode()
         for child in node:
             if len(child) == 0:
@@ -82,6 +212,12 @@ class XMLNodeFactory(object):
             else:
                 result.add_to_field(child.tag, self.buildExtensionNode(child))
         return result
+
+    # From here on out each of these functions takes one ElementTree Element
+    # instance as an arg. It runs different searches and functions over
+    # that Element instance in order to construct a PremisNode instance of
+    # a given type, respecting the cardinality and requirement statements
+    # in the PREMISv3 data dictionary.
 
     def buildSignificantPropertiesExtension(self, node):
         return self.buildExtendedNode(SignificantPropertiesExtension, node)
