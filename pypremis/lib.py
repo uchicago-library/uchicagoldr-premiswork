@@ -35,11 +35,11 @@ class PremisRecord(object):
 
         __KWArgs__
 
-        * objects is a list to initially populate objects_list
-        * events is a list to initially populate events_list
-        * agents is a list to initially populate agents_list
-        * rights is a list to initially populate rights_list
-        * frompath is a string meant to set the location of an originating
+        * objects (list): a list to initially populate objects_list
+        * events (list):  a list to initially populate events_list
+        * agents (list):  a list to initially populate agents_list
+        * rights (list):  a list to initially populate rights_list
+        * frompath (list): a string meant to set the location of an originating
         xml file
         """
 
@@ -73,6 +73,10 @@ class PremisRecord(object):
     def __iter__(self):
         """
         Yields each contained node.
+
+        __Returns__
+
+        * (generator): a generator of each node in the record
         """
         for x in self.get_object_list() + self.get_event_list() + \
                 self.get_rights_list() + self.get_agent_list():
@@ -85,6 +89,10 @@ class PremisRecord(object):
         __Args__
 
         1. other: an object to compute equality with.
+
+        __Returns__
+
+        * (bool): A boolean denoting equality
         """
         if not isinstance(other, PremisRecord):
             return False
@@ -102,7 +110,7 @@ class PremisRecord(object):
 
         __Args__
 
-        1. event: an Event PremisNode instance.
+        1. event (PremisNode): an Event PremisNode instance.
         """
         self.events_list.append(event)
 
@@ -112,14 +120,22 @@ class PremisRecord(object):
 
         __Args__
 
-        1. eventID: A string which corresponds to one of the
+        1. eventID (str): A string which corresponds to one of the
         eventIdentifierValue's specified in an Event PremisNode instance.
+
+        __Returns__
+
+        * (PremisNode or None): an event PremisNode, or None
         """
         pass
 
     def get_event_list(self):
         """
         Returns a list containing each associated event node.
+
+        __Returns__
+
+        * (list): the self.events_list attribute
         """
         return self.events_list
 
@@ -129,7 +145,7 @@ class PremisRecord(object):
 
         __Args__
 
-        1. obj: an Object PremisNode instance
+        1. obj (PremisNode): an Object PremisNode instance
         """
         self.objects_list.append(obj)
 
@@ -139,14 +155,22 @@ class PremisRecord(object):
 
         __Args__
 
-        1. objID: A string which corresponds with one of the
+        1. objID (str): A string which corresponds with one of the
         objectIdentifierValue's specified in an Object PremisNode instance
+
+        __Returns__
+
+        * (PremisNode or None): an object PremisNode, or None
         """
         pass
 
     def get_object_list(self):
         """
         Returns a list containing each object node.
+
+        __Returns__
+
+        * (list): the self.objects_list attribute
         """
         return self.objects_list
 
@@ -156,7 +180,7 @@ class PremisRecord(object):
 
         __Args__
 
-        1. agent: an Agent PremisNode instance
+        1. agent (PremisNode): an Agent PremisNode instance
         """
         self.agents_list.append(agent)
 
@@ -166,14 +190,22 @@ class PremisRecord(object):
 
         __Args__
 
-        1. agentID: A string which corresponds with one of the
+        1. agentID (str): A string which corresponds with one of the
         agentIdentifierValue's specified in an Agent PremisNode instance
+
+        __Returns__
+
+        * (PremisNode or None): an event PremisNode, or None
         """
         pass
 
     def get_agent_list(self):
         """
         Returns a list containing each agent node.
+
+        __Returns__
+
+        * (list): the self.agents_list attribute
         """
         return self.agents_list
 
@@ -183,7 +215,7 @@ class PremisRecord(object):
 
         __Args__
 
-        1. rights: a Rights PremisNode instance
+        1. rights (PremisNode): a Rights PremisNode instance
         """
         self.rights_list.append(rights)
 
@@ -193,14 +225,22 @@ class PremisRecord(object):
 
         __Args__
 
-        1. rightsID: A string which corresponds with one of the
+        1. rightsID (str): A string which corresponds with one of the
         rightsIdentifierValue's specified in a Rights PremisNode instance.
+
+        __Returns__
+
+        * (PremisNode or None): a rights PremisNode, or None
         """
         pass
 
     def get_rights_list(self):
         """
         Returns a list containing each rights node.
+
+        __Returns__
+
+        * (list): the self.rights_list attribute
         """
         return self.rights_list
 
@@ -210,7 +250,7 @@ class PremisRecord(object):
 
         __Args__
 
-        1. filepath: A string corresponding to a filepath on disk that specifies
+        1. filepath (str): A string corresponding to a filepath on disk that specifies
         the location of a pre-existing premis xml record
         """
         self.filepath = filepath
@@ -218,12 +258,20 @@ class PremisRecord(object):
     def get_filepath(self):
         """
         Returns the filepath attribute.
+
+        __Returns__
+
+        * (str): the self.filepath attribute
         """
         return self.filepath
 
     def validate(self):
         """
         Validates the contained record against the PREMIS specification.
+
+        __Returns__
+
+        * (bool): A bool denoting validity
         """
         pass
 
@@ -234,14 +282,14 @@ class PremisRecord(object):
 
         __Args__
 
-        1. factory: A factory class which implements .find_events(),
+        1. factory (cls): A factory class which implements .find_events(),
         .find_agents(), .find_rights, and .find_objects(), which return
         iterators consisting of Event, Agent, Rights, and Object PremisNode
         instances respectively.
 
         __KWArgs__
 
-        * filepath: A string which specifies the location of a serialization
+        * filepath (str): A string which specifies the location of a serialization
         supported by the given factory class. If not provided the instances
         filepath attribute is assumed.
         """
@@ -264,7 +312,7 @@ class PremisRecord(object):
 
         __Args__
 
-        1. targetpath: a str corresponding to the intended location on disk
+        1. targetpath (str): a str corresponding to the intended location on disk
         to write the premis xml file to.
         """
         tree = ET.ElementTree(element=ET.Element('premis:premis'))

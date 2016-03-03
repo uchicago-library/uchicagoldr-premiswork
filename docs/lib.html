@@ -74,11 +74,11 @@ pre-existing nodes or an existing xml file on disk. Requires
 one or the other to be supplied on init.</p>
 <p><strong>KWArgs</strong></p>
 <ul>
-<li>objects is a list to initially populate objects_list</li>
-<li>events is a list to initially populate events_list</li>
-<li>agents is a list to initially populate agents_list</li>
-<li>rights is a list to initially populate rights_list</li>
-<li>frompath is a string meant to set the location of an originating
+<li>objects (list): a list to initially populate objects_list</li>
+<li>events (list):  a list to initially populate events_list</li>
+<li>agents (list):  a list to initially populate agents_list</li>
+<li>rights (list):  a list to initially populate rights_list</li>
+<li>frompath (list): a string meant to set the location of an originating
 xml file</li>
 </ul>
     </div>
@@ -132,6 +132,10 @@ xml file</li>
         <a class='octothorpe' href='#section-5'>#</a>
       </div>
       <p>Yields each contained node.</p>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(generator): a generator of each node in the record</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre></div>
@@ -162,6 +166,10 @@ xml file</li>
 <ol>
 <li>other: an object to compute equality with.</li>
 </ol>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(bool): A boolean denoting equality</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span></pre></div>
@@ -196,7 +204,7 @@ xml file</li>
       <p>Adds an event node to the event list.</p>
 <p><strong>Args</strong></p>
 <ol>
-<li>event: an Event PremisNode instance.</li>
+<li>event (PremisNode): an Event PremisNode instance.</li>
 </ol>
     </div>
     <div class='code'>
@@ -224,9 +232,13 @@ xml file</li>
       <p>Returns the event node with the corresponding eventID.</p>
 <p><strong>Args</strong></p>
 <ol>
-<li>eventID: A string which corresponds to one of the
+<li>eventID (str): A string which corresponds to one of the
 eventIdentifierValue's specified in an Event PremisNode instance.</li>
 </ol>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(PremisNode or None): an event PremisNode, or None</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eventID</span><span class="p">):</span></pre></div>
@@ -251,6 +263,10 @@ eventIdentifierValue's specified in an Event PremisNode instance.</li>
         <a class='octothorpe' href='#section-13'>#</a>
       </div>
       <p>Returns a list containing each associated event node.</p>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(list): the self.events_list attribute</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get_event_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre></div>
@@ -277,7 +293,7 @@ eventIdentifierValue's specified in an Event PremisNode instance.</li>
       <p>Adds an object node to the object list.</p>
 <p><strong>Args</strong></p>
 <ol>
-<li>obj: an Object PremisNode instance</li>
+<li>obj (PremisNode): an Object PremisNode instance</li>
 </ol>
     </div>
     <div class='code'>
@@ -305,9 +321,13 @@ eventIdentifierValue's specified in an Event PremisNode instance.</li>
       <p>Returns the object node with the corresponding objectID</p>
 <p><strong>Args</strong></p>
 <ol>
-<li>objID: A string which corresponds with one of the
+<li>objID (str): A string which corresponds with one of the
 objectIdentifierValue's specified in an Object PremisNode instance</li>
 </ol>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(PremisNode or None): an object PremisNode, or None</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">objID</span><span class="p">):</span></pre></div>
@@ -332,6 +352,10 @@ objectIdentifierValue's specified in an Object PremisNode instance</li>
         <a class='octothorpe' href='#section-19'>#</a>
       </div>
       <p>Returns a list containing each object node.</p>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(list): the self.objects_list attribute</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get_object_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre></div>
@@ -358,7 +382,7 @@ objectIdentifierValue's specified in an Object PremisNode instance</li>
       <p>Adds an agent node to the agent list.</p>
 <p><strong>Args</strong></p>
 <ol>
-<li>agent: an Agent PremisNode instance</li>
+<li>agent (PremisNode): an Agent PremisNode instance</li>
 </ol>
     </div>
     <div class='code'>
@@ -386,9 +410,13 @@ objectIdentifierValue's specified in an Object PremisNode instance</li>
       <p>Returns the agent node with the corresponding agentID.</p>
 <p><strong>Args</strong></p>
 <ol>
-<li>agentID: A string which corresponds with one of the
+<li>agentID (str): A string which corresponds with one of the
 agentIdentifierValue's specified in an Agent PremisNode instance</li>
 </ol>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(PremisNode or None): an event PremisNode, or None</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agentID</span><span class="p">):</span></pre></div>
@@ -413,6 +441,10 @@ agentIdentifierValue's specified in an Agent PremisNode instance</li>
         <a class='octothorpe' href='#section-25'>#</a>
       </div>
       <p>Returns a list containing each agent node.</p>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(list): the self.agents_list attribute</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get_agent_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre></div>
@@ -439,7 +471,7 @@ agentIdentifierValue's specified in an Agent PremisNode instance</li>
       <p>Adds a rights node to the rights list.</p>
 <p><strong>Args</strong></p>
 <ol>
-<li>rights: a Rights PremisNode instance</li>
+<li>rights (PremisNode): a Rights PremisNode instance</li>
 </ol>
     </div>
     <div class='code'>
@@ -467,9 +499,13 @@ agentIdentifierValue's specified in an Agent PremisNode instance</li>
       <p>Returns the rights node with the corresponding rightsID</p>
 <p><strong>Args</strong></p>
 <ol>
-<li>rightsID: A string which corresponds with one of the
+<li>rightsID (str): A string which corresponds with one of the
 rightsIdentifierValue's specified in a Rights PremisNode instance.</li>
 </ol>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(PremisNode or None): a rights PremisNode, or None</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get_rights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rightsID</span><span class="p">):</span></pre></div>
@@ -494,6 +530,10 @@ rightsIdentifierValue's specified in a Rights PremisNode instance.</li>
         <a class='octothorpe' href='#section-31'>#</a>
       </div>
       <p>Returns a list containing each rights node.</p>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(list): the self.rights_list attribute</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get_rights_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre></div>
@@ -520,7 +560,7 @@ rightsIdentifierValue's specified in a Rights PremisNode instance.</li>
       <p>Sets the filepath attribute.</p>
 <p><strong>Args</strong></p>
 <ol>
-<li>filepath: A string corresponding to a filepath on disk that specifies
+<li>filepath (str): A string corresponding to a filepath on disk that specifies
 the location of a pre-existing premis xml record</li>
 </ol>
     </div>
@@ -547,6 +587,10 @@ the location of a pre-existing premis xml record</li>
         <a class='octothorpe' href='#section-35'>#</a>
       </div>
       <p>Returns the filepath attribute.</p>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(str): the self.filepath attribute</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get_filepath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre></div>
@@ -571,6 +615,10 @@ the location of a pre-existing premis xml record</li>
         <a class='octothorpe' href='#section-37'>#</a>
       </div>
       <p>Validates the contained record against the PREMIS specification.</p>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(bool): A bool denoting validity</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre></div>
@@ -598,14 +646,14 @@ the location of a pre-existing premis xml record</li>
 premis xml file</p>
 <p><strong>Args</strong></p>
 <ol>
-<li>factory: A factory class which implements .find_events(),
+<li>factory (cls): A factory class which implements .find_events(),
 .find_agents(), .find_rights, and .find_objects(), which return
 iterators consisting of Event, Agent, Rights, and Object PremisNode
 instances respectively.</li>
 </ol>
 <p><strong>KWArgs</strong></p>
 <ul>
-<li>filepath: A string which specifies the location of a serialization
+<li>filepath (str): A string which specifies the location of a serialization
 supported by the given factory class. If not provided the instances
 filepath attribute is assumed.</li>
 </ul>
@@ -646,7 +694,7 @@ filepath attribute is assumed.</li>
 specified path as an xml document.</p>
 <p><strong>Args</strong></p>
 <ol>
-<li>targetpath: a str corresponding to the intended location on disk
+<li>targetpath (str): a str corresponding to the intended location on disk
 to write the premis xml file to.</li>
 </ol>
     </div>

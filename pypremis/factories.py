@@ -41,12 +41,16 @@ class XMLNodeFactory(object):
 
         __Args__
 
-        1. node: an ElementTree Element instance to search
-        2. tag: a string, the tag name to find
+        1. node (ET.Element): an ElementTree Element instance to search
+        2. tag (str): a string, the tag name to find
 
         __KWArgs__
 
-        * req: A bool, if set to true and no nodes are found raise a ValueError
+        * req (bool): A bool, if set to true and no nodes are found raise a ValueError
+
+        __Returns__
+
+        * (list): a list of strings (the values)
         """
         parse = [x for x in node.findall(tag)]
         if len(parse) < 1 and req:
@@ -61,13 +65,17 @@ class XMLNodeFactory(object):
 
         __Args__
 
-        1. node: an ElementTree Element instance to search
-        2. tag: a string, the tag name to find
+        1. node (ET.Element): an ElementTree Element instance to search
+        2. tag (str): a string, the tag name to find
 
         __KWArgs__
 
-        * req: A bool, if set to true if no element with that tag is found
+        * req (bool): A bool, if set to true if no element with that tag is found
         in the given node raise a ValueError
+
+        __Returns__
+
+        * (str): the value
         """
         parse = node.find(tag)
         if parse is None and req:
@@ -85,13 +93,17 @@ class XMLNodeFactory(object):
 
         __Args__
 
-        1. node: an ElementTree Element instance to search
-        2. tag: a string, the tag to find
+        1. node (ET.Element): an ElementTree Element instance to search
+        2. tag (str): a string, the tag to find
 
         __KWArgs__
 
-        * req: A bool, if set to true if no element with the specified tag
+        * req (bool): A bool, if set to true if no element with the specified tag
         in the specified node is found raise a ValueError
+
+        __Returns__
+
+        * (ET.Element): the node
         """
         parse = node.find(tag)
         if parse is None and req:
@@ -107,13 +119,17 @@ class XMLNodeFactory(object):
 
         __Args__
 
-        1. node: an ElementTree Element instance to search
-        2. tag: a string, the tag to find
+        1. node (ET.Element): an ElementTree Element instance to search
+        2. tag (str): a string, the tag to find
 
         __KWArgs__
 
-        * req: A bool, if set to true if no element with the specified tag is
+        * req (bool): A bool, if set to true if no element with the specified tag is
         found in the given node raise a ValueError
+
+        __Returns__
+
+        * (list): a list of ET.Elements
         """
         parse = node.findall(tag)
         if not parse and req:
@@ -131,14 +147,19 @@ class XMLNodeFactory(object):
 
         __Args__
 
-        1. func: A function to be used to process the nodes
-        2. node: A node to search for children to process
-        3. tag: The tag of the children which will be processed by the function
+        1. func (func): A function to be used to process the nodes
+        2. node (ET.Element): A node to search for children to process
+        3. tag (str): The tag of the children which will be processed by the function
 
         __KWArgs__
 
-        * req: A boo, if set to True if no element with the specified tag is
+        * req (bool): A bool, if set to True if no element with the specified tag is
         found in the given node instance raise a ValueError
+
+        __Returns__
+
+        * (list or False): A list of PremisNodes, or False if no applicable
+        nodes were found.
         """
         parse = self._find_all_nodes(node, tag, req)
         if parse:
@@ -157,6 +178,10 @@ class XMLNodeFactory(object):
         """
         finds all of the objects in an xml record and builds Object PremisNodes
         from them. Returns a list of these nodes.
+
+        __Returns__
+
+        * (list): a list of built PremisNode.Objects
         """
         return [self.buildObject(x) for x in self._find_all_nodes(self.xml, '{http://www.loc.gov/premis/v3}object')]
 
@@ -164,6 +189,10 @@ class XMLNodeFactory(object):
         """
         finds all of the agents in an xml record and builds Agent PremisNodes
         from them. Returns a list of these nodes.
+
+        __Returns__
+
+        * (list): a list of built PremisNode.Agents
         """
         return [self.buildAgent(x) for x in self._find_all_nodes(self.xml, '{http://www.loc.gov/premis/v3}agent')]
 
@@ -171,6 +200,10 @@ class XMLNodeFactory(object):
         """
         finds all of the events in an xml record and builds Event PremisNodes
         from them. Returns a list of these nodes.
+
+        __Rturns__
+
+        * (list): a list of built PremisNode.Events
         """
         return [self.buildEvent(x) for x in self._find_all_nodes(self.xml, '{http://www.loc.gov/premis/v3}event')]
 
@@ -178,6 +211,10 @@ class XMLNodeFactory(object):
         """
         finds all of the rights in an xml record and builds Rights PremisNodes
         from them. Returns a list of these nodes.
+
+        __Returns__
+
+        * (list): a list of built PremisNode.Rights...'s?
         """
         return [self.buildRights(x) for x in self._find_all_nodes(self.xml, '{http://www.loc.gov/premis/v3}rights')]
 
@@ -187,8 +224,12 @@ class XMLNodeFactory(object):
 
         __Args__
 
-        1. node: an ElementTree Element instance to turn into a PremisNode
+        1. node (ET.Element): an ElementTree Element instance to turn into a PremisNode
         ExtensionNode instance.
+
+        __Returns__
+
+        * (ExtensionNode): the built ExtensionNode
         """
         result = ExtensionNode()
         for child in node:
@@ -204,9 +245,13 @@ class XMLNodeFactory(object):
 
         __Args__
 
-        1. extendedNode: a class, the specific ExtendedNode PremisNode
-        2. node: the ElementTree Element instance to turn into an
+        1. extendedNode (cls): a class, the specific ExtendedNode PremisNode
+        2. node (ET.Element): the ElementTree Element instance to turn into an
         ExtendedNode PremisNode instance.
+
+        __Returns__
+
+        * (ExtendedNode): the built ExtendedNode
         """
         result = extendedNode()
         for child in node:

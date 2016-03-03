@@ -101,12 +101,16 @@ to be used to build PremisNode instances.</p>
 given [tag] in [node].</p>
 <p><strong>Args</strong></p>
 <ol>
-<li>node: an ElementTree Element instance to search</li>
-<li>tag: a string, the tag name to find</li>
+<li>node (ET.Element): an ElementTree Element instance to search</li>
+<li>tag (str): a string, the tag name to find</li>
 </ol>
 <p><strong>KWArgs</strong></p>
 <ul>
-<li>req: A bool, if set to true and no nodes are found raise a ValueError</li>
+<li>req (bool): A bool, if set to true and no nodes are found raise a ValueError</li>
+</ul>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(list): a list of strings (the values)</li>
 </ul>
     </div>
     <div class='code'>
@@ -139,13 +143,17 @@ given [tag] in [node].</p>
 given [tag] in [node].</p>
 <p><strong>Args</strong></p>
 <ol>
-<li>node: an ElementTree Element instance to search</li>
-<li>tag: a string, the tag name to find</li>
+<li>node (ET.Element): an ElementTree Element instance to search</li>
+<li>tag (str): a string, the tag name to find</li>
 </ol>
 <p><strong>KWArgs</strong></p>
 <ul>
-<li>req: A bool, if set to true if no element with that tag is found
+<li>req (bool): A bool, if set to true if no element with that tag is found
 in the given node raise a ValueError</li>
+</ul>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(str): the value</li>
 </ul>
     </div>
     <div class='code'>
@@ -181,13 +189,17 @@ in the given node raise a ValueError</li>
 Element instances which has that tag.</p>
 <p><strong>Args</strong></p>
 <ol>
-<li>node: an ElementTree Element instance to search</li>
-<li>tag: a string, the tag to find</li>
+<li>node (ET.Element): an ElementTree Element instance to search</li>
+<li>tag (str): a string, the tag to find</li>
 </ol>
 <p><strong>KWArgs</strong></p>
 <ul>
-<li>req: A bool, if set to true if no element with the specified tag
+<li>req (bool): A bool, if set to true if no element with the specified tag
 in the specified node is found raise a ValueError</li>
+</ul>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(ET.Element): the node</li>
 </ul>
     </div>
     <div class='code'>
@@ -221,13 +233,17 @@ in the specified node is found raise a ValueError</li>
 Element instances which have that tag.</p>
 <p><strong>Args</strong></p>
 <ol>
-<li>node: an ElementTree Element instance to search</li>
-<li>tag: a string, the tag to find</li>
+<li>node (ET.Element): an ElementTree Element instance to search</li>
+<li>tag (str): a string, the tag to find</li>
 </ol>
 <p><strong>KWArgs</strong></p>
 <ul>
-<li>req: A bool, if set to true if no element with the specified tag is
+<li>req (bool): A bool, if set to true if no element with the specified tag is
 found in the given node raise a ValueError</li>
+</ul>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(list): a list of ET.Elements</li>
 </ul>
     </div>
     <div class='code'>
@@ -263,14 +279,19 @@ a list of the function return values for each entry in the original
 list.</p>
 <p><strong>Args</strong></p>
 <ol>
-<li>func: A function to be used to process the nodes</li>
-<li>node: A node to search for children to process</li>
-<li>tag: The tag of the children which will be processed by the function</li>
+<li>func (func): A function to be used to process the nodes</li>
+<li>node (ET.Element): A node to search for children to process</li>
+<li>tag (str): The tag of the children which will be processed by the function</li>
 </ol>
 <p><strong>KWArgs</strong></p>
 <ul>
-<li>req: A boo, if set to True if no element with the specified tag is
+<li>req (bool): A bool, if set to True if no element with the specified tag is
 found in the given node instance raise a ValueError</li>
+</ul>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(list or False): A list of PremisNodes, or False if no applicable
+nodes were found.</li>
 </ul>
     </div>
     <div class='code'>
@@ -326,6 +347,10 @@ so many times.</p>
       </div>
       <p>finds all of the objects in an xml record and builds Object PremisNodes
 from them. Returns a list of these nodes.</p>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(list): a list of built PremisNode.Objects</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">find_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre></div>
@@ -351,6 +376,10 @@ from them. Returns a list of these nodes.</p>
       </div>
       <p>finds all of the agents in an xml record and builds Agent PremisNodes
 from them. Returns a list of these nodes.</p>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(list): a list of built PremisNode.Agents</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">find_agents</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre></div>
@@ -376,6 +405,10 @@ from them. Returns a list of these nodes.</p>
       </div>
       <p>finds all of the events in an xml record and builds Event PremisNodes
 from them. Returns a list of these nodes.</p>
+<p><strong>Rturns</strong></p>
+<ul>
+<li>(list): a list of built PremisNode.Events</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">find_events</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre></div>
@@ -401,6 +434,10 @@ from them. Returns a list of these nodes.</p>
       </div>
       <p>finds all of the rights in an xml record and builds Rights PremisNodes
 from them. Returns a list of these nodes.</p>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(list): a list of built PremisNode.Rights...'s?</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">find_rights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre></div>
@@ -427,9 +464,13 @@ from them. Returns a list of these nodes.</p>
       <p>build an uncontrolled ExtensionNode PremisNode and return it.</p>
 <p><strong>Args</strong></p>
 <ol>
-<li>node: an ElementTree Element instance to turn into a PremisNode
+<li>node (ET.Element): an ElementTree Element instance to turn into a PremisNode
 ExtensionNode instance.</li>
 </ol>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(ExtensionNode): the built ExtensionNode</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">buildExtensionNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span></pre></div>
@@ -462,10 +503,14 @@ ExtensionNode instance.</li>
       <p>Wraps tacking Extension nodes to extended nodes.</p>
 <p><strong>Args</strong></p>
 <ol>
-<li>extendedNode: a class, the specific ExtendedNode PremisNode</li>
-<li>node: the ElementTree Element instance to turn into an
+<li>extendedNode (cls): a class, the specific ExtendedNode PremisNode</li>
+<li>node (ET.Element): the ElementTree Element instance to turn into an
 ExtendedNode PremisNode instance.</li>
 </ol>
+<p><strong>Returns</strong></p>
+<ul>
+<li>(ExtendedNode): the built ExtendedNode</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">buildExtendedNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extendedNode</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span></pre></div>

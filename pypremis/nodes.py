@@ -42,8 +42,8 @@ class PremisNode(object):
 
         __Args__
 
-        1. nodeName: a string which corresponds to the intended value of the
-        name attribute.
+        1. nodeName (str): a string which corresponds to the intended value
+        of the name attribute.
         """
 
         self._set_fields({})
@@ -53,6 +53,10 @@ class PremisNode(object):
         """
         Return an xml representation of the node object. This XML may
         not be valid on its own.
+
+        __Returns__
+
+        * (str): an xml string representation of the node
         """
         return ET.tostring(self.toXML()).decode('utf-8')
 
@@ -62,7 +66,11 @@ class PremisNode(object):
 
         __Args__
 
-        1. other: an object to test equality against.
+        1. other (any): an object to test equality against.
+
+        __Returns__
+
+        * (bool): a boolean denoting equality
         """
         if not isinstance(other, PremisNode):
             return False
@@ -98,7 +106,7 @@ class PremisNode(object):
 
         __Args__
 
-        1. fields: a dictionary corresponding to the fields internal data
+        1. fields (dict): a dictionary corresponding to the fields internal data
         organization of the class.
         """
         if not isinstance(fields, dict):
@@ -108,6 +116,10 @@ class PremisNode(object):
     def _get_fields(self):
         """
         return the fields attribute
+
+        __Returns__
+
+        * (dict): the self.fields attribute
         """
         return self.fields
 
@@ -117,8 +129,8 @@ class PremisNode(object):
 
         __Args__
 
-        1. name: a string representative of the portion of the PREMIS data model
-        that corresponds to the node instance.
+        1. name (str): a string representative of the portion of the PREMIS
+        data model that corresponds to the node instance.
         """
         if not isinstance(name, str):
             raise TypeError
@@ -130,10 +142,11 @@ class PremisNode(object):
 
         __Args__
 
-        1. key: a string representative of the portion of the data structure
-        this dictionary entry models.
-        2. value: a string, list (of strings or PremisNodes), or PremisNode
-        representative of the value(s) associated with the given key
+        1. key (str): a string representative of the portion of the data
+        structure this dictionary entry models.
+        2. value (str or list or PremisNode): a string, list (of strings or
+        PremisNodes), or PremisNode representative of the value(s) associated
+        with the given key
 
         __KWArgs__
 
@@ -159,7 +172,11 @@ class PremisNode(object):
 
         __Args__
 
-        1. key: the key of the desired dictionary entry.
+        1. key (str): the key of the desired dictionary entry.
+
+        __Returns__
+
+        * (list): A fields contents
         """
         return self.fields[key]
 
@@ -171,8 +188,8 @@ class PremisNode(object):
 
         __Args__
 
-        1. key: the key of the desired dictionary entry
-        2. value: the value to set or append
+        1. key (str): the key of the desired dictionary entry
+        2. value (str or PremisNode): the value to set or append
 
         __KWArgs__
 
@@ -203,7 +220,12 @@ class PremisNode(object):
 
         __Args__
 
-        1. x: any thing
+        1. x (any): anything
+
+        __Returns__
+
+        * (list): either the  input list, or a list containing whatever the
+        input was
         """
         if not isinstance(x, list):
             return [x]
@@ -217,11 +239,16 @@ class PremisNode(object):
 
         __Args__
 
-        1. key: a string which corresponds to the key of the desired value in the
-        internal dictionary data structure.
-        2. index: an integer which corresponds to the index of the desired value
-        in the internal dictionary data structure. If none return the list which
-        corresponds to the above key.
+        1. key (str): a string which corresponds to the key of the
+        desired value in the internal dictionary data structure.
+        2. index (int): an integer which corresponds to the index of the
+        desired value in the internal dictionary data structure. If none return
+        the list which corresponds to the above key.
+
+        __Returns__
+
+        * (list, PremisNode, str): Either a value at a specified index, or
+        a field at some key represented as a list.
         """
         if index is None:
             return self.fields[key]
@@ -234,9 +261,9 @@ class PremisNode(object):
 
         __Args__
 
-        1. x: the thing to be checked
-        2. type_it_should_be: An instance of a subclass of the 'type' class to be
-        used to confirm the type of x
+        1. x (any): the thing to be checked
+        2. type_it_should_be (type): An instance of a subclass of the 'type'
+        class to be used to confirm the type of x
         """
         if not isinstance(x, type_it_should_be):
             raise TypeError
@@ -244,6 +271,10 @@ class PremisNode(object):
     def get_name(self):
         """
         return the instance's name attribute
+
+        __Returns__
+
+        * (str): the self.name attribute
         """
         return self.name
 
@@ -251,6 +282,10 @@ class PremisNode(object):
         """
         return an ElementTree.Element object which models the node as PREMIS
         xml.
+
+        __Returns__
+
+        * (ET.Element): an ElementTree Element which models the node.
         """
         root = ET.Element('premis:'+self.name)
         for key in self.field_order:
@@ -332,7 +367,7 @@ class ExtensionNode(PremisNode):
     def __init__(self):
         """
         Initialize an extension node whose name is dictated by the key of the
-        field to which it belongs.
+        field to which it belongs. See PremisNode.__init__()
         """
         PremisNode.__init__(self, 'root')
 
@@ -368,6 +403,7 @@ class ExtensionNode(PremisNode):
     def toXML(self):
         """
         return an ElementTree.Element object which models the node as xml.
+        see PremisNode.toXML()
         """
         root = ET.Element(self.name)
         for key in self.fields:
@@ -397,6 +433,28 @@ class ExtensionNode(PremisNode):
             else:
                 raise ValueError
         return root
+
+# From here on out classes for every possible PREMISv3 node are defined.
+# Their field order dictates the order things get serialized in in cases
+# where it matters (assuming the serializer implements things correctly).
+# Every class implements a getter and a setter for every child field of the
+# node it models, listfying things in setters for repeatable fields.
+# If a field is repeatable an .add_* method is implemented. Init required
+# args are representative of the PREMISv3 data dictionary specs. I've tried
+# to hold the order of args in init's as consistant as possible as their order
+# in the data dictionary.
+#
+# Field names, function names, and event variable names are all held as closely
+# as I could manage to the language in the data dictionary.
+#
+# Not Applicable errors get thrown if you attempt to add things to a node
+# when the PREMISv3 data dictionary states they aren't applicable.
+# (I can only do this at the topmost connecting node, so its possible to build
+# a whole irrelevant structure and not be able to connect it at the end, but
+# there's no way around this since nodes are blind to their parents.)
+#
+# The addition of optional fields as KWArgs is on the docket for a day
+# when I feel like typing all these field names thousands of times again.
 
 
 class SignificantPropertiesExtension(ExtendedNode):
@@ -626,6 +684,9 @@ class Object(PremisNode):
         self._add_to_field('linkingRightsStatementIdentifier', linkingRightsStatementIdentifier)
 
     def toXML(self):
+        # Object nodes need their own .toXML(), because they are the singular
+        # case where something gets written into the XML specific attribute
+        # space rather than into a key-value pair.
         root = ET.Element('premis:'+self.name)
         root.set("xsi:type", 'premis:'+self.get_objectCategory())
         for key in self.field_order:
