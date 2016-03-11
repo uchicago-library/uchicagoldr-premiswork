@@ -1,8 +1,5 @@
 # pypremis #
 
-* auto-gen TOC:
-{:toc}
-
 ## Whats New? ##
 * First official release coming soon...
 
