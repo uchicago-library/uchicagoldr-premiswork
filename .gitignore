@@ -1,0 +1,17 @@
+build/*
+pypremis/__pycache__/*
+bin/__pycache__/*
+pypremis/*pyc
+bin/*pyc
+bin/#*#
+bin/*#*
+pypremis/#*$
+pypremis/*#*
+pypremis/*~
+#*#
+*~
+env/*
+.DS_Store
+*.egg-info/
+*.swp
+dist/
