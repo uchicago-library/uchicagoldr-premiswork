@@ -310,7 +310,7 @@ class PremisNode(object):
                             e = x.toXML()
                             root.append(e)
                         else:
-                            raise ValueError
+                            raise ValueError('{} is not a str or node'.format(str(x)))
                 else:
                     raise ValueError
         return root
