@@ -304,6 +304,11 @@ class PremisRecord(object):
             self.add_rights(rights)
         for obj in factory.find_objects():
             self.add_object(obj)
+        # This fixes a weird bug where the premis xmlns was being written twice
+        # in the attributes of the root tag when calling .write_to_file() in
+        # cases where extension nodes contain children that are PremisNodes
+        ET.register_namespace('premis', "")
+        ET.register_namespace('xsi', "")
 
     def write_to_file(self, targetpath):
         """
@@ -324,5 +329,5 @@ class PremisRecord(object):
             root.append(entry.toXML())
         tree.write(targetpath,
                    xml_declaration=True,
-                   encoding='utf-8',
+                   encoding='unicode',
                    method='xml')

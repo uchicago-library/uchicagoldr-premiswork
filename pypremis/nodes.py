@@ -417,6 +417,9 @@ class ExtensionNode(PremisNode):
                 for x in value.toXML():
                     e.append(x)
                 root.append(e)
+            elif isinstance(value, PremisNode):
+                e = value.toXML()
+                root.append(e)
             elif isinstance(value, list):
                 for entry in value:
                     if isinstance(entry, str):
@@ -428,6 +431,9 @@ class ExtensionNode(PremisNode):
                         for n in entry.toXML():
                             e.append(n)
                         root.append(e)
+                    elif isinstance(entry, PremisNode):
+#                        for n in entry.toXML():
+                        root.append(entry.toXML())
                     else:
                         raise ValueError
             else:
