@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+from abc import ABCMeta, abstractmethod
 
 from pypremis.nodes import *
 
@@ -1156,3 +1157,176 @@ class XMLNodeFactory(object):
             termOfRestriction.set_endDate(endDate)
 
         return termOfRestriction
+
+
+class LinkingXIdentifierFactory(metaclass=ABCMeta):
+
+    _input_node = None
+    _output_node_type = None
+
+    @abstractmethod
+    def __init__(self, input_node):
+        self.set_input_node(input_node)
+
+
+    @abstractmethod
+    def get_input_identifier_type(self):
+        raise NotImplementedError(
+            "The ABC doesn't provide any functionality for this method."
+        )
+
+    @abstractmethod
+    def get_input_identifier_value(self):
+        raise NotImplementedError(
+            "The ABC doesn't provide any functionality for this method."
+        )
+
+    @abstractmethod
+    def set_output_node_role(self, node, role):
+        raise NotImplementedError(
+            "The ABC doesn't provide any functionality for this method."
+        )
+
+    def get_output_node_type(self):
+        x = self._output_node_type
+        if x is None:
+            raise NotImplementedError(
+                "You need to call set_output_node_type in your init."
+            )
+        return x
+
+    def get_input_node(self):
+        return self._input_node
+
+    def set_input_node(self, x):
+        self._input_node = x
+
+    def set_output_node_type(self, x):
+        self._output_node_type = x
+
+    def produce_linking_node(self, role=None):
+        linkingXIdentifierType = self.get_input_identifier_type()
+        linkingXIdentifierValue = self.get_input_identifier_value()
+        linking_node = self.get_output_node_type()(
+            linkingXIdentifierType,
+            linkingXIdentifierValue
+        )
+        if role is not None:
+            self.set_output_node_role(linking_node, role)
+        return linking_node
+
+    input_node = property(get_input_node, set_input_node)
+    output_node_type = property(get_output_node_type, set_output_node_type)
+
+
+class LinkingObjectIdentifierFactory(LinkingXIdentifierFactory):
+    def __init__(self, input_node):
+        super().__init__(input_node)
+        self.set_output_node_type(LinkingObjectIdentifier)
+
+    def set_input_node(self, x):
+        if not isinstance(x, Object):
+            raise ValueError(
+                "{} is not an Object.".format(str(type(x)))
+            )
+        super().set_input_node(x)
+
+    def get_input_identifier_type(self):
+        return self.get_input_node().get_objectIdentifier(0).get_objectIdentifierType()
+
+    def get_input_identifier_value(self):
+        return self.get_input_node().get_objectIdentifier(0).get_objectIdentifierValue()
+
+    def set_output_node_role(self, node, role):
+        node.set_linkingObjectRole(role)
+
+
+class LinkingAgentIdentifierFactory(LinkingXIdentifierFactory):
+    def __init__(self, input_node):
+        super().__init__(input_node)
+        self.set_output_node_type(LinkingAgentIdentifier)
+
+    def set_input_node(self, x):
+        if not isinstance(x, Agent):
+            raise ValueError(
+                "{} is not an Agent.".format(str(type(x)))
+            )
+        super().set_input_node(x)
+
+    def get_input_identifier_type(self):
+        return self.get_input_node().get_agentIdentifier(0).get_agentIdentifierType()
+
+    def get_input_identifier_value(self):
+        return self.get_input_node().get_agentIdentifier(0).get_agentIdentifierValue()
+
+    def set_output_node_role(self, node, role):
+        node.set_linkingAgentRole(role)
+
+
+class LinkingEventIdentifierFactory(LinkingXIdentifierFactory):
+    def __init__(self, input_node):
+        super().__init__(input_node)
+        self.set_output_node_type(LinkingEventIdentifier)
+
+    def set_input_node(self, x):
+        if not isinstance(x, Event):
+            raise ValueError(
+                "{} is not an Event.".format(str(type(x)))
+            )
+        super().set_input_node(x)
+
+    def get_input_identifier_type(self):
+        return self.get_input_node().get_eventIdentifier(0).get_eventIdentifierType()
+
+    def get_input_identifier_value(self):
+        return self.get_input_node().get_eventIdentifier(0).get_eventIdentifierValue()
+
+    def set_output_node_role(self, node, role):
+        node.set_linkingEventRole(role)
+
+
+class LinkingRightsStatementIdentifierFactory(LinkingXIdentifierFactory):
+    def __init__(self, input_node):
+        super().__init__(input_node)
+        self.set_output_node_type(LinkingRightsStatementIdentifier)
+
+    def set_input_node(self, x):
+        if not isinstance(x, RightsStatement):
+            raise ValueError(
+                "{} is not a RightsStatement.".format(str(type(x)))
+            )
+        super().set_input_node(x)
+
+    def get_input_identifier_type(self):
+        return self.get_input_node().get_rightsStatementIdentifier(0).get_rightsStatementIdentifierType()
+
+    def get_input_identifier_value(self):
+        return self.get_input_node().get_rightsStatementIdentifier(0).get_rightsStatementIdentifierValue()
+
+    def set_output_node_role(self, node, role):
+        raise NotImplementedError(
+            "You can not set a role for a LinkingRightsStatement"
+        )
+        # Because PREMIS says so!
+
+
+class LinkingEnvironmentIdentifierFactory(LinkingXIdentifierFactory):
+    def __init__(self, input_node):
+        super().__init__(input_node)
+        self.set_output_node_type(LinkingEnvironmentIdentifier)
+
+    def set_input_node(self, x):
+        if not isinstance(x, Object):
+            raise ValueError(
+                "{} is not an Object.".format(str(type(x)))
+            )
+        super().set_input_node(x)
+
+    def get_input_identifier_type(self):
+        return self.get_input_node().get_objectIdentifier(0).get_objectIdentifierType()
+
+    def get_input_identifier_value(self):
+        return self.get_input_node().get_objectIdentifier(0).get_objectIdentifierValue()
+
+    def set_output_node_role(self, node, role):
+        node.set_linkingEnvironmentRole(role)
