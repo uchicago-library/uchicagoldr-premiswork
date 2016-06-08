@@ -1235,45 +1235,55 @@ class Signature(PremisNode):
         self.set_signatureValidationRules(signatureValidationRules)
 
     def set_signatureEncoding(self, signatureEncoding):
+        self._type_check(signatureEncoding, str)
         self._set_field('signatureEncoding', signatureEncoding)
 
     def get_signatureEncoding(self):
         return self._get_field('signatureEncoding')
 
     def set_signer(self, signer):
+        self._type_check(signer, str)
         self._set_field('signer', signer)
 
     def get_signer(self):
         return self._get_field('signer')
 
     def set_signatureMethod(self, signatureMethod):
+        self._type_check(signatureMethod, str)
         self._set_field('signatureMethod', signatureMethod)
 
     def get_signatureMethod(self):
         return self._get_field('signatureMethod')
 
     def set_signatureValue(self, signatureValue):
+        self._type_check(signatureValue, str)
         self._set_field('signatureValue', signatureValue)
 
     def get_signatureValue(self):
         return self._get_field('signatureValue')
 
     def set_signatureValidationRules(self, signatureValidationRules):
+        self._type_check(signatureValidationRules, str)
         self._set_field('signatureValidationRules', signatureValidationRules)
 
     def get_signatureValidationRules(self):
         return self._get_field('signatureValidationRules')
 
     def set_signatureProperties(self, signatureProperties):
-        self._set_field('signatureProperties', self._listify(signatureProperties))
+        signatureProperties = self._listify(signatureProperties)
+        for x in signatureProperties:
+            self._type_check(x, str)
+        self._set_field('signatureProperties', signatureProperties)
 
     def add_signatureProperties(self, signatureProperties):
+        self._type_check(signatureProperties, str)
         self._add_to_field('signatureProperties', signatureProperties)
 
     def get_signatureProperties(self, index=None):
         return self._list_getter('signatureProperties', index)
 
     def set_keyInformation(self, keyInformation):
+        self._type_check(keyInformation, KeyInformation)
         self._set_field('keyInformation', keyInformation)
 
     def get_keyInformation(self):
@@ -1289,17 +1299,18 @@ class Storage(PremisNode):
         PremisNode.__init__(self, 'storage')
 
     def set_contentLocation(self, contentLocation):
+        self._type_check(contentLocation, ContentLocation)
         self._set_field('contentLocation', contentLocation)
 
     def get_contentLocation(self):
         return self._get_field('contentLocation')
 
     def set_storageMedium(self, storageMedium):
+        self._type_check(storageMedium, str)
         self._set_field('storageMedium', storageMedium)
 
     def get_storageMedium(self):
         return self._get_field('storageMedium')
-        pass
 
 
 class ContentLocation(PremisNode):
@@ -1313,12 +1324,14 @@ class ContentLocation(PremisNode):
         self.set_contentLocationValue(contentLocationValue)
 
     def set_contentLocationType(self, contentLocationType):
+        self._type_check(contentLocationType, str)
         self._set_field('contentLocationType', contentLocationType)
 
     def get_contentLocationType(self):
         return self._get_field('contentLocationType')
 
     def set_contentLocationValue(self, contentLocationValue):
+        self._type_check(contentLocationValue, str)
         self._set_field('contentLocationValue', contentLocationValue)
 
     def get_contentLocationValue(self):
@@ -1340,21 +1353,27 @@ class ObjectCharacteristics(PremisNode):
         self.set_format(format)
 
     def set_compositionLevel(self, compositionLevel):
+        self._type_check(compositionLevel, str)
         self._set_field('compositionLevel', compositionLevel)
 
     def get_compositionLevel(self):
         return self._get_field('compositionLevel')
 
     def set_fixity(self, fixity):
-        self._set_field('fixity', self._listify(fixity))
+        fixity = self._listify(fixity)
+        for x in fixity:
+            self._type_check(x, Fixity)
+        self._set_field('fixity', fixity)
 
     def get_fixity(self, index=None):
         return self._list_getter('fixity', index)
 
     def add_fixity(self, fixity):
+        self._type_check(fixity, Fixity)
         self._add_to_field('fixity', fixity)
 
     def set_size(self, size):
+        self._type_check(size, str)
         self._set_field('size', size)
 
     def get_size(self):
@@ -1362,39 +1381,55 @@ class ObjectCharacteristics(PremisNode):
         pass
 
     def set_format(self, format):
-        self._set_field('format', self._listify(format))
+        format = self._listify(format)
+        for x in format:
+            self._type_check(x, Format)
+        self._set_field('format', format)
 
     def get_format(self, index=None):
         return self._list_getter('format', index)
 
     def add_format(self, format):
+        self._type_check(format, Format)
         self._add_to_field('format', format)
 
     def set_creatingApplication(self, creatingApplication):
-        self._set_field('creatingApplication', self._listify(creatingApplication))
+        creatingApplication = self._listify(creatingApplication)
+        for x in creatingApplication:
+            self._type_check(x, CreatingApplication)
+        self._set_field('creatingApplication', creatingApplication)
 
     def get_creatingApplication(self, index=None):
         return self._list_getter('creatingApplication', index)
 
     def add_creatingApplication(self, creatingApplication):
+        self._type_check(creatingApplication, CreatingApplication)
         self._add_to_field('creatingApplication', creatingApplication)
 
     def set_inhibitors(self, inhibitors):
-        self._set_field('inhibitors', self._listify(inhibitors))
+        inhibitors = self._listify(inhibitors)
+        for x in inhibitors:
+            self._type_check(x, Inhibitors)
+        self._set_field('inhibitors', inhibitors)
 
     def get_inhibitors(self, index=None):
         return self._list_getter('inhibitors', index)
 
     def add_inhibitors(self, inhibitors):
+        self._type_check(inhibitors, Inhibitors)
         self._add_to_field('inhibitors', inhibitors)
 
     def set_objectCharacteristicsExtension(self, objectCharacteristicsExtension):
-        self._set_field('objectCharacteristicsExtension', self._listify(objectCharacteristicsExtension))
+        objectCharacteristicsExtension = self._listify(objectCharacteristicsExtension)
+        for x in objectCharacteristicsExtension:
+            self._type_check(x, ObjectCharacteristicsExtension)
+        self._set_field('objectCharacteristicsExtension', objectCharacteristicsExtension)
 
     def get_objectCharacteristicsExtension(self, index=None):
         return self._list_getter('objectCharacteristicsExtension', index)
 
     def add_objectCharacteristicsExtension(self, objectCharacteristicsExtension):
+        self._type_check(objectCharacteristicsExtension, ObjectCharacteristicsExtension)
         self._add_to_field('objectCharacteristicsExtension', objectCharacteristicsExtension)
 
 
@@ -1409,21 +1444,27 @@ class Inhibitors(PremisNode):
         self.set_inhibitorType(inhibitorType)
 
     def set_inhibitorType(self, inhibitorType):
+        self._type_check(inhibitorType, str)
         self._set_field('inhibitorType', inhibitorType)
 
     def get_inhibitorType(self):
         return self._get_field('inhibitorType')
 
     def set_inhibitorTarget(self, inhibitorTarget):
-        self._set_field('inhibitorTarget', self._listify(inhibitorTarget))
+        inhibitorTarget = self._listify(inhibitorTarget)
+        for x in inhibitorTarget:
+            self._type_check(x, str)
+        self._set_field('inhibitorTarget', inhibitorTarget)
 
     def add_inhibitorTarget(self, inhibitorTarget):
+        self._type_check(inhibitorTarget, str)
         self._add_to_field('inhibitorTarget', inhibitorTarget)
 
     def get_inhibitorTarget(self, index=None):
         return self._list_getter('inhibitorTarget', index)
 
     def set_inhibitorKey(self, inhibitorKey):
+        self._type_check(inhibitorKey, str)
         self._set_field('inhibitorKey', inhibitorKey)
 
     def get_inhibitorKey(self):
@@ -1441,30 +1482,37 @@ class CreatingApplication(PremisNode):
         PremisNode.__init__(self, 'creatingApplication')
 
     def set_creatingApplicationName(self, creatingApplicationName):
+        self._type_check(creatingApplicationName, str)
         self._set_field('creatingApplicationName', creatingApplicationName)
 
     def get_creatingApplicationName(self):
         return self._get_field('creatingApplicationName')
 
     def set_creatingApplicationVersion(self, creatingApplicationVersion):
+        self._type_check(creatingApplicationVersion, str)
         self._set_field('creatingApplicationVersion', creatingApplicationVersion)
 
     def get_creatingApplicationVersion(self):
         return self._get_field('creatingApplicationVersion')
 
     def set_dateCreatedByApplication(self, dateCreatedByApplication):
+        self._type_check(dateCreatedByApplication, str)
         self._set_field('dateCreatedByApplication', dateCreatedByApplication)
 
     def get_dateCreatedByApplication(self):
         return self._get_field('dateCreatedByApplication')
 
     def set_creatingApplicationExtension(self, creatingApplicationExtension):
-        self._set_field('creatingApplicationExtension', self._listify(creatingApplicationExtension))
+        creatingApplicationExtension = self._listify(creatingApplicationExtension)
+        for x in creatingApplicationExtension:
+            self._type_check(x, CreatingApplicationExtension)
+        self._set_field('creatingApplicationExtension', creatingApplicationExtension)
 
     def get_creatingApplicationExtension(self, index=None):
         return self._list_getter('creatingApplicationExtension', index)
 
     def add_creatingApplicationExtension(self, creatingApplicationExtension):
+        self._type_check(creatingApplicationExtension, CreatingApplicationExtension)
         self._add_to_field('creatingApplicationExtension', creatingApplicationExtension)
 
 
@@ -1484,24 +1532,30 @@ class Format(PremisNode):
             self.set_formatRegistry(formatRegistry)
 
     def set_formatDesignation(self, formatDesignation):
+        self._type_check(formatDesignation, FormatDesignation)
         self._set_field('formatDesignation', formatDesignation)
 
     def get_formatDesignation(self):
         return self._get_field('formatDesignation')
 
     def set_formatRegistry(self, formatRegistry):
+        self._type_check(formatRegistry, FormatRegistry)
         self._set_field('formatRegistry', formatRegistry)
 
     def get_formatRegistry(self):
         return self._get_field('formatRegistry')
 
     def set_formatNote(self, formatNote):
-        self._set_field('formatNote', self._listify(formatNote))
+        formatNote = self._listify(formatNote)
+        for x in formatNote:
+            self._type_check(x, str)
+        self._set_field('formatNote', formatNote)
 
     def get_formatNote(self, index=None):
         return self._list_getter('formatNote', index)
 
     def add_formatNote(self, formatNote):
+        self._type_check(formatNote, str)
         self._add_to_field('formatNote', formatNote)
 
 
@@ -1515,12 +1569,14 @@ class FormatDesignation(PremisNode):
         self.set_formatName(formatName)
 
     def set_formatName(self, formatName):
+        self._type_check(formatName, str)
         self._set_field('formatName', formatName)
 
     def get_formatName(self):
         return self._get_field('formatName')
 
     def set_formatVersion(self, formatVersion):
+        self._type_check(formatVersion, str)
         self._set_field('formatVersion', formatVersion)
 
     def get_formatVersion(self):
@@ -1539,18 +1595,21 @@ class FormatRegistry(PremisNode):
         self.set_formatRegistryKey(formatRegistryKey)
 
     def set_formatRegistryName(self, formatRegistryName):
+        self._type_check(formatRegistryName, str)
         self._set_field('formatRegistryName', formatRegistryName)
 
     def get_formatRegistryName(self):
         return self._get_field('formatRegistryName')
 
     def set_formatRegistryKey(self, formatRegistryKey):
+        self._type_check(formatRegistryKey, str)
         self._set_field('formatRegistryKey', formatRegistryKey)
 
     def get_formatRegistryKey(self):
         return self._get_field('formatRegistryKey')
 
     def set_formatRegistryRole(self, formatRegistryRole):
+        self._type_check(formatRegistryRole, str)
         self._set_field('formatRegistryRole', formatRegistryRole)
 
     def get_formatRegistryRole(self):
@@ -1569,18 +1628,21 @@ class Fixity(PremisNode):
         self.set_messageDigest(messageDigest)
 
     def set_messageDigestAlgorithm(self, messageDigestAlgorithm):
+        self._type_check(messageDigestAlgorithm, str)
         self._set_field('messageDigestAlgorithm', messageDigestAlgorithm)
 
     def get_messageDigestAlgorithm(self):
         return self._get_field('messageDigestAlgorithm')
 
     def set_messageDigest(self, messageDigest):
+        self._type_check(messageDigest, str)
         self._set_field('messageDigest', messageDigest)
 
     def get_messageDigest(self):
         return self._get_field('messageDigest')
 
     def set_messageDigestOriginator(self, messageDigestOriginator):
+        self._type_check(messageDigestOriginator, str)
         self._set_field('messageDigestOriginator', messageDigestOriginator)
 
     def get_messageDigestOriginator(self):
@@ -1603,24 +1665,30 @@ class SignificantProperties(PremisNode):
             self.set_significantPropertiesExtension(significantPropertiesExtension)
 
     def set_significantPropertiesType(self, significantPropertiesType):
+        self._type_check(significantPropertiesType, str)
         self._set_field('significantPropertiesType', significantPropertiesType)
 
     def get_significantPropertiesType(self):
         return self._get_field('significantPropertiesType')
 
     def set_significantPropertiesValue(self, significantPropertiesValue):
+        self._type_check(significantPropertiesValue, str)
         self._set_field('significantPropertiesValue', significantPropertiesValue)
 
     def get_significantPropertiesValue(self):
         return self._get_field('significantPropertiesValue')
 
     def set_significantPropertiesExtension(self, significantPropertiesExtension):
-        self._set_field('significantPropertiesExtension', self._listify(significantPropertiesExtension))
+        significantPropertiesExtension = self._listify(significantPropertiesExtension)
+        for x in significantPropertiesExtension:
+            self._type_check(x, SignificantPropertiesExtension)
+        self._set_field('significantPropertiesExtension', significantPropertiesExtension)
 
     def get_significantPropertiesExtension(self, index=None):
         return self._list_getter('significantPropertiesExtension', index)
 
     def add_significantPropertiesExtension(self, significantPropertiesExtension):
+        self._type_check(significantPropertiesExtension, SignificantPropertiesExtension)
         self._add_to_field('significantPropertiesExtension', significantPropertiesExtension)
 
 
@@ -1637,33 +1705,41 @@ class PreservationLevel(PremisNode):
         self._set_field('preservationLevelValue', preservationLevelValue)
 
     def set_preservationLevelType(self, preservationLevelType):
+        self._type_check(preservationLevelType, str)
         self._set_field('preservationLevelType', preservationLevelType)
 
     def get_preservationLevelType(self):
         return self._get_field('preservationLevelType')
 
     def set_preservationLevelValue(self, preservationLevelValue):
+        self._type_check(preservationLevelValue, str)
         self._set_field('preservationLevelValue', preservationLevelValue)
 
     def get_preservationLevelValue(self):
         return self._get_field('preservationLevelValue')
 
     def set_preservationLevelRole(self, preservationLevelRole):
+        self._type_check(preservationLevelRole, str)
         self._set_field('preservationLevelRole', preservationLevelRole)
 
     def get_preservationLevelRole(self):
         return self._get_field('preservationLevelRole')
 
     def set_preservationLevelRationale(self, preservationLevelRationale):
-        self._set_field('preservationLevelRationale', self._listify(preservationLevelRationale))
+        preservationLevelRationale = self._listify(preservationLevelRationale)
+        for x in preservationLevelRationale:
+            self._type_check(x, str)
+        self._set_field('preservationLevelRationale', preservationLevelRationale)
 
     def get_preservationLevelRationale(self, index=None):
         return self._list_getter('preservationLevelRationale', index)
 
     def add_preservationLevelRationale(self, preservationLevelRationale):
+        self._type_check(preservationLevelRationale, str)
         self._add_to_field('preservationLevelRationale', preservationLevelRationale)
 
     def set_preservationLevelDateAssigned(self, preservationLevelDateAssigned):
+        self._type_check(preservationLevelDateAssigned, str)
         self._set_field('preservationLevelDateAssigned', preservationLevelDateAssigned)
 
     def get_preservationLevelDateAssigned(self):
@@ -1687,57 +1763,76 @@ class Event(PremisNode):
         self.set_eventDateTime(eventDateTime)
 
     def set_eventIdentifier(self, eventIdentifier):
+        self._type_check(eventIdentifier, EventIdentifier)
         self._set_field('eventIdentifier', eventIdentifier)
 
     def get_eventIdentifier(self):
         return self._get_field('eventIdentifier')
 
     def set_eventType(self, eventType):
+        self._type_check(eventType, str)
         self._set_field('eventType', eventType)
 
     def get_eventType(self):
         return self._get_field('eventType')
 
     def set_eventDateTime(self, eventDateTime):
+        self._type_check(eventDateTime, str)
         self._set_field('eventDateTime', eventDateTime)
 
     def get_eventDateTime(self):
         return self._get_field('eventDateTime')
 
     def set_eventDetailInformation(self, eventDetailInformation):
-        self._set_field('eventDetailInformation', self._listify(eventDetailInformation))
+        eventDetailInformation = self._listify(eventDetailInformation)
+        for x in eventDetailInformation:
+            self._type_check(x, EventDetailInformation)
+        self._set_field('eventDetailInformation', eventDetailInformation)
 
     def get_eventDetailInformation(self, index=None):
         return self._list_getter('eventDetailInformation', index)
 
     def add_eventDetailInformation(self, eventDetailInformation):
+        self._type_check(eventDetailInformation, EventDetailInformation)
         self._add_to_field('eventDetailInformation', eventDetailInformation)
 
     def set_eventOutcomeInformation(self, eventOutcomeInformation):
-        self._set_field('eventOutcomeInformation', self._listify(eventOutcomeInformation))
+        eventOutcomeInformation = self._listify(eventOutcomeInformation)
+        for x in eventOutcomeInformation:
+            self._type_check(x, EventOutcomeInformation)
+        self._set_field('eventOutcomeInformation', eventOutcomeInformation)
 
     def get_eventOutcomeInformation(self, index=None):
         return self._list_getter('eventOutcomeInformation', index)
 
     def add_eventOutcomeInformation(self, eventOutcomeInformation):
+        self._type_check(eventOutcomeInformation, EventOutcomeInformation)
         self._add_to_field('eventOutcomeInformation', eventOutcomeInformation)
 
     def set_linkingAgentIdentifier(self, linkingAgentIdentifier):
-        self._set_field('linkingAgentIdentifier', self._listify(linkingAgentIdentifier))
+        linkingAgentIdentifier = self._listify(linkingAgentIdentifier)
+        for x in linkingAgentIdentifier:
+            self._type_check(x, LinkingAgentIdentifier)
+        self._set_field('linkingAgentIdentifier', linkingAgentIdentifier)
 
     def get_linkingAgentIdentifier(self, index=None):
         return self._list_getter('linkingAgentIdentifier', index)
 
     def add_linkingAgentIdentifier(self, linkingAgentIdentifier):
+        self._type_check(linkingAgentIdentifier, LinkingAgentIdentifier)
         self._add_to_field('linkingAgentIdentifier', linkingAgentIdentifier)
 
     def set_linkingObjectIdentifier(self, linkingObjectIdentifier):
-        self._set_field('linkingObjectIdentifier', self._listify(linkingObjectIdentifier))
+        linkingObjectIdentifier = self._listify(linkingObjectIdentifier)
+        for x in linkingObjectIdentifier:
+            self._type_check(x, LinkingObjectIdentifier)
+        self._set_field('linkingObjectIdentifier', linkingObjectIdentifier)
 
     def get_linkingObjectIdentifier(self, index=None):
         return self._list_getter('linkingObjectIdentifier', index)
 
     def add_linkingObjectIdentifier(self, linkingObjectIdentifier):
+        self._type_check(linkingObjectIdentifier, LinkingObjectIdentifier)
         self._add_to_field('linkingObjectIdentifier', linkingObjectIdentifier)
 
 
@@ -1757,27 +1852,36 @@ class EventOutcomeInformation(PremisNode):
             self.set_eventOutcomeDetail(eventOutcomeDetail)
 
     def set_eventOutcome(self, eventOutcome):
+        self._type_check(eventOutcome, str)
         self._set_field('eventOutcome', eventOutcome)
 
     def get_eventOutcome(self):
         return self._get_field('eventOutcome')
 
     def set_eventDetailInformation(self, eventDetailInformation):
-        self._set_field('eventDetailInformation', self._listify(eventDetailInformation))
+        eventDetailInformation = self._listify(eventDetailInformation)
+        for x in eventDetailInformation:
+            self._type_check(x, EventDetailInformation)
+        self._set_field('eventDetailInformation', eventDetailInformation)
 
     def get_eventDetailInformation(self, index=None):
         return self._list_getter('eventDetailInformation', index)
 
     def add_eventDetailInformation(self, eventDetailInformation):
+        self._type_check(eventDetailInformation, EventDetailInformation)
         self._add_to_field('eventDetailInformation', eventDetailInformation)
 
     def set_eventOutcomeDetail(self, eventOutcomeDetail):
-        self._set_field('eventOutcomeDetail', self._listify(eventOutcomeDetail))
+        eventOutcomeDetail = self._listify(eventOutcomeDetail)
+        for x in eventOutcomeDetail:
+            self._type_check(x, EventOutcomeDetail)
+        self._set_field('eventOutcomeDetail', eventOutcomeDetail)
 
     def get_eventOutcomeDetail(self, index=None):
         return self._list_getter('eventOutcomeDetail', index)
 
     def add_eventOutcomeDetail(self, eventOutcomeDetail):
+        self._type_check(eventOutcomeDetail, EventOutcomeDetail)
         self._add_to_field('eventOutcomeDetail', eventOutcomeDetail)
 
 
@@ -1796,18 +1900,23 @@ class EventDetailInformation(PremisNode):
             self.set_eventDetailExtension(eventDetailExtension)
 
     def set_eventDetail(self, eventDetail):
+        self._type_check(eventDetail, str)
         self._set_field('eventDetail', eventDetail)
 
     def get_eventDetail(self):
         return self._get_field('eventDetail')
 
     def set_eventDetailExtension(self, eventDetailExtension):
-        self._set_field('eventDetailExtension', self._listify(eventDetailExtension))
+        eventDetailExtension = self._listify(eventDetailExtension)
+        for x in eventDetailExtension:
+            self._type_check(x, EventDetailExtension)
+        self._set_field('eventDetailExtension', eventDetailExtension)
 
     def get_eventDetailExtension(self, index=None):
         return self._list_getter('eventDetailExtension', index)
 
     def add_eventDetailExtension(self, eventDetailExtension):
+        self._type_check(eventDetailExtension, EventDetailExtension)
         self._add_to_field('eventDetailExtension', eventDetailExtension)
 
 
@@ -1828,18 +1937,23 @@ class EventOutcomeDetail(PremisNode):
             self.set_eventOutcomeDetailExtension(eventOutcomeDetailExtension)
 
     def set_eventOutcomeDetailNote(self, eventOutcomeDetailNote):
+        self._type_check(eventOutcomeDetailNote, str)
         self._set_field('eventOutcomeDetailNote', eventOutcomeDetailNote)
 
     def get_eventOutcomeDetailNote(self):
         return self._get_field('eventOutcomeDetailNote')
 
     def set_eventOutcomeDetailExtension(self, eventOutcomeDetailExtension):
-        self._set_field('eventOutcomeDetailExtension', self._listify(eventOutcomeDetailExtension))
+        eventOutcomeDetailExtension = self._listify(eventOutcomeDetailExtension)
+        for x in eventOutcomeDetailExtension:
+            self._type_check(x, EventOutcomeDetailExtension)
+        self._set_field('eventOutcomeDetailExtension', eventOutcomeDetailExtension)
 
     def get_eventOutcomeDetailExtension(self, index=None):
         return self._list_getter('eventOutcomeDetailExtension', index)
 
     def add_eventOutcomeDetailExtension(self, eventOutcomeDetailExtension):
+        self._type_check(eventOutcomeDetailExtension, EventOutcomeDetailExtension)
         self._add_to_field('eventOutcomeDetailExtension', eventOutcomeDetailExtension)
 
 
@@ -1860,78 +1974,108 @@ class Agent(PremisNode):
         self.set_agentIdentifier(agentIdentifier)
 
     def set_agentIdentifier(self, agentIdentifier):
-        self._set_field('agentIdentifier', self._listify(agentIdentifier))
+        agentIdentifier = self._listify(agentIdentifier)
+        for x in agentIdentifier:
+            self._type_check(x, AgentIdentifier)
+        self._set_field('agentIdentifier', agentIdentifier)
 
     def get_agentIdentifier(self, index=None):
         return self._list_getter('agentIdentifier', index)
 
     def add_agentIdentifier(self, agentIdentifier):
+        self._type_check(agentIdentifier, AgentIdentifier)
         self._add_to_field('agentIdentifier', agentIdentifier)
 
     def set_agentName(self, agentName):
-        self._set_field('agentName', self._listify(agentName))
+        agentName = self._listify(agentName)
+        for x in agentName:
+            self._type_check(x, str)
+        self._set_field('agentName', agentName)
 
     def get_agentName(self, index=None):
         return self._list_getter('agentName', index)
 
     def add_agentName(self, agentName):
+        self._type_check(agentName, str)
         self._add_to_field('agentName', agentName)
 
     def set_agentType(self, agentType):
+        self._type_check(agentType, str)
         self._set_field('agentType', agentType)
 
     def get_agentType(self):
         return self._get_field('agentType')
 
     def set_agentVersion(self, agentVersion):
+        self._type_check(agentVersion, str)
         self._set_field('agentVersion', agentVersion)
 
     def get_agentVersion(self):
         return self._get_field('agentVersion')
 
     def set_agentNote(self, agentNote):
+        agentNote = self._listify(agentNote)
+        for x in agentNote:
+            self._type_check(x, str)
         self._set_field('agentNote', self._listify(agentNote))
 
     def get_agentNote(self, index=None):
         return self._list_getter('agentNote', index)
 
     def add_agentNote(self, agentNote):
+        self._type_check(agentNote, str)
         self._add_to_field('agentNote', agentNote)
 
     def set_agentExtension(self, agentExtension):
-        self._set_field('agentExtension', self._listify(agentExtension))
+        agentExtension = self._listify(agentExtension)
+        for x in agentExtension:
+            self._type_check(x, AgentExtension)
+        self._set_field('agentExtension', agentExtension)
 
     def get_agentExtension(self, index=None):
         return self._list_getter('agentExtension', index)
 
     def add_agentExtension(self, agentExtension):
+        self._type_check(agentExtension, AgentExtension)
         self._add_to_field('agentExtension', agentExtension)
 
     def set_linkingEventIdentifier(self, linkingEventIdentifier):
-        self._set_field('linkingEventIdentifier', self._listify(linkingEventIdentifier))
+        linkingEventIdentifier = self._listify(linkingEventIdentifier)
+        for x in linkingEventIdentifier:
+            self._type_check(x, LinkingEventIdentifier)
+        self._set_field('linkingEventIdentifier', linkingEventIdentifier)
 
     def get_linkingEventIdentifier(self, index=None):
         return self._list_getter('linkingEventIdentifier', index)
 
     def add_linkingEventIdentifier(self, linkingEventIdentifier):
+        self._type_check(linkingEventIdentifier, LinkingEventIdentifier)
         self._add_to_field('linkingEventIdentifier', linkingEventIdentifier)
 
     def set_linkingRightsStatementIdentifier(self, linkingRightsStatementIdentifier):
-        self._set_field('linkingRightsStatementIdentifier', self._listify(linkingRightsStatementIdentifier))
+        linkingRightsStatementIdentifier = self._listify(linkingRightsStatementIdentifier)
+        for x in linkingRightsStatementIdentifier:
+            self._type_check(x, LinkingRightsStatementIdentifier)
+        self._set_field('linkingRightsStatementIdentifier', linkingRightsStatementIdentifier)
 
     def get_linkingRightsStatementIdentifier(self, index=None):
         return self._list_getter('linkingRightsStatementIdentifier', index)
 
     def add_linkingRightsStatementIdentifier(self, linkingRightsStatementIdentifier):
+        self._type_check(linkingRightsStatementIdentifier, LinkingRightsStatementIdentifier)
         self._add_to_field('linkingRightsStatementIdentifier', linkingRightsStatementIdentifier)
 
     def set_linkingEnvironmentIdentifier(self, linkingEnvironmentIdentifier):
-        self._set_field('linkingEnvironmentIdentifier', self._listify(linkingEnvironmentIdentifier))
+        linkingEnvironmentIdentifier = self._listify(linkingEnvironmentIdentifier)
+        for x in linkingEnvironmentIdentifier:
+            self._type_check(x, LinkingEnvironmentIdentifier)
+        self._set_field('linkingEnvironmentIdentifier', linkingEnvironmentIdentifier)
 
     def get_linkingEnvironmentIdentifier(self, index=None):
         return self._list_getter('linkingEnvironmentIdentifier', index)
 
     def add_linkingEnvironmentIdentifier(self, linkingEnvironmentIdentifier):
+        self._type_check(linkingEnvironmentIdentifier, LinkingEnvironmentIdentifier)
         self._add_to_field('linkingEnvironmentIdentifier', linkingEnvironmentIdentifier)
 
 
