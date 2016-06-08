@@ -551,7 +551,7 @@ class Object(PremisNode):
         objectIdentifier = self._listify(objectIdentifier)
         for x in objectIdentifier:
             self._type_check(x, ObjectIdentifier)
-        self._set_field('objectIdentifier', self._listify(objectIdentifier))
+        self._set_field('objectIdentifier', objectIdentifier)
 
     def get_objectIdentifier(self, index=None):
         return self._list_getter('objectIdentifier', index)
@@ -644,7 +644,7 @@ class Object(PremisNode):
         signatureInformation = self._listify(signatureInformation)
         for x in signatureInformation:
             self._type_check(x, SignatureInformation)
-        self._set_field('signatureInformation', self._listify(signatureInformation))
+        self._set_field('signatureInformation', signatureInformation)
 
     def get_signatureInformation(self, index=None):
         return self._list_getter('signatureInformation', index)
@@ -661,7 +661,7 @@ class Object(PremisNode):
         environmentFunction = self._listify(environmentFunction)
         for x in environmentFunction:
             self._type_check(x, EnvironmentFunction)
-        self._set_field('environmentFunction', self._listify(environmentFunction))
+        self._set_field('environmentFunction', environmentFunction)
 
     def get_environmentFunction(self, index=None):
         return self._list_getter('environmentFunction', index)
@@ -700,7 +700,7 @@ class Object(PremisNode):
         environmentExtension = self._listify(environmentExtension)
         for x in environmentExtension:
             self._type_check(x, EnvironmentExtension)
-        self._set_field('environmentExtension', self._listify(environmentExtension))
+        self._set_field('environmentExtension', environmentExtension)
 
     def get_environmentExtension(self, index=None):
         return self._list_getter('environmentExtension', index)
@@ -2017,7 +2017,7 @@ class Agent(PremisNode):
         agentNote = self._listify(agentNote)
         for x in agentNote:
             self._type_check(x, str)
-        self._set_field('agentNote', self._listify(agentNote))
+        self._set_field('agentNote', agentNote)
 
     def get_agentNote(self, index=None):
         return self._list_getter('agentNote', index)
@@ -2090,12 +2090,14 @@ class AgentIdentifier(PremisNode):
         self.set_agentIdentifierValue(agentIdentifierValue)
 
     def set_agentIdentifierType(self, agentIdentifierType):
+        self._type_check(agentIdentifierType, str)
         self._set_field('agentIdentifierType', agentIdentifierType)
 
     def get_agentIdentifierType(self):
         return self._get_field('agentIdentifierType')
 
     def set_agentIdentifierValue(self, agentIdentifierValue):
+        self._type_check(agentIdentifierValue, str)
         self._set_field('agentIdentifierValue', agentIdentifierValue)
 
     def get_agentIdentifierValue(self):
@@ -2114,24 +2116,30 @@ class LinkingEnvironmentIdentifier(PremisNode):
         self.set_linkingEnvironmentIdentifierValue(linkingEnvironmentIdentifierValue)
 
     def set_linkingEnvironmentIdentifierType(self, linkingEnvironmentIdentifierType):
+        self._type_check(linkingEnvironmentIdentifierType, str)
         self._set_field('linkingEnvironmentIdentifierType', linkingEnvironmentIdentifierType)
 
     def get_linkingEnvironmentIdentifierType(self):
         return self._get_field('linkingEnvironmentIdentifierType')
 
     def set_linkingEnvironmentIdentifierValue(self, linkingEnvironmentIdentifierValue):
+        self._type_check(linkingEnvironmentIdentifierValue, str)
         self._set_field('linkingEnvironmentIdentifierValue', linkingEnvironmentIdentifierValue)
 
     def get_linkingEnvironmentIdentifierValue(self):
         return self._get_field('linkingEnvironmentIdentifierValue')
 
     def set_linkingEnvironmentRole(self, linkingEnvironmentRole):
-        self._set_field('linkingEnvironmentRole', self._listify(linkingEnvironmentRole))
+        linkingEnvironmentRole = self._listify(linkingEnvironmentRole)
+        for x in linkingEnvironmentRole:
+            self._type_check(x, str)
+        self._set_field('linkingEnvironmentRole', linkingEnvironmentRole)
 
     def get_linkingEnvironmentRole(self, index=None):
         return self._list_getter('linkingEnvironmentRole', index)
 
     def add_linkingEnvironmentRole(self, linkingEnvironmentRole):
+        self._type_check(linkingEnvironmentRole, str)
         self._add_to_field('linkingEnvironmentRole', linkingEnvironmentRole)
 
 
@@ -2147,24 +2155,30 @@ class LinkingAgentIdentifier(PremisNode):
         self.set_linkingAgentIdentifierValue(linkingAgentIdentifierValue)
 
     def set_linkingAgentIdentifierType(self, linkingAgentIdentifierType):
+        self._type_check(linkingAgentIdentifierType, str)
         self._set_field('linkingAgentIdentifierType', linkingAgentIdentifierType)
 
     def get_linkingAgentIdentifierType(self):
         return self._get_field('linkingAgentIdentifierType')
 
     def set_linkingAgentIdentifierValue(self, linkingAgentIdentifierValue):
+        self._type_check(linkingAgentIdentifierValue, str)
         self._set_field('linkingAgentIdentifierValue', linkingAgentIdentifierValue)
 
     def get_linkingAgentIdentifierValue(self):
         return self._get_field('linkingAgentIdentifierValue')
 
     def set_linkingAgentRole(self, linkingAgentRole):
-        self._set_field('linkingAgentRole', self._listify(linkingAgentRole))
+        linkingAgentRole = self._listify(linkingAgentRole)
+        for x in linkingAgentRole:
+            self._type_check(x, str)
+        self._set_field('linkingAgentRole', linkingAgentRole)
 
     def get_linkingAgentRole(self, index=None):
         return self._list_getter('linkingAgentRole', index)
 
     def add_linkingAgentRole(self, linkingAgentRole):
+        self._type_check(linkingAgentRole, str)
         self._add_to_field('linkingAgentRole', linkingAgentRole)
 
 
@@ -2183,21 +2197,29 @@ class Rights(PremisNode):
             self.set_rightsExtension(rightsExtension)
 
     def set_rightsStatement(self, rightsStatement):
-        self._set_field('rightsStatement', self._listify(rightsStatement))
+        rightsStatement = self._listify(rightsStatement)
+        for x in rightsStatement:
+            self._type_check(x, RightsStatement)
+        self._set_field('rightsStatement', rightsStatement)
 
     def get_rightsStatement(self, index=None):
         return self._list_getter('rightsStatement', index)
 
     def add_rightsStatement(self, rightsStatement):
+        self._type_check(rightsStatement, RightsStatement)
         self._add_to_field('rightsStatement', rightsStatement)
 
     def set_rightsExtension(self, rightsExtension):
-        self._set_field('rightsExtension', self._listify(rightsExtension))
+        rightsExtension = self._listify(rightsExtension)
+        for x in rightsExtension:
+            self._type_check(x, RightsExtension)
+        self._set_field('rightsExtension', rightsExtension)
 
     def get_rightsExtension(self, index=None):
         return self._list_getter('rightsExtension', index)
 
     def add_rightsExtension(self, rightsExtension):
+        self._type_check(rightsExtension, RightsExtension)
         self._add_to_field('rightsExtension', rightsExtension)
 
 
@@ -2219,69 +2241,90 @@ class RightsStatement(PremisNode):
         self.set_rightsBasis(rightsBasis)
 
     def set_rightsStatementIdentifier(self, rightsStatementIdentifier):
+        self._type_check(rightsStatementIdentifier, RightsStatementIdentifier)
         self._set_field('rightsStatementIdentifier', rightsStatementIdentifier)
 
     def get_rightsStatementIdentifier(self):
         return self._get_field('rightsStatementIdentifier')
 
     def set_rightsBasis(self, rightsBasis):
+        self._type_check(rightsBasis, str)
         self._set_field('rightsBasis', rightsBasis)
 
     def get_rightsBasis(self):
         return self._get_field('rightsBasis')
 
     def set_copyrightInformation(self, copyrightInformation):
+        self._type_check(copyrightInformation, CopyrightInformation)
         self._set_field('copyrightInformation', copyrightInformation)
 
     def get_copyrightInformation(self):
         return self._get_field('copyrightInformation')
 
     def set_licenseInformation(self, licenseInformation):
+        self._type_check(licenseInformation, LicenseInformation)
         self._set_field('licenseInformation', licenseInformation)
 
     def get_licenseInformation(self):
         return self._get_field('licenseInformation')
 
     def set_statuteInformation(self, statuteInformation):
-        self._set_field('statuteInformation', self._listify(statuteInformation))
+        statuteInformation = self._listify(statuteInformation)
+        for x in statuteInformation:
+            self._type_check(x, StatuteInformation)
+        self._set_field('statuteInformation', statuteInformation)
 
     def get_statuteInformation(self, index=None):
         return self._list_getter('statuteInformation', index)
 
     def add_statuteInformation(self, statuteInformation):
+        self._type_check(statuteInformation, StatuteInformation)
         self._add_to_field('statuteInformation', statuteInformation)
 
     def set_otherRightsInformation(self, otherRightsInformation):
+        self._type_check(otherRightsInformation, OtherRightsInformation)
         self._set_field('otherRightsInformation', otherRightsInformation)
 
     def get_otherRightsInformation(self):
         return self._get_field('otherRightsInformation')
 
     def set_rightsGranted(self, rightsGranted):
-        self._set_field('rightsGranted', self._listify(rightsGranted))
+        rightsGranted = self._listify(rightsGranted)
+        for x in rightsGranted:
+            self._type_check(x, RightsGranted)
+        self._set_field('rightsGranted', rightsGranted)
 
     def get_rightsGranted(self, index=None):
         return self._list_getter('rightsGranted', index)
 
     def add_rightsGranted(self, rightsGranted):
+        self._type_check(rightsGranted, RightsGranted)
         self._add_to_field('rightsGranted', rightsGranted)
 
     def set_linkingObjectIdentifier(self, linkingObjectIdentifier):
-        self._set_field('linkingObjectIdentifier', self._listify(linkingObjectIdentifier))
+        linkingObjectIdentifier = self._listify(linkingObjectIdentifier)
+        for x in linkingObjectIdentifier:
+            self._type_check(x, LinkingObjectIdentifier)
+        self._set_field('linkingObjectIdentifier', linkingObjectIdentifier)
 
     def get_linkingObjectIdentifier(self, index=None):
         return self._list_getter('linkingObjectIdentifier', index)
 
     def add_linkingObjectIdentifier(self, linkingObjectIdentifier):
+        self._type_check(linkingObjectIdentifier, LinkingObjectIdentifier)
         self._add_to_field('linkingObjectIdentifier', linkingObjectIdentifier)
 
     def set_linkingAgentIdentifier(self, linkingAgentIdentifier):
-        self._set_field('linkingAgentIdentifier', self._listify(linkingAgentIdentifier))
+        linkingAgentIdentifier = self._listify(linkingAgentIdentifier)
+        for x in linkingAgentIdentifier:
+            self._type_check(x, LinkingAgentIdentifier)
+        self._set_field('linkingAgentIdentifier', linkingAgentIdentifier)
 
     def get_linkingAgentIdentifier(self, index=None):
         return self._list_getter('linkingAgentIdentifier', index)
 
     def add_linkingAgentIdentifier(self, linkingAgentIdentifier):
+        self._type_check(linkingAgentIdentifier, LinkingAgentIdentifier)
         self._add_to_field('linkingAgentIdentifier', linkingAgentIdentifier)
 
 
@@ -2298,39 +2341,50 @@ class RightsGranted(PremisNode):
         self.set_act(act)
 
     def set_act(self, act):
+        self._type_check(act, str)
         self._set_field('act', act)
 
     def get_act(self):
         return self._get_field('act')
 
     def set_restriction(self, restriction):
-        self._set_field('restriction', self._listify(restriction))
+        restriction = self._listify(restriction)
+        for x in restriction:
+            self._type_check(x, str)
+        self._set_field('restriction', restriction)
 
     def get_restriction(self, index=None):
         return self._list_getter('restriction', index)
 
     def add_restriction(self, restriction):
+        self._type_check(restriction, str)
         self._add_to_field('restriction', restriction)
 
     def set_termOfGrant(self, termOfGrant):
+        self._type_check(termOfGrant, TermOfGrant)
         self._set_field('termOfGrant', termOfGrant)
 
     def get_termOfGrant(self):
         return self._get_field('termOfGrant')
 
     def set_termOfRestriction(self, termOfRestriction):
+        self._type_check(termOfRestriction, TermOfRestriction)
         self._set_field('termOfRestriction', termOfRestriction)
 
     def get_termOfRestriction(self):
         return self._get_field('termOfRestriction')
 
     def set_rightsGrantedNote(self, rightsGrantedNote):
-        self._set_field('rightsGrantedNote', self._listify(rightsGrantedNote))
+        rightsGrantedNote = self._listify(rightsGrantedNote)
+        for x in rightsGrantedNote:
+            self._type_check(x, str)
+        self._set_field('rightsGrantedNote', rightsGrantedNote)
 
     def get_rightsGrantedNote(self, index=None):
         return self._list_getter('rightsGrantedNote', index)
 
     def add_rightsGrantedNote(self, rightsGrantedNote):
+        self._type_check(rightsGrantedNote, str)
         self._add_to_field('rightsGrantedNote', rightsGrantedNote)
 
 
@@ -2344,12 +2398,14 @@ class TermOfRestriction(PremisNode):
         self.set_startDate(startDate)
 
     def set_startDate(self, startDate):
+        self._type_check(startDate, str)
         self._set_field('startDate', startDate)
 
     def get_startDate(self):
         return self._get_field('startDate')
 
     def set_endDate(self, endDate):
+        self._type_check(endDate, str)
         self._set_field('endDate', endDate)
 
     def get_endDate(self):
@@ -2366,12 +2422,14 @@ class TermOfGrant(PremisNode):
         self.set_startDate(startDate)
 
     def set_startDate(self, startDate):
+        self._type_check(startDate, str)
         self._set_field('startDate', startDate)
 
     def get_startDate(self):
         return self._get_field('startDate')
 
     def set_endDate(self, endDate):
+        self._type_check(endDate, str)
         self._set_field('endDate', endDate)
 
     def get_endDate(self):
@@ -2390,33 +2448,43 @@ class OtherRightsInformation(PremisNode):
         self.set_otherRightsBasis(otherRightsBasis)
 
     def set_otherRightsDocumentationIdentifier(self, otherRightsDocumentationIdentifier):
-        self._set_field('otherRightsDocumentationIdentifier', self._listify(otherRightsDocumentationIdentifier))
+        otherRightsDocumentationIdentifier = self._listify(otherRightsDocumentationIdentifier)
+        for x in otherRightsDocumentationIdentifier:
+            self._type_check(x, OtherRightsDocumentationIdentifier)
+        self._set_field('otherRightsDocumentationIdentifier', otherRightsDocumentationIdentifier)
 
     def get_otherRightsDocumentationIdentifier(self, index=None):
         return self._list_getter('otherRightsDocumentationIdentifier', index)
 
     def add_otherRightsDocumentationIdentifier(self, otherRightsDocumentationIdentifier):
+        self._type_check(otherRightsDocumentationIdentifier, OtherRightsDocumentationIdentifier)
         self._add_to_field('otherRightsDocumentationIdentifier', otherRightsDocumentationIdentifier)
 
     def set_otherRightsBasis(self, otherRightsBasis):
+        self._type_check(otherRightsBasis, str)
         self._set_field('otherRightsBasis', otherRightsBasis)
 
     def get_otherRightsBasis(self):
         return self._get_field('otherRightsBasis')
 
     def set_otherRightsApplicableDates(self, otherRightsApplicableDates):
+        self._type_check(otherRightsApplicableDates, OtherRightsApplicableDates)
         self._set_field('otherRightsApplicableDates', otherRightsApplicableDates)
 
     def get_otherRightsApplicableDates(self):
         return self._get_field('otherRightsApplicableDates')
 
     def set_otherRightsNote(self, otherRightsNote):
-        self._set_field('otherRightsNote', self._listify(otherRightsNote))
+        otherRightsNote = self._listify(otherRightsNote)
+        for x in otherRightsNote:
+            self._type_check(x, str)
+        self._set_field('otherRightsNote', otherRightsNote)
 
     def get_otherRightsNote(self, index=None):
         return self._list_getter('otherRightsNote', index)
 
     def add_otherRightsNote(self, otherRightsNote):
+        self._type_check(otherRightsNote, str)
         self._add_to_field('otherRightsNote', otherRightsNote)
 
 
@@ -2429,12 +2497,14 @@ class OtherRightsApplicableDates(PremisNode):
         PremisNode.__init__(self, 'otherRightsApplicableDates')
 
     def set_startDate(self, startDate):
+        self._type_check(startDate, str)
         self._set_field('startDate', startDate)
 
     def get_startDate(self):
         return self._get_field('startDate')
 
     def set_endDate(self, endDate):
+        self._type_check(endDate, str)
         self._set_field('endDate', endDate)
 
     def get_endDate(self):
@@ -2453,18 +2523,21 @@ class OtherRightsDocumentationIdentifier(PremisNode):
         self.set_otherRightsDocumentationIdentifierValue(otherRightsDocumentationIdentifierValue)
 
     def set_otherRightsDocumentationIdentifierType(self, otherRightsDocumentationIdentifierType):
+        self._type_check(otherRightsDocumentationIdentifierType, str)
         self._set_field('otherRightsDocumentationIdentifierType', otherRightsDocumentationIdentifierType)
 
     def get_otherRightsDocumentationIdentifierType(self):
         return self._get_field('otherRightsDocumentationIdentifierType')
 
     def set_otherRightsDocumentationIdentifierValue(self, otherRightsDocumentationIdentifierValue):
+        self._type_check(otherRightsDocumentationIdentifierValue, str)
         self._set_field('otherRightsDocumentationIdentifierValue', otherRightsDocumentationIdentifierValue)
 
     def get_otherRightsDocumentationIdentifierValue(self):
         return self._get_field('otherRightsDocumentationIdentifierValue')
 
     def set_otherRightsDocumentationRole(self, otherRightsDocumentationRole):
+        self._type_check(otherRightsDocumentationRole, str)
         self._set_field('otherRightsDocumentationRole', otherRightsDocumentationRole)
 
     def get_otherRightsDocumentationRole(self):
@@ -2486,42 +2559,54 @@ class StatuteInformation(PremisNode):
         self.set_statuteCitation(statuteCitation)
 
     def set_statuteJurisdiction(self, statuteJurisdiction):
+        self._type_check(statuteJurisdiction, str)
         self._set_field('statuteJurisdiction', statuteJurisdiction)
 
     def get_statuteJurisdiction(self):
         return self._get_field('statuteJurisdiction')
 
     def set_statuteCitation(self, statuteCitation):
+        self._type_check(statuteCitation, str)
         self._set_field('statuteCitation', statuteCitation)
 
     def get_statuteCitation(self):
         return self._get_field('statuteCitation')
 
     def set_statuteInformationDeterminationDate(self, statuteInformationDeterminationDate):
+        self._type_check(statuteInformationDeterminationDate, str)
         self._set_field('statuteInformationDeterminationDate', statuteInformationDeterminationDate)
 
     def get_statuteInformationDeterminationDate(self):
         return self._get_field('statuteInformationDeterminationDate')
 
     def set_statuteNote(self, statuteNote):
-        self._set_field('statuteNote', self._listify(statuteNote))
+        statuteNote = self._listify(statuteNote)
+        for x in statuteNote:
+            self._type_check(x, str)
+        self._set_field('statuteNote', statuteNote)
 
     def get_statuteNote(self, index=None):
         return self._list_getter('statuteNote', index)
 
     def add_statuteNote(self, statuteNote):
+        self._type_check(statuteNote, str)
         self._add_to_field('statuteNote', statuteNote)
 
     def set_statuteDocumentationIdentifier(self, statuteDocumentationIdentifier):
-        self._set_field('statuteDocumentationIdentifier', self._listify(statuteDocumentationIdentifier))
+        statuteDocumentationIdentifier = self._listify(statuteDocumentationIdentifier)
+        for x in statuteDocumentationIdentifier:
+            self._type_check(x, StatuteDocumentationIdentifier)
+        self._set_field('statuteDocumentationIdentifier', statuteDocumentationIdentifier)
 
     def get_statuteDocumentationIdentifier(self, index=None):
         return self._list_getter('statuteDocumentationIdentifier', index)
 
     def add_statuteDocumentationIdentifier(self, statuteDocumentationIdentifier):
+        self._type_check(statuteDocumentationIdentifier, StatuteDocumentationIdentifier)
         self._add_to_field('statuteDocumentationIdentifier', statuteDocumentationIdentifier)
 
     def set_statuteApplicableDates(self, statuteApplicableDates):
+        self._type_check(statuteApplicableDates, StatuteApplicableDates)
         self._set_field('statuteApplicableDates', statuteApplicableDates)
 
     def get_statuteApplicableDates(self):
@@ -2537,12 +2622,14 @@ class StatuteApplicableDates(PremisNode):
         PremisNode.__init__(self, 'statuteApplicableDates')
 
     def set_startDate(self, startDate):
+        self._type_check(startDate, str)
         self._set_field('startDate', startDate)
 
     def get_startDate(self):
         return self._get_field('startDate')
 
     def set_endDate(self, endDate):
+        self._type_check(endDate, str)
         self._set_field('endDate', endDate)
 
     def get_endDate(self):
@@ -2561,18 +2648,21 @@ class StatuteDocumentationIdentifier(PremisNode):
         self.set_statuteDocumentationIdentifierValue(statuteDocumentationIdentifierValue)
 
     def set_statuteDocumentationIdentifierType(self, statuteDocumentationIdentifierType):
+        self._type_check(statuteDocumentationIdentifierType, str)
         self._set_field('statuteDocumentationIdentifierType', statuteDocumentationIdentifierType)
 
     def get_statuteDocumentationIdentifierType(self):
         return self._get_field('statuteDocumentationIdentifierType')
 
     def set_statuteDocumentationIdentifierValue(self, statuteDocumentationIdentifierValue):
+        self._type_check(statuteDocumentationIdentifierValue, str)
         self._set_field('statuteDocumentationIdentifierValue', statuteDocumentationIdentifierValue)
 
     def get_statuteDocumentationIdentifierValue(self):
         return self._get_field('statuteDocumentationIdentifierValue')
 
     def set_statuteDocumentationRole(self, statuteDocumentationRole):
+        self._type_check(statuteDocumentationRole, str)
         self._set_field('statuteDocumentationRole', statuteDocumentationRole)
 
     def get_statuteDocumentationRole(self):
@@ -2590,30 +2680,40 @@ class LicenseInformation(PremisNode):
         PremisNode.__init__(self, 'licenseInformation')
 
     def set_licenseDocumentationIdentifier(self, licenseDocumentationIdentifier):
-        self._set_field('licenseDocumentationIdentifier', self._listify(licenseDocumentationIdentifier))
+        licenseDocumentationIdentifier = self._listify(licenseDocumentationIdentifier)
+        for x in licenseDocumentationIdentifier:
+            self._type_check(x, LicenseDocumentationIdentifier)
+        self._set_field('licenseDocumentationIdentifier', licenseDocumentationIdentifier)
 
     def get_licenseDocumentationIdentifier(self, index=None):
         return self._list_getter('licenseDocumentationIdentifier', index)
 
     def add_licenseDocumentationIdentifier(self, licenseDocumentationIdentifier):
+        self._type_check(licenseDocumentationIdentifier, LicenseDocumentationIdentifier)
         self._add_to_field('licenseDocumentationIdentifier', licenseDocumentationIdentifier)
 
     def set_licenseTerms(self, licenseTerms):
+        self._type_check(licenseTerms, str)
         self._set_field('licenseTerms', licenseTerms)
 
     def get_licenseTerms(self):
         return self._get_field('licenseTerms')
 
     def set_licenseNote(self, licenseNote):
-        self._set_field('licenseNote', self._listify(licenseNote))
+        licenseNote = self._listify(licenseNote)
+        for x in licenseNote:
+            self._type_check(x, str)
+        self._set_field('licenseNote', licenseNote)
 
     def get_licenseNote(self, index=None):
         return self._list_getter('licenseNote', index)
 
     def add_licenseNote(self, licenseNote):
+        self._type_check(licenseNote, str)
         self._add_to_field('licenseNote', licenseNote)
 
     def set_licenseApplicableDates(self, licenseApplicableDates):
+        self._type_check(licenseApplicableDates, LicenseApplicableDates)
         self._set_field('licenseApplicableDates', licenseApplicableDates)
 
     def get_licenseApplicableDates(self):
@@ -2629,12 +2729,14 @@ class LicenseApplicableDates(PremisNode):
         PremisNode.__init__(self, 'licenseApplicableDates')
 
     def set_startDate(self, startDate):
+        self._type_check(startDate, str)
         self._set_field('startDate', startDate)
 
     def get_startDate(self):
         return self._get_field('startDate')
 
     def set_endDate(self, endDate):
+        self._type_check(endDate, str)
         self._set_field('endDate', endDate)
 
     def get_endDate(self):
@@ -2653,18 +2755,21 @@ class LicenseDocumentationIdentifier(PremisNode):
         self.set_licenseDocumentationIdentifierValue(licenseDocumentationIdentifierValue)
 
     def set_licenseDocumentationIdentifierType(self, licenseDocumentationIdentifierType):
+        self._type_check(licenseDocumentationIdentifierType, str)
         self._set_field('licenseDocumentationIdentifierType', licenseDocumentationIdentifierType)
 
     def get_licenseDocumentationIdentifierType(self):
         return self._get_field('licenseDocumentationIdentifierType')
 
     def set_licenseDocumentationIdentifierValue(self, licenseDocumentationIdentifierValue):
+        self._type_check(licenseDocumentationIdentifierValue, str)
         self._set_field('licenseDocumentationIdentifierValue', licenseDocumentationIdentifierValue)
 
     def get_licenseDocumentationIdentifierValue(self):
         return self._get_field('licenseDocumentationIdentifierValue')
 
     def set_licenseDocumentationRole(self, licenseDocumentationRole):
+        self._type_check(licenseDocumentationRole, str)
         self._set_field('licenseDocumentationRole', licenseDocumentationRole)
 
     def get_licenseDocumentationRole(self):
@@ -2686,42 +2791,54 @@ class CopyrightInformation(PremisNode):
         self.set_copyrightJurisdiction(copyrightJurisdiction)
 
     def set_copyrightStatus(self, copyrightStatus):
+        self._type_check(copyrightStatus, str)
         self._set_field('copyrightStatus', copyrightStatus)
 
     def get_copyrightStatus(self):
         return self._get_field('copyrightStatus')
 
     def set_copyrightJurisdiction(self, copyrightJurisdiction):
+        self._type_check(copyrightJurisdiction, str)
         self._set_field('copyrightJurisdiction', copyrightJurisdiction)
 
     def get_copyrightJurisdiction(self):
         return self._get_field('copyrightJurisdiction')
 
     def set_copyrightStatusDeterminationDate(self, copyrightStatusDeterminationDate):
+        self._type_check(copyrightStatusDeterminationDate, str)
         self._set_field('copyrightStatusDeterminationDate', copyrightStatusDeterminationDate)
 
     def get_copyrightStatusDeterminationDate(self):
         return self._get_field('copyrightStatusDeterminationDate')
 
     def set_copyrightNote(self, copyrightNote):
-        self._set_field('copyrightNote', self._listify(copyrightNote))
+        copyrightNote = self._listify(copyrightNote)
+        for x in copyrightNote:
+            self._type_check(x, str)
+        self._set_field('copyrightNote', copyrightNote)
 
     def get_copyrightNote(self, index=None):
         return self._list_getter('copyrightNote', index)
 
     def add_copyrightNote(self, copyrightNote):
+        self._type_check(copyrightNote, str)
         self._add_to_field('copyrightNote', copyrightNote)
 
     def set_copyrightDocumentationIdentifier(self, copyrightDocumentationIdentifier):
-        self._set_field('copyrightDocumentationIdentifier', self._listify(copyrightDocumentationIdentifier))
+        copyrightDocumentationIdentifier = self._listify(copyrightDocumentationIdentifier)
+        for x in copyrightDocumentationIdentifier:
+            self._type_check(x, CopyrightDocumentationIdentifier)
+        self._set_field('copyrightDocumentationIdentifier', copyrightDocumentationIdentifier)
 
     def get_copyrightDocumentationIdentifier(self, index=None):
         return self._list_getter('copyrightDocumentationIdentifier', index)
 
     def add_copyrightDocumentationIdentifier(self, copyrightDocumentationIdentifier):
+        self._type_check(copyrightDocumentationIdentifier, CopyrightDocumentationIdentifier)
         self._add_to_field('copyrightDocumentationIdentifier', copyrightDocumentationIdentifier)
 
     def set_copyrightApplicableDates(self, copyrightApplicableDates):
+        self._type_check(copyrightApplicableDates, CopyrightApplicableDates)
         self._set_field('copyrightApplicableDates', copyrightApplicableDates)
 
     def get_copyrightApplicableDates(self):
@@ -2736,12 +2853,14 @@ class CopyrightApplicableDates(PremisNode):
         PremisNode.__init__(self, 'copyrightApplicableDates')
 
     def set_startDate(self, startDate):
+        self._type_check(startDate, str)
         self._set_field('startDate', startDate)
 
     def get_startDate(self):
         return self._get_field('startDate')
 
     def set_endDate(self, endDate):
+        self._type_check(endDate, str)
         self._set_field('endDate', endDate)
 
     def get_endDate(self):
@@ -2760,18 +2879,21 @@ class CopyrightDocumentationIdentifier(PremisNode):
         self.set_copyrightDocumentationIdentifierValue(copyrightDocumentationIdentifierValue)
 
     def set_copyrightDocumentationIdentifierType(self, copyrightDocumentationIdentifierType):
+        self._type_check(copyrightDocumentationIdentifierType, str)
         self._set_field('copyrightDocumentationIdentifierType', copyrightDocumentationIdentifierType)
 
     def get_copyrightDocumentationIdentifierType(self):
         return self._get_field('copyrightDocumentationIdentifierType')
 
     def set_copyrightDocumentationIdentifierValue(self, copyrightDocumentationIdentifierValue):
+        self._type_check(copyrightDocumentationIdentifierValue, str)
         self._set_field('copyrightDocumentationIdentifierValue', copyrightDocumentationIdentifierValue)
 
     def get_copyrightDocumentationIdentifierValue(self):
         return self._get_field('copyrightDocumentationIdentifierValue')
 
     def set_copyrightDocumentationRole(self, copyrightDocumentationRole):
+        self._type_check(copyrightDocumentationRole, str)
         self._set_field('copyrightDocumentationRole', copyrightDocumentationRole)
 
     def get_copyrightDocumentationRole(self):
@@ -2789,12 +2911,14 @@ class RightsStatementIdentifier(PremisNode):
         self.set_rightsStatementIdentifierValue(rightsStatementIdentifierValue)
 
     def set_rightsStatementIdentifierType(self, rightsStatementIdentifierType):
+        self._type_check(rightsStatementIdentifierType, str)
         self._set_field('rightsStatementIdentifierType', rightsStatementIdentifierType)
 
     def get_rightsStatementIdentifierType(self):
         return self._get_field('rightsStatementIdentifierType')
 
     def set_rightsStatementIdentifierValue(self, rightsStatementIdentifierValue):
+        self._type_check(rightsStatementIdentifierValue, str)
         self._set_field('rightsStatementIdentifierValue', rightsStatementIdentifierValue)
 
     def get_rightsStatementIdentifierValue(self):

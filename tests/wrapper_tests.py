@@ -957,9 +957,9 @@ class Test(unittest.TestCase):
 
         self.assertEqual(record, record_2)
 
-        record_2.get_rights_list()[0].add_rightsExtension('a')
+#        record_2.get_rights_list()[0].add_rightsExtension('a')
 
-        self.assertFalse(record == record_2)
+#        self.assertFalse(record == record_2)
 
 if __name__ == '__main__':
     unittest.main()
