@@ -266,7 +266,12 @@ class PremisNode(object):
         class to be used to confirm the type of x
         """
         if not isinstance(x, type_it_should_be):
-            raise TypeError
+            raise TypeError("{} is not an instance of {}. It is an instance of {}".format(
+                str(x),
+                str(type_it_should_be),
+                str(type(x))
+            )
+            )
 
     def get_name(self):
         """
@@ -543,15 +548,20 @@ class Object(PremisNode):
         self.set_objectCharacteristics(objectCharacteristics)
 
     def set_objectIdentifier(self, objectIdentifier):
+        objectIdentifier = self._listify(objectIdentifier)
+        for x in objectIdentifier:
+            self._type_check(x, ObjectIdentifier)
         self._set_field('objectIdentifier', self._listify(objectIdentifier))
 
     def get_objectIdentifier(self, index=None):
         return self._list_getter('objectIdentifier', index)
 
     def add_objectIdentifier(self, objectIdentifier):
+        self._type_check(objectIdentifier, ObjectIdentifier)
         self._add_to_field('objectIdentifier', objectIdentifier)
 
     def set_objectCategory(self, objectCategory):
+        self._type_check(objectCategory, str)
         self._set_field('objectCategory', objectCategory)
 
     def get_objectCategory(self):
@@ -560,7 +570,10 @@ class Object(PremisNode):
     def set_preservationLevel(self, preservationLevel):
         if self.get_objectCategory() == 'bitstream':
             self._notApplicable()
-        self._set_field('preservationLevel', self._listify(preservationLevel))
+        preservationLevel = self._listify(preservationLevel)
+        for x in preservationLevel:
+            self._type_check(x, PreservationLevel)
+        self._set_field('preservationLevel', preservationLevel)
 
     def get_preservationLevel(self, index=None):
         return self._list_getter('preservationLevel', index)
@@ -568,21 +581,29 @@ class Object(PremisNode):
     def add_preservationLevel(self, preservationLevel):
         if self.get_objectCategory() == 'bitstream':
             self._notApplicable()
+        self._type_check(preservationLevel, PreservationLevel)
         self._add_to_field('preservationLevel', preservationLevel)
 
     def set_significantProperties(self, significantProperties):
-        self._set_field('significantProperties', self._listify(significantProperties))
+        significantProperties = self._listify(significantProperties)
+        for x in significantProperties:
+            self._type_check(x, SignificantProperties)
+        self._set_field('significantProperties', significantProperties)
 
     def get_significantProperties(self, index=None):
         return self._list_getter('significantProperties', index)
 
     def add_significantProperties(self, significantProperties):
+        self._type_check(significantProperties, SignificantProperties)
         self._add_to_field('significantProperties', significantProperties)
 
     def set_objectCharacteristics(self, objectCharacteristics):
         if self.get_objectCategory() == 'intellectual entity' or self.get_objectCategory() == 'representation':
             self._notApplicable()
-        self._set_field('objectCharacteristics', self._listify(objectCharacteristics))
+        objectCharacteristics = self._listify(objectCharacteristics)
+        for x in objectCharacteristics:
+            self._type_check(x, ObjectCharacteristics)
+        self._set_field('objectCharacteristics', objectCharacteristics)
 
     def get_objectCharacteristics(self, index=None):
         return self._list_getter('objectCharacteristics', index)
@@ -590,9 +611,11 @@ class Object(PremisNode):
     def add_objectCharacteristics(self, objectCharacteristics):
         if self.get_objectCategory() == 'intellectual entity' or self.get_objectCategory() == 'representation':
             self._notApplicable()
+        self._type_check(objectCharacteristics, ObjectCharacteristics)
         self._add_to_field('objectCharacteristics', objectCharacteristics)
 
     def set_originalName(self, originalName):
+        self._type_check(originalName, str)
         self._set_field('originalName', originalName)
 
     def get_originalName(self):
@@ -601,7 +624,10 @@ class Object(PremisNode):
     def set_storage(self, storage):
         if self.get_objectCategory() == 'intellectual entity' or self.get_objectCategory() == 'representation':
             self._notApplicable()
-        self._set_field('storage', self._listify(storage))
+        storage = self._listify(storage)
+        for x in storage:
+            self._type_check(x, Storage)
+        self._set_field('storage', storage)
 
     def get_storage(self, index=None):
         return self._list_getter('storage', index)
@@ -609,11 +635,15 @@ class Object(PremisNode):
     def add_storage(self, storage):
         if self.get_objectCategory() == 'intellectual entity' or self.get_objectCategory() == 'representation':
             self._notApplicable()
+        self._type_check(storage, Storage)
         self._add_to_field('storage', storage)
 
     def set_signatureInformation(self, signatureInformation):
         if self.get_objectCategory() == 'intellectual entity' or self.get_objectCategory() == 'representation':
             self._notApplicable()
+        signatureInformation = self._listify(signatureInformation)
+        for x in signatureInformation:
+            self._type_check(x, SignatureInformation)
         self._set_field('signatureInformation', self._listify(signatureInformation))
 
     def get_signatureInformation(self, index=None):
@@ -622,71 +652,100 @@ class Object(PremisNode):
     def add_signatureInformation(self, signatureInformation):
         if self.get_objectCategory() == 'intellectual entity' or self.get_objectCategory() == 'representation':
             self._notApplicable()
+        self._type_check(signatureInformation, SignatureInformation)
         self._add_to_field('signatureInformation', signatureInformation)
 
     def set_environmentFunction(self, environmentFunction):
         if self.get_objectCategory() != 'intellectual entity':
             self._notApplicable()
+        environmentFunction = self._listify(environmentFunction)
+        for x in environmentFunction:
+            self._type_check(x, EnvironmentFunction)
         self._set_field('environmentFunction', self._listify(environmentFunction))
 
     def get_environmentFunction(self, index=None):
         return self._list_getter('environmentFunction', index)
 
     def add_environmentFunction(self, environmentFunction):
+        self._type_check(environmentFunction, EnvironmentFunction)
         self._add_to_field('environmentFunction', environmentFunction)
 
     def set_environmentDesignation(self, environmentDesignation):
-        self._set_field('environmentDesignation', self._listify(environmentDesignation))
+        environmentDesignation = self._listify(environmentDesignation)
+        for x in environmentDesignation:
+            self._type_check(x, EnvironmentDesignation)
+        self._set_field('environmentDesignation', environmentDesignation)
 
     def get_environmentDesignation(self, index=None):
         return self._list_getter('environmentDesignation', index)
 
     def add_environmentDesignation(self, environmentDesignation):
+        self._type_check(environmentDesignation, EnvironmentDesignation)
         self._add_to_field('environmentDesignation', environmentDesignation)
 
     def set_environmentRegistry(self, environmentRegistry):
-        self._set_field('environmentRegistry', self._listify(environmentRegistry))
+        environmentRegistry = self._listify(environmentRegistry)
+        for x in environmentRegistry:
+            self._type_check(x, EnvironmentRegistry)
+        self._set_field('environmentRegistry', environmentRegistry)
 
     def get_environmentRegistry(self, index=None):
         return self._list_getter('environmentRegistry', index)
 
     def add_environmentRegistry(self, environmentRegistry):
+        self._type_check(environmentRegistry, EnvironmentRegistry)
         self._add_to_field('environmentRegistry', environmentRegistry)
 
     def set_environmentExtension(self, environmentExtension):
+        environmentExtension = self._listify(environmentExtension)
+        for x in environmentExtension:
+            self._type_check(x, EnvironmentExtension)
         self._set_field('environmentExtension', self._listify(environmentExtension))
 
     def get_environmentExtension(self, index=None):
         return self._list_getter('environmentExtension', index)
 
     def add_environmentExtension(self, environmentExtension):
+        self._type_check(environmentExtension, EnvironmentExtension)
         self._add_to_field('environmentExtension', environmentExtension)
 
     def set_relationship(self, relationship):
-        self._set_field('relationship', self._listify(relationship))
+        relationship = self._listify(relationship)
+        for x in relationship:
+            self._type_check(x, Relationship)
+        self._set_field('relationship', relationship)
 
     def get_relationship(self, index=None):
         return self._list_getter('relationship', index)
 
     def add_relationship(self, relationship):
+        self._type_check(relationship, Relationship)
         self._add_to_field('relationship', relationship)
 
     def set_linkingEventIdentifier(self, linkingEventIdentifier):
-        self._set_field('linkingEventIdentifier', self._listify(linkingEventIdentifier))
+        linkingEventIdentifier = self._listify(linkingEventIdentifier)
+        for x in linkingEventIdentifier:
+            self._type_check(x, LinkingEventIdentifier)
+        self._set_field('linkingEventIdentifier', linkingEventIdentifier)
 
     def get_linkingEventIdentifier(self, index=None):
         return self._list_getter('linkingEventIdentifier', index)
 
     def add_linkingEventIdentifier(self, linkingEventIdentifier):
+        self._type_check(linkingEventIdentifier, LinkingEventIdentifier)
         self._add_to_field('linkingEventIdentifier', linkingEventIdentifier)
 
     def set_linkingRightsStatementIdentifier(self, linkingRightsStatementIdentifier):
-        self._set_field('linkingRightsStatementIdentifier', self._listify(linkingRightsStatementIdentifier))
+        linkingRightsStatementIdentifier = self._listify(linkingRightsStatementIdentifier)
+        for x in linkingRightsStatementIdentifier:
+            self._type_check(x, LinkingRightsStatementIdentifier)
+        self._set_field('linkingRightsStatementIdentifier', linkingRightsStatementIdentifier)
 
     def get_linkingRightsStatementIdentifier(self, index=None):
         return self._list_getter('linkingRightsStatementIdentifier', index)
 
     def add_linkingRightsStatementIdentifier(self, linkingRightsStatementIdentifier):
+        self._type_check(linkingRightsStatementIdentifier, LinkingRightsStatementIdentifier)
         self._add_to_field('linkingRightsStatementIdentifier', linkingRightsStatementIdentifier)
 
     def toXML(self):
@@ -735,12 +794,14 @@ class ObjectIdentifier(PremisNode):
         self.set_objectIdentifierValue(objectIdentifierValue)
 
     def set_objectIdentifierType(self, objectIdentifierType):
+        self._type_check(objectIdentifierType, str)
         self._set_field('objectIdentifierType', objectIdentifierType)
 
     def get_objectIdentifierType(self):
         return self._get_field('objectIdentifierType')
 
     def set_objectIdentifierValue(self, objectIdentifierValue):
+        self._type_check(objectIdentifierValue, str)
         self._set_field('objectIdentifierValue', objectIdentifierValue)
 
     def get_objectIdentifierValue(self):
@@ -759,24 +820,30 @@ class LinkingObjectIdentifier(PremisNode):
         self.set_linkingObjectIdentifierValue(linkingObjectIdentifierValue)
 
     def set_linkingObjectIdentifierType(self, linkingObjectIdentifierType):
+        self._type_check(linkingObjectIdentifierType, str)
         self._set_field('linkingObjectIdentifierType', linkingObjectIdentifierType)
 
     def get_linkingObjectIdentifierType(self):
         return self._get_field('linkingObjectIdentifierType')
 
     def set_linkingObjectIdentifierValue(self, linkingObjectIdentifierValue):
+        self._type_check(linkingObjectIdentifierValue, str)
         self._set_field('linkingObjectIdentifierValue', linkingObjectIdentifierValue)
 
     def get_linkingObjectIdentifierValue(self):
         return self._get_field('linkingObjectIdentifierValue')
 
     def set_linkingObjectRole(self, linkingObjectRole):
-        self._set_field('linkingObjectRole', self._listify(linkingObjectRole))
+        linkingObjectRole = self._listify(linkingObjectRole)
+        for x in linkingObjectRole:
+            self._type_check(x, str)
+            self._set_field('linkingObjectRole', linkingObjectRole)
 
     def get_linkingObjectRole(self, index=None):
         return self._list_getter('linkingObjectRole', index)
 
     def add_linkingObjectRole(self, linkingObjectRole):
+        self._type_check(linkingObjectRole, str)
         self._add_to_field('linkingObjectRole', linkingObjectRole)
 
 
@@ -791,12 +858,14 @@ class EventIdentifier(PremisNode):
         self.set_eventIdentifierValue(eventIdentifierValue)
 
     def set_eventIdentifierType(self, eventIdentifierType):
+        self._type_check(eventIdentifierType, str)
         self._set_field('eventIdentifierType', eventIdentifierType)
 
     def get_eventIdentifierType(self):
         return self._get_field('eventIdentifierType')
 
     def set_eventIdentifierValue(self, eventIdentifierValue):
+        self._type_check(eventIdentifierValue, str)
         self._set_field('eventIdentifierValue', eventIdentifierValue)
 
     def get_eventIdentifierValue(self):
@@ -814,12 +883,14 @@ class LinkingEventIdentifier(PremisNode):
         self.set_linkingEventIdentifierValue(linkingEventIdentifierValue)
 
     def set_linkingEventIdentifierType(self, linkingEventIdentifierType):
+        self._type_check(linkingEventIdentifierType, str)
         self._set_field('linkingEventIdentifierType', linkingEventIdentifierType)
 
     def get_linkingEventIdentifierType(self):
         return self._get_field('linkingEventIdentifierType')
 
     def set_linkingEventIdentifierValue(self, linkingEventIdentifierValue):
+        self._type_check(linkingEventIdentifierValue, str)
         self._set_field('linkingEventIdentifierValue', linkingEventIdentifierValue)
 
     def get_linkingEventIdentifierValue(self):
@@ -837,12 +908,14 @@ class LinkingRightsStatementIdentifier(PremisNode):
         self.set_linkingRightsStatementIdentifierValue(linkingRightsStatementIdentifierValue)
 
     def set_linkingRightsStatementIdentifierType(self, linkingRightsStatementIdentifierType):
+        self._type_check(linkingRightsStatementIdentifierType, str)
         self._set_field('linkingRightsStatementIdentifierType', linkingRightsStatementIdentifierType)
 
     def get_linkingRightsStatementIdentifierType(self):
         return self._get_field('linkingRightsStatementIdentifierType')
 
     def set_linkingRightsStatementIdentifierValue(self, linkingRightsStatementIdentifierValue):
+        self._type_check(linkingRightsStatementIdentifierValue, str)
         self._set_field('linkingRightsStatementIdentifierValue', linkingRightsStatementIdentifierValue)
 
     def get_linkingRightsStatementIdentifierValue(self):
@@ -865,45 +938,60 @@ class Relationship(PremisNode):
         self.set_relatedObjectIdentifier(relatedObjectIdentifier)
 
     def set_relationshipType(self, relationshipType):
+        self._type_check(relationshipType, str)
         self._set_field('relationshipType', relationshipType)
 
     def get_relationshipType(self):
         return self._get_field('relationshipType')
 
     def set_relationshipSubType(self, relationshipSubType):
+        self._type_check(relationshipSubType, str)
         self._set_field('relationshipSubType', relationshipSubType)
 
     def get_relationshipSubType(self):
         return self._get_field('relationshipSubType')
 
     def set_relatedObjectIdentifier(self, relatedObjectIdentifier):
-        self._set_field('relatedObjectIdentifier', self._listify(relatedObjectIdentifier))
+        relatedObjectIdentifier = self._listify(relatedObjectIdentifier)
+        for x in relatedObjectIdentifier:
+            self._type_check(x, RelatedObjectIdentifier)
+        self._set_field('relatedObjectIdentifier', relatedObjectIdentifier)
 
     def get_relatedObjectIdentifier(self, index=None):
         return self._list_getter('relatedObjectIdentifier', index)
 
     def add_relatedObjectIdentifier(self, relatedObjectIdentifier):
+        self._type_check(relatedObjectIdentifier, RelatedObjectIdentifier)
         self._add_to_field('relatedObjectIdentifier', relatedObjectIdentifier)
 
     def set_relatedEventIdentifier(self, relatedEventIdentifier):
-        self._set_field('relatedEventIdentifier', self._listify(relatedEventIdentifier))
+        relatedEventIdentifier = self._listify(relatedEventIdentifier)
+        for x in relatedEventIdentifier:
+            self._type_check(x, RelatedEventIdentifier)
+        self._set_field('relatedEventIdentifier', relatedEventIdentifier)
 
     def get_relatedEventIdentifier(self, index=None):
         return self._list_getter('relatedEventIdentifier', index)
 
     def add_relatedEventIdentifier(self, relatedEventIdentifier):
+        self._type_check(relatedEventIdentifier, RelatedEventIdentifier)
         self._add_to_field('relatedEventIdentifier', relatedEventIdentifier)
 
     def set_relatedEnvironmentPurpose(self, relatedEnvironmentPurpose):
-        self._set_field('relatedEnvironmentPurpose', self._listify(relatedEnvironmentPurpose))
+        relatedEnvironmentPurpose = self._listify(relatedEnvironmentPurpose)
+        for x in relatedEnvironmentPurpose:
+            self._type_check(x, str)
+        self._set_field('relatedEnvironmentPurpose', relatedEnvironmentPurpose)
 
     def get_relatedEnvironmentPurpose(self, index=None):
         return self._list_getter('relatedEnvironmentPurpose', index)
 
     def add_relatedEnvironmentPurpose(self, relatedEnvironmentPurpose):
+        self._type_check(relatedEnvironmentPurpose, str)
         self._add_to_field('relatedEnvironmentPurpose', relatedEnvironmentPurpose)
 
     def set_relatedEnvironmentCharacteristic(self, relatedEnvironmentCharacteristic):
+        self._type_check(relatedEnvironmentCharacteristic, str)
         self._set_field('relatedEnvironmentCharacteristic', relatedEnvironmentCharacteristic)
 
     def get_relatedEnvironmentCharacteristic(self):
@@ -922,18 +1010,21 @@ class RelatedEventIdentifier(PremisNode):
         self.set_relatedEventIdentifierValue(relatedEventIdentifierValue)
 
     def set_relatedEventIdentifierType(self, relatedEventIdentifierType):
+        self._type_check(relatedEventIdentifierType, str)
         self._set_field('relatedEventIdentifierType', relatedEventIdentifierType)
 
     def get_relatedEventIdentifierType(self):
         return self._get_field('relatedEventIdentifierType')
 
     def set_relatedEventIdentifierValue(self, relatedEventIdentifierValue):
+        self._type_check(relatedEventIdentifierValue, str)
         self._set_field('relatedEventIdentifierValue', relatedEventIdentifierValue)
 
     def get_relatedEventIdentifierValue(self):
         return self._get_field('relatedEventIdentifierValue')
 
     def set_relatedEventSequence(self, relatedEventSequence):
+        self._type_check(relatedEventSequence, str)
         self._set_field('relatedEventSequence', relatedEventSequence)
 
     def get_relatedEventSequence(self):
@@ -952,18 +1043,21 @@ class RelatedObjectIdentifier(PremisNode):
         self.set_relatedObjectIdentifierValue(relatedObjectIdentifierValue)
 
     def set_relatedObjectIdentifierType(self, relatedObjectIdentifierType):
+        self._type_check(relatedObjectIdentifierType, str)
         self._set_field('relatedObjectIdentifierType', relatedObjectIdentifierType)
 
     def get_relatedObjectIdentifierType(self):
         return self._get_field('relatedObjectIdentifierType')
 
     def set_relatedObjectIdentifierValue(self, relatedObjectIdentifierValue):
+        self._type_check(relatedObjectIdentifierValue, str)
         self._set_field('relatedObjectIdentifierValue', relatedObjectIdentifierValue)
 
     def get_relatedObjectIdentifierValue(self):
         return self._get_field('relatedObjectIdentifierValue')
 
     def set_relatedObjectSequence(self, relatedObjectSequence):
+        self._type_check(relatedObjectSequence, str)
         self._set_field('relatedObjectSequence', relatedObjectSequence)
 
     def get_relatedObjectSequence(self):
@@ -982,18 +1076,21 @@ class EnvironmentRegistry(PremisNode):
         self.set_environmentRegistryKey(environmentRegistryKey)
 
     def set_environmentRegistryName(self, environmentRegistryName):
+        self._type_check(environmentRegistryName, str)
         self._set_field('environmentRegistryName', environmentRegistryName)
 
     def get_environmentRegistryName(self):
         return self._get_field('environmentRegistryName')
 
     def set_environmentRegistryKey(self, environmentRegistryKey):
+        self._type_check(environmentRegistryKey, str)
         self._set_field('environmentRegistryKey', environmentRegistryKey)
 
     def get_environmentRegistryKey(self):
         return self._get_field('environmentRegistryKey')
 
     def set_environmentRegistryRole(self, environmentRegistryRole):
+        self._type_check(environmentRegistryRole, str)
         self._set_field('environmentRegistryRole', environmentRegistryRole)
 
     def get_environmentRegistryRole(self):
@@ -1013,39 +1110,50 @@ class EnvironmentDesignation(PremisNode):
         self.set_environmentName(environmentName)
 
     def set_environmentName(self, environmentName):
+        self._type_check(environmentName, str)
         self._set_field('environmentName', environmentName)
 
     def get_environmentName(self):
         return self._get_field('environmentName')
 
     def set_environmentVersion(self, environmentVersion):
+        self._type_check(environmentVersion, str)
         self._set_field('environmentVersion', environmentVersion)
 
     def get_environmentVersion(self):
         return self._get_field('environmentVersion')
 
     def set_environmentOrigin(self, environmentOrigin):
+        self._type_check(environmentOrigin, str)
         self._set_field('environmentOrigin', environmentOrigin)
 
     def get_environmentOrigin(self):
         return self._get_field('environmentOrigin')
 
     def set_environmentDesignationNote(self, environmentDesignationNote):
-        self._set_field('environmentDesignationNote', self._listify(environmentDesignationNote))
+        environmentDesignationNote = self._listify(environmentDesignationNote)
+        for x in environmentDesignationNote:
+            self._type_check(x, str)
+        self._set_field('environmentDesignationNote', environmentDesignationNote)
 
     def get_environmentDesignationNote(self, index=None):
         return self._list_getter('environmentDesignationNote', index)
 
     def add_environmentDesignationNote(self, environmentDesignationNote):
+        self._type_check(environmentDesignationNote, str)
         self._add_to_field('environmentDesignationNote', environmentDesignationNote)
 
     def set_environmentDesignationExtension(self, environmentDesignationExtension):
-        self._set_field('environmentDesignationExtension', self._listify(environmentDesignationExtension))
+        environmentDesignationExtension = self._listify(environmentDesignationExtension)
+        for x in environmentDesignationExtension:
+            self._type_check(x, EnvironmentDesignationExtension)
+        self._set_field('environmentDesignationExtension', environmentDesignationExtension)
 
     def get_environmentDesignationExtension(self, index=None):
         return self._list_getter('environmentDesignationExtension', index)
 
     def add_environmentDesignationExtension(self, environmentDesignationExtension):
+        self._type_check(environmentDesignationExtension, EnvironmentDesignationExtension)
         self._add_to_field('environmentDesignationExtension', environmentDesignationExtension)
 
 
@@ -1060,12 +1168,14 @@ class EnvironmentFunction(PremisNode):
         self.set_environmentFunctionLevel(environmentFunctionLevel)
 
     def set_environmentFunctionType(self, environmentFunctionType):
+        self._type_check(environmentFunctionType, str)
         self._set_field('environmentFunctionType', environmentFunctionType)
 
     def get_environmentFunctionType(self):
         return self._get_field('environmentFunctionType')
 
     def set_environmentFunctionLevel(self, environmentFunctionLevel):
+        self._type_check(environmentFunctionLevel, str)
         self._set_field('environmentFunctionLevel', environmentFunctionLevel)
 
     def get_environmentFunctionLevel(self):
@@ -1081,21 +1191,29 @@ class SignatureInformation(PremisNode):
         PremisNode.__init__(self, 'signatureInformation')
 
     def set_signature(self, signature):
-        self._set_field('signature', self._listify(signature))
+        signature = self._listify(signature)
+        for x in signature:
+            self._type_check(x, Signature)
+        self._set_field('signature', signature)
 
     def get_signature(self, index=None):
         return self._list_getter('signature', index)
 
     def add_signature(self, signature):
+        self._type_check(signature, Signature)
         self._add_to_field('signature', signature)
 
     def set_signatureInformationExtension(self, signatureInformationExtension):
-        self._set_field('signatureInformationExtension', self._listify(signatureInformationExtension))
+        signatureInformationExtension = self._listify(signatureInformationExtension)
+        for x in signatureInformationExtension:
+            self._type_check(x, SignatureInformationExtension)
+        self._set_field('signatureInformationExtension', signatureInformationExtension)
 
     def get_signatureInformationExtension(self, index=None):
         return self._list_getter('signatureInformationExtension', index)
 
     def add_signatureInformationExtension(self, signatureInformationExtension):
+        self._type_check(signatureInformationExtension, SignatureInformationExtension)
         self._add_to_field('signatureInformationExtension', signatureInformationExtension)
 
 
