@@ -830,7 +830,11 @@ class ObjectIdentifier(PremisNode):
                    'objectIdentifierValue'
                    ]
 
-    def __init__(self, objectIdentifierType, objectIdentifierValue):
+    def __init__(
+        self,
+        objectIdentifierType,
+        objectIdentifierValue
+    ):
         PremisNode.__init__(self, 'objectIdentifier')
         self.set_objectIdentifierType(objectIdentifierType)
         self.set_objectIdentifierValue(objectIdentifierValue)
@@ -902,7 +906,11 @@ class EventIdentifier(PremisNode):
                    'eventIdentifierValue'
                    ]
 
-    def __init__(self, eventIdentifierType, eventIdentifierValue):
+    def __init__(
+        self,
+        eventIdentifierType,
+        eventIdentifierValue
+    ):
         PremisNode.__init__(self, 'eventIdentifier')
         self.set_eventIdentifierType(eventIdentifierType)
         self.set_eventIdentifierValue(eventIdentifierValue)
@@ -927,7 +935,11 @@ class LinkingEventIdentifier(PremisNode):
                    'linkingEventIdentifierValue'
                    ]
 
-    def __init__(self, linkingEventIdentiferType, linkingEventIdentifierValue):
+    def __init__(
+        self,
+        linkingEventIdentiferType,
+        linkingEventIdentifierValue
+    ):
         PremisNode.__init__(self, 'linkingEventIdentifier')
         self.set_linkingEventIdentifierType(linkingEventIdentiferType)
         self.set_linkingEventIdentifierValue(linkingEventIdentifierValue)
@@ -952,7 +964,11 @@ class LinkingRightsStatementIdentifier(PremisNode):
                    'linkingRightsStatementIdentifierValue'
                    ]
 
-    def __init__(self, linkingRightsStatementIdentifierType, linkingRightsStatementIdentifierValue):
+    def __init__(
+        self,
+        linkingRightsStatementIdentifierType,
+        linkingRightsStatementIdentifierValue
+    ):
         PremisNode.__init__(self, 'linkingRightsStatementIdentifier')
         self.set_linkingRightsStatementIdentifierType(linkingRightsStatementIdentifierType)
         self.set_linkingRightsStatementIdentifierValue(linkingRightsStatementIdentifierValue)
@@ -1160,6 +1176,7 @@ class EnvironmentRegistry(PremisNode):
         PremisNode.__init__(self, 'environmentRegistry')
         self.set_environmentRegistryName(environmentRegistryName)
         self.set_environmentRegistryKey(environmentRegistryKey)
+        # Optionals
         if environmentRegistryRole is not None:
             self.set_environmentRegistryRole(environmentRegistryRole)
 
@@ -1266,7 +1283,11 @@ class EnvironmentFunction(PremisNode):
                    'environmentFunctionLevel'
                    ]
 
-    def __init__(self, environmentFunctionType, environmentFunctionLevel="1"):
+    def __init__(
+        self,
+        environmentFunctionType,
+        environmentFunctionLevel="1"
+    ):
         PremisNode.__init__(self, 'environmentFunction')
         self.set_environmentFunctionType(environmentFunctionType)
         self.set_environmentFunctionLevel(environmentFunctionLevel)
@@ -1463,7 +1484,11 @@ class ContentLocation(PremisNode):
                    'contentLocationValue'
                    ]
 
-    def __init__(self, contentLocationType, contentLocationValue):
+    def __init__(
+        self,
+        contentLocationType,
+        contentLocationValue
+    ):
         PremisNode.__init__(self, 'contentLocation')
         self.set_contentLocationType(contentLocationType)
         self.set_contentLocationValue(contentLocationValue)
@@ -1606,7 +1631,12 @@ class Inhibitors(PremisNode):
                    'inhibitorKey'
                    ]
 
-    def __init__(self, inhibitorType, inhibitorTarget=None, inhibitorKey=None):
+    def __init__(
+        self,
+        inhibitorType,
+        inhibitorTarget=None,
+        inhibitorKey=None
+    ):
         PremisNode.__init__(self, 'inhibitors')
         self.set_inhibitorType(inhibitorType)
         # Optionals
@@ -1713,7 +1743,12 @@ class Format(PremisNode):
                    'formatNote'
                    ]
 
-    def __init__(self, formatDesignation=None, formatRegistry=None, formatNote=None):
+    def __init__(
+        self,
+        formatDesignation=None,
+        formatRegistry=None,
+        formatNote=None
+    ):
         if not (formatDesignation or formatRegistry):
             raise ValueError("formatDesignation and/or formatRegistry must be provided for the format node.")
         PremisNode.__init__(self, 'format')
@@ -1758,7 +1793,10 @@ class FormatDesignation(PremisNode):
                    'formatVersion'
                    ]
 
-    def __init__(self, formatName, formatVersion=None):
+    def __init__(
+        self, formatName,
+        formatVersion=None
+    ):
         PremisNode.__init__(self, 'formatDesignation')
         self.set_formatName(formatName)
         # Optionals
@@ -1786,7 +1824,12 @@ class FormatRegistry(PremisNode):
                    'formatRegistryRole'
                    ]
 
-    def __init__(self, formatRegistryName, formatRegistryKey, formatRegistryRole=None):
+    def __init__(
+        self,
+        formatRegistryName,
+        formatRegistryKey,
+        formatRegistryRole=None
+    ):
         PremisNode.__init__(self, 'formatRegistry')
         self.set_formatRegistryName(formatRegistryName)
         self.set_formatRegistryKey(formatRegistryKey)
@@ -1821,7 +1864,12 @@ class Fixity(PremisNode):
                    'messageDigestOriginator'
                    ]
 
-    def __init__(self, messageDigestAlgorithm, messageDigest, messageDigestOriginator=None):
+    def __init__(
+        self,
+        messageDigestAlgorithm,
+        messageDigest,
+        messageDigestOriginator=None
+    ):
         PremisNode.__init__(self, 'fixity')
         self.set_messageDigestAlgorithm(messageDigestAlgorithm)
         self.set_messageDigest(messageDigest)
@@ -1856,7 +1904,12 @@ class SignificantProperties(PremisNode):
                    'significantPropertiesExtension'
                    ]
 
-    def __init__(self, significantPropertiesValue=None, significantPropertiesExtension=None, significantPropertiesType=None):
+    def __init__(
+        self,
+        significantPropertiesValue=None,
+        significantPropertiesExtension=None,
+        significantPropertiesType=None
+    ):
         if not (significantPropertiesValue or significantPropertiesExtension):
             raise ValueError("Either significantPropertiesValue and/or significantPropertiesExtension must be specified")
         PremisNode.__init__(self, 'significantProperties')
@@ -2079,7 +2132,11 @@ class EventOutcomeInformation(PremisNode):
                    'eventOutcomeDetail'
                    ]
 
-    def __init__(self, eventOutcome=None, eventOutcomeDetail=None):
+    def __init__(
+        self,
+        eventOutcome=None,
+        eventOutcomeDetail=None
+    ):
         if not (eventOutcome or eventOutcomeDetail):
             raise ValueError("eventOutcome and/or eventOutcome detail are required in order to create an eventOutcomeInformation node.")
         PremisNode.__init__(self, 'eventOutcomeInformation')
@@ -2128,7 +2185,11 @@ class EventDetailInformation(PremisNode):
                    'eventDetailExtension'
                    ]
 
-    def __init__(self, eventDetail=None, eventDetailExtension=None):
+    def __init__(
+        self,
+        eventDetail=None,
+        eventDetailExtension=None
+    ):
         if not (eventDetail or eventDetailExtension):
             raise ValueError('eventDetail and/or eventDetailExtension must be specified in an eventDetailInformationNode')
         PremisNode.__init__(self, 'eventDetailInformation')
@@ -2163,7 +2224,11 @@ class EventOutcomeDetail(PremisNode):
                    'eventOutcomeDetailExtension'
                    ]
 
-    def __init__(self, eventOutcomeDetailNote=None, eventOutcomeDetailExtension=None):
+    def __init__(
+        self,
+        eventOutcomeDetailNote=None,
+        eventOutcomeDetailExtension=None
+    ):
         if not (eventOutcomeDetailNote or eventOutcomeDetailExtension):
             raise ValueError("eventOutcomeDetailNote and/or eventOutcomeDetailExtension is required to create an eventOutcomeDetail node.")
         PremisNode.__init__(self, 'eventOutcomeDetail')
@@ -2221,6 +2286,7 @@ class Agent(PremisNode):
     ):
         PremisNode.__init__(self, 'agent')
         self.set_agentIdentifier(agentIdentifier)
+        # Optionals
         if agentName is not None:
             self.set_agentName(agentName)
         if agentType is not None:
@@ -2349,7 +2415,11 @@ class AgentIdentifier(PremisNode):
                    'agentIdentifierValue'
                    ]
 
-    def __init__(self, agentIdentifierType, agentIdentifierValue):
+    def __init__(
+        self,
+        agentIdentifierType,
+        agentIdentifierValue
+    ):
         PremisNode.__init__(self, 'agentIdentifier')
         self.set_agentIdentifierType(agentIdentifierType)
         self.set_agentIdentifierValue(agentIdentifierValue)
@@ -2468,7 +2538,11 @@ class Rights(PremisNode):
                    'rightsExtension'
                    ]
 
-    def __init__(self, rightsStatement=None, rightsExtension=None):
+    def __init__(
+        self,
+        rightsStatement=None,
+        rightsExtension=None
+    ):
         if rightsStatement is None and rightsExtension is None:
             raise ValueError("Either rightsStatement or rightsExtension must be supplied.")
         PremisNode.__init__(self, 'rights')
@@ -2716,7 +2790,11 @@ class TermOfRestriction(PremisNode):
                    'endDate'
                    ]
 
-    def __init__(self, startDate, endDate=None):
+    def __init__(
+        self,
+        startDate,
+        endDate=None
+    ):
         PremisNode.__init__(self, 'termOfRestriction')
         self.set_startDate(startDate)
         # Optionals
@@ -2743,7 +2821,11 @@ class TermOfGrant(PremisNode):
                    'endDate'
                    ]
 
-    def __init__(self, startDate, endDate=None):
+    def __init__(
+        self,
+        startDate,
+        endDate=None
+    ):
         PremisNode.__init__(self, 'termOfGrant')
         self.set_startDate(startDate)
         # Optionals
@@ -3357,7 +3439,11 @@ class RightsStatementIdentifier(PremisNode):
                    'rightsStatementIdentifierValue'
                    ]
 
-    def __init__(self, rightsStatementIdentifierType, rightsStatementIdentifierValue):
+    def __init__(
+        self,
+        rightsStatementIdentifierType,
+        rightsStatementIdentifierValue
+    ):
         PremisNode.__init__(self, 'rightsStatementIdentifier')
         self.set_rightsStatementIdentifierType(rightsStatementIdentifierType)
         self.set_rightsStatementIdentifierValue(rightsStatementIdentifierValue)
