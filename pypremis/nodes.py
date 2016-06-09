@@ -1713,14 +1713,17 @@ class Format(PremisNode):
                    'formatNote'
                    ]
 
-    def __init__(self, formatDesignation=None, formatRegistry=None):
+    def __init__(self, formatDesignation=None, formatRegistry=None, formatNote=None):
         if not (formatDesignation or formatRegistry):
             raise ValueError("formatDesignation and/or formatRegistry must be provided for the format node.")
         PremisNode.__init__(self, 'format')
-        if formatDesignation:
+        if formatDesignation is not None:
             self.set_formatDesignation(formatDesignation)
-        if formatRegistry:
+        if formatRegistry is not None:
             self.set_formatRegistry(formatRegistry)
+        # Optionals
+        if formatNote is not None:
+            self.set_formatNote(formatNote)
 
     def set_formatDesignation(self, formatDesignation):
         self._type_check(formatDesignation, FormatDesignation)
@@ -1755,9 +1758,12 @@ class FormatDesignation(PremisNode):
                    'formatVersion'
                    ]
 
-    def __init__(self, formatName):
+    def __init__(self, formatName, formatVersion=None):
         PremisNode.__init__(self, 'formatDesignation')
         self.set_formatName(formatName)
+        # Optionals
+        if formatVersion is not None:
+            self.set_formatVersion(formatVersion)
 
     def set_formatName(self, formatName):
         self._type_check(formatName, str)
@@ -1780,10 +1786,12 @@ class FormatRegistry(PremisNode):
                    'formatRegistryRole'
                    ]
 
-    def __init__(self, formatRegistryName, formatRegistryKey):
+    def __init__(self, formatRegistryName, formatRegistryKey, formatRegistryRole=None):
         PremisNode.__init__(self, 'formatRegistry')
         self.set_formatRegistryName(formatRegistryName)
         self.set_formatRegistryKey(formatRegistryKey)
+        if formatRegistryRole is not None:
+            self.set_formatRegistryRole(formatRegistryRole)
 
     def set_formatRegistryName(self, formatRegistryName):
         self._type_check(formatRegistryName, str)
@@ -1813,10 +1821,12 @@ class Fixity(PremisNode):
                    'messageDigestOriginator'
                    ]
 
-    def __init__(self, messageDigestAlgorithm, messageDigest):
+    def __init__(self, messageDigestAlgorithm, messageDigest, messageDigestOriginator=None):
         PremisNode.__init__(self, 'fixity')
         self.set_messageDigestAlgorithm(messageDigestAlgorithm)
         self.set_messageDigest(messageDigest)
+        if messageDigestOriginator is not None:
+            self.set_messageDigestOriginator(messageDigestOriginator)
 
     def set_messageDigestAlgorithm(self, messageDigestAlgorithm):
         self._type_check(messageDigestAlgorithm, str)
@@ -1846,7 +1856,7 @@ class SignificantProperties(PremisNode):
                    'significantPropertiesExtension'
                    ]
 
-    def __init__(self, significantPropertiesValue=None, significantPropertiesExtension=None):
+    def __init__(self, significantPropertiesValue=None, significantPropertiesExtension=None, significantPropertiesType=None):
         if not (significantPropertiesValue or significantPropertiesExtension):
             raise ValueError("Either significantPropertiesValue and/or significantPropertiesExtension must be specified")
         PremisNode.__init__(self, 'significantProperties')
@@ -1854,6 +1864,9 @@ class SignificantProperties(PremisNode):
             self.set_significantPropertiesValue(significantPropertiesValue)
         if significantPropertiesExtension:
             self.set_significantPropertiesExtension(significantPropertiesExtension)
+        # Optionals
+        if significantPropertiesType is not None:
+            self.set_significantPropertiesType(significantPropertiesType)
 
     def set_significantPropertiesType(self, significantPropertiesType):
         self._type_check(significantPropertiesType, str)
@@ -1891,9 +1904,25 @@ class PreservationLevel(PremisNode):
                    'preservationLevelDateAssigned'
                    ]
 
-    def __init__(self, preservationLevelValue):
+    def __init__(
+        self,
+        preservationLevelValue,
+        preservationLevelType=None,
+        preservationLevelRole=None,
+        preservationLevelRationale=None,
+        preservationLevelDateAssigned=None
+    ):
         PremisNode.__init__(self, 'preservationLevel')
         self._set_field('preservationLevelValue', preservationLevelValue)
+        # Optionals
+        if preservationLevelType is not None:
+            self.set_preservationLevelType(preservationLevelType)
+        if preservationLevelRole is not None:
+            self.set_preservationLevelRole(preservationLevelRole)
+        if preservationLevelRationale is not None:
+            self.set_preservationLevelRationale(preservationLevelRationale)
+        if preservationLevelDateAssigned is not None:
+            self.set_preservationLevelDateAssigned(preservationLevelDateAssigned)
 
     def set_preservationLevelType(self, preservationLevelType):
         self._type_check(preservationLevelType, str)
