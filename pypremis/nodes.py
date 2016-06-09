@@ -437,7 +437,7 @@ class ExtensionNode(PremisNode):
                             e.append(n)
                         root.append(e)
                     elif isinstance(entry, PremisNode):
-#                        for n in entry.toXML():
+                        # for n in entry.toXML():
                         root.append(entry.toXML())
                     else:
                         raise ValueError
@@ -1976,11 +1976,29 @@ class Event(PremisNode):
                    'linkingObjectIdentifier'
                    ]
 
-    def __init__(self, eventIdentifier, eventType, eventDateTime):
+    def __init__(
+        self,
+        eventIdentifier,
+        eventType,
+        eventDateTime,
+        eventDetailInformation=None,
+        eventOutcomeInformation=None,
+        linkingAgentIdentifier=None,
+        linkingObjectIdentifier=None
+    ):
         PremisNode.__init__(self, 'event')
         self.set_eventIdentifier(eventIdentifier)
         self.set_eventType(eventType)
         self.set_eventDateTime(eventDateTime)
+        # Optionals
+        if eventDetailInformation is not None:
+            self.set_eventDetailInformation(eventDetailInformation)
+        if eventOutcomeInformation is not None:
+            self.set_eventOutcomeInformation(eventOutcomeInformation)
+        if linkingAgentIdentifier is not None:
+            self.set_linkingAgentIdentifier(linkingAgentIdentifier)
+        if linkingObjectIdentifier is not None:
+            self.set_linkingObjectIdentifier(linkingObjectIdentifier)
 
     def set_eventIdentifier(self, eventIdentifier):
         self._type_check(eventIdentifier, EventIdentifier)
@@ -2189,9 +2207,36 @@ class Agent(PremisNode):
                    'linkingEnvironmentIdentifier'
                    ]
 
-    def __init__(self, agentIdentifier):
+    def __init__(
+        self,
+        agentIdentifier,
+        agentName=None,
+        agentType=None,
+        agentVersion=None,
+        agentNote=None,
+        agentExtension=None,
+        linkingEventIdentifier=None,
+        linkingRightsStatementIdentifier=None,
+        linkingEnvironmentIdentifier=None
+    ):
         PremisNode.__init__(self, 'agent')
         self.set_agentIdentifier(agentIdentifier)
+        if agentName is not None:
+            self.set_agentName(agentName)
+        if agentType is not None:
+            self.set_agentType(agentType)
+        if agentVersion is not None:
+            self.set_agentVersion(agentVersion)
+        if agentNote is not None:
+            self.set_agentNote(agentNote)
+        if agentExtension is not None:
+            self.set_agentExtension(agentExtension)
+        if linkingEventIdentifier is not None:
+            self.set_linkingEventIdentifier(linkingEventIdentifier)
+        if linkingRightsStatementIdentifier is not None:
+            self.set_linkingRightsStatementIdentifier(linkingRightsStatementIdentifier)
+        if linkingEnvironmentIdentifier is not None:
+            self.set_linkingEnvironmentIdentifier(linkingEnvironmentIdentifier)
 
     def set_agentIdentifier(self, agentIdentifier):
         agentIdentifier = self._listify(agentIdentifier)
@@ -2330,10 +2375,18 @@ class LinkingEnvironmentIdentifier(PremisNode):
                    'linkingEnvironmentRole'
                    ]
 
-    def __init__(self, linkingEnvironmentIdentifierType, linkingEnvironmentIdentifierValue):
+    def __init__(
+        self,
+        linkingEnvironmentIdentifierType,
+        linkingEnvironmentIdentifierValue,
+        linkingEnvironmentRole=None
+    ):
         PremisNode.__init__(self, 'linkingEnvironmentIdentifier')
         self.set_linkingEnvironmentIdentifierType(linkingEnvironmentIdentifierType)
         self.set_linkingEnvironmentIdentifierValue(linkingEnvironmentIdentifierValue)
+        # Optionals
+        if linkingEnvironmentRole is not None:
+            self.set_linkingEnvironmentRole(linkingEnvironmentRole)
 
     def set_linkingEnvironmentIdentifierType(self, linkingEnvironmentIdentifierType):
         self._type_check(linkingEnvironmentIdentifierType, str)
@@ -2369,10 +2422,18 @@ class LinkingAgentIdentifier(PremisNode):
                    'linkingAgentRole'
                    ]
 
-    def __init__(self, linkingAgentIdentifierType, linkingAgentIdentifierValue):
+    def __init__(
+        self,
+        linkingAgentIdentifierType,
+        linkingAgentIdentifierValue,
+        linkingAgentRole=None
+    ):
         PremisNode.__init__(self, 'linkingAgentIdentifier')
         self.set_linkingAgentIdentifierType(linkingAgentIdentifierType)
         self.set_linkingAgentIdentifierValue(linkingAgentIdentifierValue)
+        # Optionals
+        if linkingAgentRole is not None:
+            self.set_linkingAgentRole(linkingAgentRole)
 
     def set_linkingAgentIdentifierType(self, linkingAgentIdentifierType):
         self._type_check(linkingAgentIdentifierType, str)
@@ -2455,10 +2516,36 @@ class RightsStatement(PremisNode):
                    'linkingAgentIdentifier'
                    ]
 
-    def __init__(self, rightsStatementIdentifier, rightsBasis):
+    def __init__(
+        self,
+        rightsStatementIdentifier,
+        rightsBasis,
+        copyrightInformation=None,
+        licenseInformation=None,
+        statuteInformation=None,
+        otherRightsInformation=None,
+        rightsGranted=None,
+        linkingObjectIdentifier=None,
+        linkingAgentIdentifier=None
+    ):
         PremisNode.__init__(self, 'rightsStatement')
         self.set_rightsStatementIdentifier(rightsStatementIdentifier)
         self.set_rightsBasis(rightsBasis)
+        # Optionals
+        if copyrightInformation is not None:
+            self.set_copyrightInformation(copyrightInformation)
+        if licenseInformation is not None:
+            self.set_licenseInformation(licenseInformation)
+        if statuteInformation is not None:
+            self.set_statuteInformation(statuteInformation)
+        if otherRightsInformation is not None:
+            self.set_otherRightsInformation(otherRightsInformation)
+        if rightsGranted is not None:
+            self.set_rightsGranted(rightsGranted)
+        if linkingObjectIdentifier is not None:
+            self.set_linkingObjectIdentifier(linkingObjectIdentifier)
+        if linkingAgentIdentifier is not None:
+            self.set_linkingAgentIdentifier(linkingAgentIdentifier)
 
     def set_rightsStatementIdentifier(self, rightsStatementIdentifier):
         self._type_check(rightsStatementIdentifier, RightsStatementIdentifier)
@@ -2556,9 +2643,25 @@ class RightsGranted(PremisNode):
                    'rightsGrantedNote'
                    ]
 
-    def __init__(self, act):
+    def __init__(
+        self,
+        act,
+        restriction=None,
+        termOfGrant=None,
+        termOfRestriction=None,
+        rightsGrantedNote=None
+    ):
         PremisNode.__init__(self, 'rightsGranted')
         self.set_act(act)
+        # Optionals
+        if restriction is not None:
+            self.set_restriction(restriction)
+        if termOfGrant is not None:
+            self.set_termOfGrant(termOfGrant)
+        if termOfRestriction is not None:
+            self.set_termOfRestriction(termOfRestriction)
+        if rightsGrantedNote is not None:
+            self.set_rightsGrantedNote(rightsGrantedNote)
 
     def set_act(self, act):
         self._type_check(act, str)
@@ -2613,9 +2716,12 @@ class TermOfRestriction(PremisNode):
                    'endDate'
                    ]
 
-    def __init__(self, startDate):
+    def __init__(self, startDate, endDate=None):
         PremisNode.__init__(self, 'termOfRestriction')
         self.set_startDate(startDate)
+        # Optionals
+        if endDate is not None:
+            self.set_endDate(endDate)
 
     def set_startDate(self, startDate):
         self._type_check(startDate, str)
@@ -2637,9 +2743,12 @@ class TermOfGrant(PremisNode):
                    'endDate'
                    ]
 
-    def __init__(self, startDate):
+    def __init__(self, startDate, endDate=None):
         PremisNode.__init__(self, 'termOfGrant')
         self.set_startDate(startDate)
+        # Optionals
+        if endDate is not None:
+            self.set_endDate(endDate)
 
     def set_startDate(self, startDate):
         self._type_check(startDate, str)
@@ -2663,9 +2772,22 @@ class OtherRightsInformation(PremisNode):
                    'otherRightsNote'
                    ]
 
-    def __init__(self, otherRightsBasis):
+    def __init__(
+        self,
+        otherRightsBasis,
+        otherRightsDocumentationIdentifier=None,
+        otherRightsApplicableDates=None,
+        otherRightsNote=None
+    ):
         PremisNode.__init__(self, 'otherRightsInformation')
         self.set_otherRightsBasis(otherRightsBasis)
+        # Optionals
+        if otherRightsDocumentationIdentifier is not None:
+            self.set_otherRightsDocumentationIdentifier(otherRightsDocumentationIdentifier)
+        if otherRightsApplicableDates is not None:
+            self.set_otherRightsApplicableDates(otherRightsApplicableDates)
+        if otherRightsNote is not None:
+            self.set_otherRightsNote(otherRightsNote)
 
     def set_otherRightsDocumentationIdentifier(self, otherRightsDocumentationIdentifier):
         otherRightsDocumentationIdentifier = self._listify(otherRightsDocumentationIdentifier)
@@ -2713,8 +2835,16 @@ class OtherRightsApplicableDates(PremisNode):
                    'endDate'
                    ]
 
-    def __init__(self):
+    def __init__(
+        self,
+        startDate=None,
+        endDate=None
+    ):
         PremisNode.__init__(self, 'otherRightsApplicableDates')
+        if startDate is not None:
+            self.set_startDate(startDate)
+        if endDate is not None:
+            self.set_endDate(endDate)
 
     def set_startDate(self, startDate):
         self._type_check(startDate, str)
@@ -2737,10 +2867,18 @@ class OtherRightsDocumentationIdentifier(PremisNode):
                    'otherRightsDocumentationRole'
                    ]
 
-    def __init__(self, otherRightsDocumentationIdentifierType, otherRightsDocumentationIdentifierValue):
+    def __init__(
+        self,
+        otherRightsDocumentationIdentifierType,
+        otherRightsDocumentationIdentifierValue,
+        otherRightsDocumentationRole=None
+    ):
         PremisNode.__init__(self, 'otherRightsDocumentationIdentifier')
         self.set_otherRightsDocumentationIdentifierType(otherRightsDocumentationIdentifierType)
         self.set_otherRightsDocumentationIdentifierValue(otherRightsDocumentationIdentifierValue)
+        # Optionals
+        if otherRightsDocumentationRole is not None:
+            self.set_otherRightsDocumentationRole(otherRightsDocumentationRole)
 
     def set_otherRightsDocumentationIdentifierType(self, otherRightsDocumentationIdentifierType):
         self._type_check(otherRightsDocumentationIdentifierType, str)
@@ -2773,10 +2911,27 @@ class StatuteInformation(PremisNode):
                    'statuteApplicableDates'
                    ]
 
-    def __init__(self, statuteJurisdiction, statuteCitation):
+    def __init__(
+        self,
+        statuteJurisdiction,
+        statuteCitation,
+        statuteInformationDeterminationDate=None,
+        statuteNote=None,
+        statuteDocumentationIdentifier=None,
+        statuteApplicableDates=None
+    ):
         PremisNode.__init__(self, 'statuteInformation')
         self.set_statuteJurisdiction(statuteJurisdiction)
         self.set_statuteCitation(statuteCitation)
+        # Optionals
+        if statuteInformationDeterminationDate is not None:
+            self.set_statuteInformationDeterminationDate(statuteInformationDeterminationDate)
+        if statuteNote is not None:
+            self.set_statuteNote(statuteNote)
+        if statuteDocumentationIdentifier is not None:
+            self.set_statuteDocumentationIdentifier(statuteDocumentationIdentifier)
+        if statuteApplicableDates is not None:
+            self.set_statuteApplicableDates(statuteApplicableDates)
 
     def set_statuteJurisdiction(self, statuteJurisdiction):
         self._type_check(statuteJurisdiction, str)
@@ -2838,8 +2993,12 @@ class StatuteApplicableDates(PremisNode):
                    'endDate'
                    ]
 
-    def __init__(self):
+    def __init__(self, startDate=None, endDate=None):
         PremisNode.__init__(self, 'statuteApplicableDates')
+        if startDate is not None:
+            self.set_startDate(startDate)
+        if endDate is not None:
+            self.set_endDate(endDate)
 
     def set_startDate(self, startDate):
         self._type_check(startDate, str)
@@ -2862,10 +3021,18 @@ class StatuteDocumentationIdentifier(PremisNode):
                    'statuteDocumentationRole'
                    ]
 
-    def __init__(self, statuteDocumentationIdentifierType, statuteDocumentationIdentifierValue):
+    def __init__(
+        self,
+        statuteDocumentationIdentifierType,
+        statuteDocumentationIdentifierValue,
+        statuteDocumentationRole=None
+    ):
         PremisNode.__init__(self, 'statuteDocumentationIdentifier')
         self.set_statuteDocumentationIdentifierType(statuteDocumentationIdentifierType)
         self.set_statuteDocumentationIdentifierValue(statuteDocumentationIdentifierValue)
+        # Optionals
+        if statuteDocumentationRole is not None:
+            self.set_statuteDocumentationRole(statuteDocumentationRole)
 
     def set_statuteDocumentationIdentifierType(self, statuteDocumentationIdentifierType):
         self._type_check(statuteDocumentationIdentifierType, str)
@@ -2896,8 +3063,22 @@ class LicenseInformation(PremisNode):
                    'licenseApplicableDates'
                    ]
 
-    def __init__(self):
+    def __init__(
+        self,
+        licenseDocumentationIdentifier=None,
+        licenseTerms=None,
+        licenseNote=None,
+        licenseApplicableDates=None
+    ):
         PremisNode.__init__(self, 'licenseInformation')
+        if licenseDocumentationIdentifier is not None:
+            self.set_licenseDocumentationIdentifier(licenseDocumentationIdentifier)
+        if licenseTerms is not None:
+            self.set_licenseTerms(licenseTerms)
+        if licenseNote is not None:
+            self.set_licenseNote(licenseNote)
+        if licenseApplicableDates is not None:
+            self.set_licenseApplicableDates(licenseApplicableDates)
 
     def set_licenseDocumentationIdentifier(self, licenseDocumentationIdentifier):
         licenseDocumentationIdentifier = self._listify(licenseDocumentationIdentifier)
@@ -2945,8 +3126,17 @@ class LicenseApplicableDates(PremisNode):
                    'endDate'
                    ]
 
-    def __init__(self):
+    def __init__(
+        self,
+        startDate=None,
+        endDate=None
+    ):
         PremisNode.__init__(self, 'licenseApplicableDates')
+        # Optionals
+        if startDate is not None:
+            self.set_startDate(startDate)
+        if endDate is not None:
+            self.set_endDate(endDate)
 
     def set_startDate(self, startDate):
         self._type_check(startDate, str)
@@ -2969,10 +3159,18 @@ class LicenseDocumentationIdentifier(PremisNode):
                    'licenseDocumentationRole'
                    ]
 
-    def __init__(self, licenseDocumentationIdentifierType, licenseDocumentationIdentifierValue):
+    def __init__(
+        self,
+        licenseDocumentationIdentifierType,
+        licenseDocumentationIdentifierValue,
+        licenseDocumentationRole=None
+    ):
         PremisNode.__init__(self, 'licenseDocumentationIdentifier')
         self.set_licenseDocumentationIdentifierType(licenseDocumentationIdentifierType)
         self.set_licenseDocumentationIdentifierValue(licenseDocumentationIdentifierValue)
+        # Optionals
+        if licenseDocumentationRole is not None:
+            self.set_licenseDocumentationRole(licenseDocumentationRole)
 
     def set_licenseDocumentationIdentifierType(self, licenseDocumentationIdentifierType):
         self._type_check(licenseDocumentationIdentifierType, str)
@@ -3005,10 +3203,27 @@ class CopyrightInformation(PremisNode):
                    'copyrightApplicableDates'
                    ]
 
-    def __init__(self, copyrightStatus, copyrightJurisdiction):
+    def __init__(
+        self,
+        copyrightStatus,
+        copyrightJurisdiction,
+        copyrightStatusDeterminationDate=None,
+        copyrightNote=None,
+        copyrightDocumentationIdentifier=None,
+        copyrightApplicableDates=None
+    ):
         PremisNode.__init__(self, 'copyrightInformation')
         self.set_copyrightStatus(copyrightStatus)
         self.set_copyrightJurisdiction(copyrightJurisdiction)
+        # Optionals
+        if copyrightStatusDeterminationDate is not None:
+            self.set_copyrightStatutsDeterminationDate(copyrightStatusDeterminationDate)
+        if copyrightNote is not None:
+            self.set_copyrightNote(copyrightNote)
+        if copyrightDocumentationIdentifier is not None:
+            self.set_copyrightDocumentationIdentifier(copyrightDocumentationIdentifier)
+        if copyrightApplicableDates is not None:
+            self.set_copyrightApplicableDates(copyrightApplicableDates)
 
     def set_copyrightStatus(self, copyrightStatus):
         self._type_check(copyrightStatus, str)
@@ -3069,8 +3284,17 @@ class CopyrightApplicableDates(PremisNode):
     field_order = ['startDate',
                    'endDate']
 
-    def __init__(self):
+    def __init__(
+        self,
+        startDate=None,
+        endDate=None
+    ):
         PremisNode.__init__(self, 'copyrightApplicableDates')
+        # Optionals
+        if startDate is not None:
+            self.set_startDate(startDate)
+        if endDate is not None:
+            self.set_endDate(endDate)
 
     def set_startDate(self, startDate):
         self._type_check(startDate, str)
@@ -3093,10 +3317,18 @@ class CopyrightDocumentationIdentifier(PremisNode):
                    'copyrightDocumentationRole'
                    ]
 
-    def __init__(self, copyrightDocumentationIdentifierType, copyrightDocumentationIdentifierValue):
+    def __init__(
+        self,
+        copyrightDocumentationIdentifierType,
+        copyrightDocumentationIdentifierValue,
+        copyrightDocumentationRole=None
+    ):
         PremisNode.__init__(self, 'copyrightDocumentationIdentifier')
         self.set_copyrightDocumentationIdentifierType(copyrightDocumentationIdentifierType)
         self.set_copyrightDocumentationIdentifierValue(copyrightDocumentationIdentifierValue)
+        # Optionals
+        if copyrightDocumentationRole is not None:
+            self.set_copyrightDocumentationRole(copyrightDocumentationRole)
 
     def set_copyrightDocumentationIdentifierType(self, copyrightDocumentationIdentifierType):
         self._type_check(copyrightDocumentationIdentifierType, str)
