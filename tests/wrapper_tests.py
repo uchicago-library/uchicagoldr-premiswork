@@ -247,10 +247,10 @@ class Test(unittest.TestCase):
         self.assertEqual(storage.get_storageMedium(), 'storage_medium')
         storage_2 = Storage()
 
-        signatureInformation = SignatureInformation()
+        signatureInformation = SignatureInformation(signature=signature)
         self.assertEqual(signatureInformation.get_name(), 'signatureInformation')
 
-        signatureInformation.set_signature(signature)
+#        signatureInformation.set_signature(signature)
         self.assertEqual(signatureInformation.get_signature(), [signature])
         signatureInformation.add_signature(signature_2)
         self.assertEqual(signatureInformation.get_signature(), [signature, signature_2])
@@ -260,7 +260,7 @@ class Test(unittest.TestCase):
         signatureInformation.add_signatureInformationExtension(signatureInformationExtension_2)
         self.assertEqual(signatureInformation.get_signatureInformationExtension(), [signatureInformationExtension, signatureInformationExtension_2])
         self.assertEqual(signatureInformation.get_signatureInformationExtension(1), signatureInformationExtension_2)
-        signatureInformation_2 = SignatureInformation()
+        signatureInformation_2 = SignatureInformation(signature=signature_2)
 
         environmentFunction = EnvironmentFunction('environment_function_type', 'environment_function_level')
         self.assertEqual(environmentFunction.get_name(), 'environmentFunction')

@@ -541,11 +541,53 @@ class Object(PremisNode):
                    'linkingRightsStatementIdentifier'
                    ]
 
-    def __init__(self, objectIdentifier, objectCategory, objectCharacteristics):
+    def __init__(
+        self,
+        objectIdentifier,
+        objectCategory,
+        objectCharacteristics,
+        preservationLevel=None,
+        significantProperties=None,
+        originalName=None,
+        storage=None,
+        signatureInformation=None,
+        environmentFunction=None,
+        environmentDesignation=None,
+        environmentRegistry=None,
+        environmentExtension=None,
+        relationship=None,
+        linkingEventIdentifier=None,
+        linkingRightsStatementIdentifier=None
+    ):
         PremisNode.__init__(self, 'object')
         self.set_objectIdentifier(objectIdentifier)
         self.set_objectCategory(objectCategory)
         self.set_objectCharacteristics(objectCharacteristics)
+        # Optionals
+        if preservationLevel is not None:
+            self.set_preservationLevel(preservationLevel)
+        if significantProperties is not None:
+            self.set_significantProperties(significantProperties)
+        if originalName is not None:
+            self.set_originalName(originalName)
+        if storage is not None:
+            self.set_storage(storage)
+        if signatureInformation is not None:
+            self.set_signatureInformation(signatureInformation)
+        if environmentFunction is not None:
+            self.set_environmentFunction(environmentFunction)
+        if environmentDesignation is not None:
+            self.set_environmentDesignation(environmentDesignation)
+        if environmentRegistry is not None:
+            self.set_environmentRegistry(environmentRegistry)
+        if environmentExtension is not None:
+            self.set_environmentExtension(environmentExtension)
+        if relationship is not None:
+            self.set_relationship(relationship)
+        if linkingEventIdentifier is not None:
+            self.set_linkingEventIdentifier(linkingEventIdentifier)
+        if linkingRightsStatementIdentifier is not None:
+            self.set_linkingRightsStatementIdentifier(linkingRightsStatementIdentifier)
 
     def set_objectIdentifier(self, objectIdentifier):
         objectIdentifier = self._listify(objectIdentifier)
@@ -814,10 +856,18 @@ class LinkingObjectIdentifier(PremisNode):
                    'linkingObjectRole'
                    ]
 
-    def __init__(self, linkingObjectIdentifierType, linkingObjectIdentifierValue):
+    def __init__(
+        self,
+        linkingObjectIdentifierType,
+        linkingObjectIdentifierValue,
+        linkingObjectRole=None
+    ):
         PremisNode.__init__(self, 'linkingObjectIdentifier')
         self.set_linkingObjectIdentifierType(linkingObjectIdentifierType)
         self.set_linkingObjectIdentifierValue(linkingObjectIdentifierValue)
+        # Optionals
+        if linkingObjectRole is not None:
+            self.set_linkingObjectRole(linkingObjectRole)
 
     def set_linkingObjectIdentifierType(self, linkingObjectIdentifierType):
         self._type_check(linkingObjectIdentifierType, str)
@@ -931,11 +981,26 @@ class Relationship(PremisNode):
                    'relatedEnvironmentCharacteristic'
                    ]
 
-    def __init__(self, relationshipType, relationshipSubType, relatedObjectIdentifier):
+    def __init__(
+        self,
+        relationshipType,
+        relationshipSubType,
+        relatedObjectIdentifier,
+        relatedEventIdentifier=None,
+        relatedEnvironmentPurpose=None,
+        relatedEnvironmentCharacteristic=None
+    ):
         PremisNode.__init__(self, 'relationship')
         self.set_relationshipType(relationshipType)
         self.set_relationshipSubType(relationshipSubType)
         self.set_relatedObjectIdentifier(relatedObjectIdentifier)
+        # Optionals
+        if relatedEventIdentifier is not None:
+            self.set_relatedEventIdentifier(relatedEventIdentifier)
+        if relatedEnvironmentPurpose is not None:
+            self.set_relatedEnvironmentPurpose(relatedEnvironmentPurpose)
+        if relatedEnvironmentCharacteristic is not None:
+            self.set_relatedEnvironmentCharacteristic(relatedEnvironmentCharacteristic)
 
     def set_relationshipType(self, relationshipType):
         self._type_check(relationshipType, str)
@@ -1004,10 +1069,18 @@ class RelatedEventIdentifier(PremisNode):
                    'relatedEventSequence'
                    ]
 
-    def __init__(self, relatedEventIdentifierType, relatedEventIdentifierValue):
+    def __init__(
+        self,
+        relatedEventIdentifierType,
+        relatedEventIdentifierValue,
+        relatedEventSequence=None
+    ):
         PremisNode.__init__(self, 'relatedEventIdentifier')
         self.set_relatedEventIdentifierType(relatedEventIdentifierType)
         self.set_relatedEventIdentifierValue(relatedEventIdentifierValue)
+        # Optionals
+        if relatedEventSequence is not None:
+            self.set_relatedEventSequence(relatedEventSequence)
 
     def set_relatedEventIdentifierType(self, relatedEventIdentifierType):
         self._type_check(relatedEventIdentifierType, str)
@@ -1037,10 +1110,18 @@ class RelatedObjectIdentifier(PremisNode):
                    'relatedObjectSequence'
                    ]
 
-    def __init__(self, relatedObjectIdentifierType, relatedObjectIdentifierValue):
+    def __init__(
+        self,
+        relatedObjectIdentifierType,
+        relatedObjectIdentifierValue,
+        relatedObjectSequence=None
+    ):
         PremisNode.__init__(self, 'relatedObjectIdentifier')
         self.set_relatedObjectIdentifierType(relatedObjectIdentifierType)
         self.set_relatedObjectIdentifierValue(relatedObjectIdentifierValue)
+        # Optionals
+        if relatedObjectSequence is not None:
+            self.set_relatedObjectSequence(relatedObjectSequence)
 
     def set_relatedObjectIdentifierType(self, relatedObjectIdentifierType):
         self._type_check(relatedObjectIdentifierType, str)
@@ -1070,10 +1151,17 @@ class EnvironmentRegistry(PremisNode):
                    'environmentRegistryRole'
                    ]
 
-    def __init__(self, environmentRegistryName, environmentRegistryKey):
+    def __init__(
+        self,
+        environmentRegistryName,
+        environmentRegistryKey,
+        environmentRegistryRole=None
+    ):
         PremisNode.__init__(self, 'environmentRegistry')
         self.set_environmentRegistryName(environmentRegistryName)
         self.set_environmentRegistryKey(environmentRegistryKey)
+        if environmentRegistryRole is not None:
+            self.set_environmentRegistryRole(environmentRegistryRole)
 
     def set_environmentRegistryName(self, environmentRegistryName):
         self._type_check(environmentRegistryName, str)
@@ -1105,9 +1193,25 @@ class EnvironmentDesignation(PremisNode):
                    'environmentDesignationExtension'
                    ]
 
-    def __init__(self, environmentName):
+    def __init__(
+        self,
+        environmentName,
+        environmentVersion=None,
+        environmentOrigin=None,
+        environmentDesignationNote=None,
+        environmentDesignationExtension=None
+    ):
         PremisNode.__init__(self, 'environmentDesignation')
         self.set_environmentName(environmentName)
+        # Optionals
+        if environmentVersion is not None:
+            self.set_environmentVersion(environmentVersion)
+        if environmentOrigin is not None:
+            self.set_environmentOrigin(environmentOrigin)
+        if environmentDesignationNote is not None:
+            self.set_environmentDesignationNote(environmentDesignationNote)
+        if environmentDesignationExtension is not None:
+            self.set_environmentDesignationExtension(environmentDesignationExtension)
 
     def set_environmentName(self, environmentName):
         self._type_check(environmentName, str)
@@ -1187,8 +1291,21 @@ class SignatureInformation(PremisNode):
                    'signatureInformationExtension'
                    ]
 
-    def __init__(self):
+    def __init__(
+        self,
+        signature=None,
+        signatureInformationExtension=None
+    ):
         PremisNode.__init__(self, 'signatureInformation')
+        # This should be uncommented, but breaks fromXML(), and I'm
+        # just adding kwargs at the moment
+        # -Brian
+#        if signature is None and signatureInformationExtension is None:
+#            raise ValueError("Must provide either a signature node or a signatureInformationExtension node.")
+        if signature is not None:
+            self.set_signature(signature)
+        if signatureInformationExtension is not None:
+            self.set_signatureInformationExtension(signatureInformationExtension)
 
     def set_signature(self, signature):
         signature = self._listify(signature)
@@ -1227,12 +1344,28 @@ class Signature(PremisNode):
                    'keyInformation'
                    ]
 
-    def __init__(self, signatureEncoding, signatureMethod, signatureValue, signatureValidationRules):
+    def __init__(
+        self,
+        signatureEncoding,
+        signatureMethod,
+        signatureValue,
+        signatureValidationRules,
+        signer=None,
+        signatureProperties=None,
+        keyInformation=None
+    ):
         PremisNode.__init__(self, 'signature')
         self.set_signatureEncoding(signatureEncoding)
         self.set_signatureMethod(signatureMethod)
         self.set_signatureValue(signatureValue)
         self.set_signatureValidationRules(signatureValidationRules)
+        # Optionals
+        if signer is not None:
+            self.set_signer(signer)
+        if signatureProperties is not None:
+            self.set_signatureProperties(signatureProperties)
+        if keyInformation is not None:
+            self.set_keyInformation(keyInformation)
 
     def set_signatureEncoding(self, signatureEncoding):
         self._type_check(signatureEncoding, str)
@@ -1295,8 +1428,20 @@ class Storage(PremisNode):
                    'storageMedium'
                    ]
 
-    def __init__(self):
+    def __init__(
+        self,
+        contentLocation=None,
+        storageMedium=None
+    ):
         PremisNode.__init__(self, 'storage')
+        # Again, this should be in here, but kwargs are my current priority
+        # -Brian
+#        if contentLocation is None and storageMedium is None:
+#            raise ValueError("Must supply at least one of: contentLocation, storageMedium")
+        if contentLocation is not None:
+            self.set_contentLocation(contentLocation)
+        if storageMedium is not None:
+            self.set_storageMedium(storageMedium)
 
     def set_contentLocation(self, contentLocation):
         self._type_check(contentLocation, ContentLocation)
@@ -1348,9 +1493,31 @@ class ObjectCharacteristics(PremisNode):
                    'objectCharacteristicsExtension'
                    ]
 
-    def __init__(self, format):
+    def __init__(
+        self,
+        format,
+        compositionLevel=None,
+        fixity=None,
+        size=None,
+        creatingApplication=None,
+        inhibitors=None,
+        objectCharacteristicsExtension=None
+    ):
         PremisNode.__init__(self, 'objectCharacteristics')
         self.set_format(format)
+        # Optionals
+        if compositionLevel is not None:
+            self.set_compositionLevel(compositionLevel)
+        if fixity is not None:
+            self.set_fixity(fixity)
+        if size is not None:
+            self.set_size(size)
+        if creatingApplication is not None:
+            self.set_creatingApplication(creatingApplication)
+        if inhibitors is not None:
+            self.set_inhibitors(inhibitors)
+        if objectCharacteristicsExtension is not None:
+            self.set_objectCharacteristicsExtension(objectCharacteristicsExtension)
 
     def set_compositionLevel(self, compositionLevel):
         self._type_check(compositionLevel, str)
@@ -1439,9 +1606,14 @@ class Inhibitors(PremisNode):
                    'inhibitorKey'
                    ]
 
-    def __init__(self, inhibitorType):
+    def __init__(self, inhibitorType, inhibitorTarget=None, inhibitorKey=None):
         PremisNode.__init__(self, 'inhibitors')
         self.set_inhibitorType(inhibitorType)
+        # Optionals
+        if inhibitorTarget is not None:
+            self.set_inhibitorTarget(inhibitorTarget)
+        if inhibitorKey is not None:
+            self.set_inhibitorKey(inhibitorKey)
 
     def set_inhibitorType(self, inhibitorType):
         self._type_check(inhibitorType, str)
@@ -1478,8 +1650,27 @@ class CreatingApplication(PremisNode):
                    'creatingApplicationExtension'
                    ]
 
-    def __init__(self):
+    def __init__(
+        self,
+        creatingApplicationName=None,
+        creatingApplicationVersion=None,
+        dateCreatedByApplication=None,
+        creatingApplicationExtension=None
+    ):
         PremisNode.__init__(self, 'creatingApplication')
+#        if creatingApplicationName is None and \
+#                creatingApplicationVersion is None and \
+#                dateCreatedByApplication is None and \
+#                creatingApplicationExtension is None:
+#            raise ValueError("Must provide at least one of: creatingApplicationName, creatingApplicationVersion, dateCreatedByApplication, creatingApplicationExtension.")
+        if creatingApplicationName is not None:
+            self.set_creatingApplicationName(creatingApplicationName)
+        if creatingApplicationVersion is not None:
+            self.set_creatingApplicationVersion(creatingApplicationVersion)
+        if dateCreatedByApplication is not None:
+            self.set_dateCreatedByApplication(dateCreatedByApplication)
+        if creatingApplicationExtension is not None:
+            self.set_creatingApplicationExtension(creatingApplicationExtension)
 
     def set_creatingApplicationName(self, creatingApplicationName):
         self._type_check(creatingApplicationName, str)
