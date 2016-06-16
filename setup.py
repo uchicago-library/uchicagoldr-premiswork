@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name = 'pypremis',
-    version = '1.0.0',
+    version = '1.0.0b',
     url = 'https://github.com/uchicago-library/uchicagoldr-premiswork',
     author = "Brian Balsamo <balsamo@uchicago.edu>",
     author_email = "balsamo@uchicago.edu",
