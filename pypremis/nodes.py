@@ -824,6 +824,22 @@ class Object(PremisNode):
                 raise ValueError
         return root
 
+    objectIdentifier = property(get_objectIdentifier, set_objectIdentifier)
+    objectCategory = property(get_objectCategory, set_objectCategory)
+    preservationLevel = property(get_preservationLevel, set_preservationLevel)
+    significantProperties = property(get_significantProperties, set_significantProperties)
+    objectCharacteristics = property(get_objectCharacteristics, set_objectCharacteristics)
+    originalName = property(get_originalName, set_originalName)
+    storage = property(get_storage, set_storage)
+    signatureInformation = property(get_signatureInformation, set_signatureInformation)
+    environmentFunction = property(get_environmentFunction, set_environmentFunction)
+    enviromentDesignation = property(get_environmentDesignation, set_environmentDesignation)
+    environmentRegistry = property(get_environmentRegistry, set_environmentRegistry)
+    environmentExtension = property(get_environmentExtension, set_environmentExtension)
+    relationship = property(get_relationship, set_relationship)
+    linkingEventIdentifier = property(get_linkingEventIdentifier, set_linkingEventIdentifier)
+    linkingRightsStatementIdentifier = property(get_linkingRightsStatementIdentifier, set_linkingRightsStatementIdentifier)
+
 
 class ObjectIdentifier(PremisNode):
     field_order = ['objectIdentifierType',
@@ -852,6 +868,9 @@ class ObjectIdentifier(PremisNode):
 
     def get_objectIdentifierValue(self):
         return self._get_field('objectIdentifierValue')
+
+    objectIdentifierType = property(get_objectIdentifierType, set_objectIdentifierType)
+    objectIdentifierValue = property(get_objectIdentifierValue, set_objectIdentifierValue)
 
 
 class LinkingObjectIdentifier(PremisNode):
@@ -900,6 +919,10 @@ class LinkingObjectIdentifier(PremisNode):
         self._type_check(linkingObjectRole, str)
         self._add_to_field('linkingObjectRole', linkingObjectRole)
 
+    linkingObjectIdentifierType = property(get_linkingObjectIdentifierType, set_linkingObjectIdentifierType)
+    linkingObjectIdentifierValue = property(get_linkingObjectIdentifierValue, set_linkingObjectIdentifierValue)
+    linkingObjectRole = property(get_linkingObjectRole, set_linkingObjectRole)
+
 
 class EventIdentifier(PremisNode):
     field_order = ['eventIdentifierType',
@@ -928,6 +951,9 @@ class EventIdentifier(PremisNode):
 
     def get_eventIdentifierValue(self):
         return self._get_field('eventIdentifierValue')
+
+    eventIdentifierType = property(get_eventIdentifierType, set_eventIdentifierType)
+    eventIdentifierValue = property(get_eventIdentifierValue, set_eventIdentifierValue)
 
 
 class LinkingEventIdentifier(PremisNode):
@@ -958,6 +984,9 @@ class LinkingEventIdentifier(PremisNode):
     def get_linkingEventIdentifierValue(self):
         return self._get_field('linkingEventIdentifierValue')
 
+    linkingEventIdentifierType = property(get_linkingEventIdentifierType, set_linkingEventIdentifierType)
+    linkingEventIdentifierValue = property(get_linkingEventIdentifierValue, set_linkingEventIdentifierValue)
+
 
 class LinkingRightsStatementIdentifier(PremisNode):
     field_order = ['linkingRightsStatementIdentifierType',
@@ -986,6 +1015,9 @@ class LinkingRightsStatementIdentifier(PremisNode):
 
     def get_linkingRightsStatementIdentifierValue(self):
         return self._get_field('linkingRightsStatementIdentifierValue')
+
+    linkingRightsStatementIdentifierType = property(get_linkingRightsStatementIdentifierType, set_linkingRightsStatementIdentifierType)
+    linkingRightsStatementIdentifierValue = property(get_linkingRightsStatementIdentifierValue, set_linkingRightsStatementIdentifierValue)
 
 
 class Relationship(PremisNode):
@@ -1078,6 +1110,13 @@ class Relationship(PremisNode):
     def get_relatedEnvironmentCharacteristic(self):
         return self._get_field('relatedEnvironmentCharacteristic')
 
+    relationshipType = property(get_relationshipType, set_relationshipType)
+    relationshipSubType = property(get_relationshipSubType, set_relationshipSubType)
+    relatedObjectIdentifier = property(get_relatedObjectIdentifier, set_relatedObjectIdentifier)
+    relatedEventIdentifier = property(get_relatedEventIdentifier, set_relatedEventIdentifier)
+    relatedEnvironmentPurpose = property(get_relatedEnvironmentPurpose, set_relatedEnvironmentPurpose)
+    relatedEnvironmentCharacteristic = property(get_relatedEnvironmentCharacteristic, set_relatedEnvironmentCharacteristic)
+
 
 class RelatedEventIdentifier(PremisNode):
     field_order = ['relatedEventIdentifierType',
@@ -1118,6 +1157,10 @@ class RelatedEventIdentifier(PremisNode):
 
     def get_relatedEventSequence(self):
         return self._get_field('relatedEventSequence')
+
+    relatedEventIdentifierType = property(get_relatedEventIdentifierType, set_relatedEventIdentifierType)
+    relatedEventIdentifierValue = property(get_relatedEventIdentifierValue, set_relatedEventIdentifierValue)
+    relatedEventSequence = property(get_relatedEventSequence, set_relatedEventSequence)
 
 
 class RelatedObjectIdentifier(PremisNode):
