@@ -2720,6 +2720,8 @@ class Rights(PremisNode):
         self._type_check(rightsExtension, RightsExtension)
         self._add_to_field('rightsExtension', rightsExtension)
 
+    rightsStatement = property(get_rightsStatement, set_rightsStatement)
+
 
 class RightsStatement(PremisNode):
     field_order = ['rightsStatementIdentifier',
