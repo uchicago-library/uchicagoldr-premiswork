@@ -314,17 +314,24 @@ class PremisRecord(object):
         ET.register_namespace('premis', "")
         ET.register_namespace('xsi', "")
 
-    def write(self, targetpath):
+    def write(self, targetpath, xml_declaration=True,
+                      encoding="unicode", method='xml'):
+        # Eventually this function might get more complicated and wrap multiple
+        # serializers and what not, but for now it's just XML. If you want your
+        # code to be rock solid forever use .write_to_file(), it's named so
+        # explicitly that even I would have trouble making an argument for
+        # changing its functionality.
         """
         Wrap the function with an obnoxiously long name for backwards
-        compatability
+        compatability, see comment note above for more info
 
         __Args__
 
         1. targetpath (str): a str corresponding to the intended location on disk
         to write the premis xml file to.
         """
-        self.write_to_file(targetpath)
+        self.write_to_file(targetpath, xml_declaration=xml_declaration,
+                           encoding=encoding, method=method)
 
     def to_tree(self):
         tree = ET.ElementTree(element=ET.Element('premis:premis'))
