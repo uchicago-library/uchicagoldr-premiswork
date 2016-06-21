@@ -2721,6 +2721,7 @@ class Rights(PremisNode):
         self._add_to_field('rightsExtension', rightsExtension)
 
     rightsStatement = property(get_rightsStatement, set_rightsStatement)
+    rightsExtension = property(get_rightsExtension, set_rightsExtension)
 
 
 class RightsStatement(PremisNode):
@@ -2853,6 +2854,16 @@ class RightsStatement(PremisNode):
         self._type_check(linkingAgentIdentifier, LinkingAgentIdentifier)
         self._add_to_field('linkingAgentIdentifier', linkingAgentIdentifier)
 
+    rightsStatementIdentifier = property(get_rightsStatementIdentifier, set_rightsStatementIdentifier)
+    rightsBasis = property(get_rightsBasis, set_rightsBasis)
+    copyrightInformation = property(get_copyrightInformation, set_copyrightInformation)
+    licenseInformation = property(get_licenseInformation, set_licenseInformation)
+    statuteInformation = property(get_statuteInformation, set_statuteInformation)
+    otherRightsInformation = property(get_otherRightsInformation, set_otherRightsInformation)
+    rightsGranted = property(get_rightsGranted, set_rightsGranted)
+    linkingObjectIdentifier = property(get_linkingObjectIdentifier, set_linkingObjectIdentifier)
+    linkingAgentIdentifier = property(get_linkingAgentIdentifier, set_linkingAgentIdentifier)
+
 
 class RightsGranted(PremisNode):
     field_order = ['act',
@@ -2929,6 +2940,12 @@ class RightsGranted(PremisNode):
         self._type_check(rightsGrantedNote, str)
         self._add_to_field('rightsGrantedNote', rightsGrantedNote)
 
+    act = property(get_act, set_act)
+    restriction = property(get_restriction, set_restriction)
+    termOfGrant = property(get_termOfGrant, set_termOfGrant)
+    termOfRestriction = property(get_termOfRestriction, set_termOfRestriction)
+    rightsGrantedNote = property(get_rightsGrantedNote, set_rightsGrantedNote)
+
 
 class TermOfRestriction(PremisNode):
     field_order = ['startDate',
@@ -2960,6 +2977,9 @@ class TermOfRestriction(PremisNode):
     def get_endDate(self):
         return self._get_field('endDate')
 
+    startDate = property(get_startDate, set_startDate)
+    endDate = property(get_endDate, set_endDate)
+
 
 class TermOfGrant(PremisNode):
     field_order = ['startDate',
@@ -2990,6 +3010,9 @@ class TermOfGrant(PremisNode):
 
     def get_endDate(self):
         return self._get_field('endDate')
+
+    startDate = property(get_startDate, set_startDate)
+    endDate = property(get_endDate, set_endDate)
 
 
 class OtherRightsInformation(PremisNode):
@@ -3056,6 +3079,11 @@ class OtherRightsInformation(PremisNode):
         self._type_check(otherRightsNote, str)
         self._add_to_field('otherRightsNote', otherRightsNote)
 
+    otherRightsDocumentationIdentifier = property(get_otherRightsDocumentationIdentifier, set_otherRightsDocumentationIdentifier)
+    otherRightsBasis = property(get_otherRightsBasis, set_otherRightsBasis)
+    otherRightsApplicateDates = property(get_otherRightsApplicableDates, set_otherRightsApplicableDates)
+    otherRightsNote = property(get_otherRightsNote, set_otherRightsNote)
+
 
 class OtherRightsApplicableDates(PremisNode):
     field_order = ['startDate',
@@ -3086,6 +3114,9 @@ class OtherRightsApplicableDates(PremisNode):
 
     def get_endDate(self):
         return self._get_field('endDate')
+
+    startDate = property(get_startDate, set_startDate)
+    endDate = property(get_endDate, set_endDate)
 
 
 class OtherRightsDocumentationIdentifier(PremisNode):
@@ -3127,6 +3158,10 @@ class OtherRightsDocumentationIdentifier(PremisNode):
 
     def get_otherRightsDocumentationRole(self):
         return self._get_field('otherRightsDocumentationRole')
+
+    otherRightsDocumentationIdentifierType = property(get_otherRightsDocumentationIdentifierType, set_otherRightsDocumentationIdentifierType)
+    otherRightsDocumentationIdentifierValue = property(get_otherRightsDocumentationIdentifierValue, set_otherRightsDocumentationIdentifierValue)
+    otherRightsDocumentationRole = property(get_otherRightsDocumentationRole, set_otherRightsDocumentationRole)
 
 
 class StatuteInformation(PremisNode):
@@ -3214,6 +3249,13 @@ class StatuteInformation(PremisNode):
     def get_statuteApplicableDates(self):
         return self._get_field('statuteApplicableDates')
 
+    statuteJurisdiction = property(get_statuteJurisdiction, set_statuteJurisdiction)
+    statuteCitation = property(get_statuteCitation, set_statuteCitation)
+    statuteInformationDeterminationDate = property(get_statuteInformationDeterminationDate, set_statuteInformationDeterminationDate)
+    statuteNote = property(get_statuteNote, set_statuteNote)
+    statuteDocumentationIdentifier = property(get_statuteDocumentationIdentifier, set_statuteDocumentationIdentifier)
+    statuteApplicableDates = property(get_statuteApplicableDates, set_statuteApplicableDates)
+
 
 class StatuteApplicableDates(PremisNode):
     field_order = ['startDate',
@@ -3240,6 +3282,9 @@ class StatuteApplicableDates(PremisNode):
 
     def get_endDate(self):
         return self._get_field('endDate')
+
+    startDate = property(get_startDate, set_startDate)
+    endDate = property(get_endDate, set_endDate)
 
 
 class StatuteDocumentationIdentifier(PremisNode):
@@ -3281,6 +3326,10 @@ class StatuteDocumentationIdentifier(PremisNode):
 
     def get_statuteDocumentationRole(self):
         return self._get_field('statuteDocumentationRole')
+
+    statuteDocumentationIdentifierType = property(get_statuteDocumentationIdentifierType, set_statuteDocumentationIdentifierType)
+    statuteDocumentationIdentifierValue = property(get_statuteDocumentationIdentifierValue, set_statuteDocumentationIdentifierValue)
+    statuteDocumentationRole = property(get_statuteDocumentationRole, set_statuteDocumentationRole)
 
 
 class LicenseInformation(PremisNode):
@@ -3347,6 +3396,11 @@ class LicenseInformation(PremisNode):
     def get_licenseApplicableDates(self):
         return self._get_field('licenseApplicableDates')
 
+    licenseDocumentationIdentifier = property(get_licenseDocumentationIdentifier, set_licenseDocumentationIdentifier)
+    licenseTerms = property(get_licenseTerms, set_licenseTerms)
+    licenseNote = property(get_licenseNote, set_licenseNote)
+    licenseApplicableDates = property(get_licenseApplicableDates, set_licenseApplicableDates)
+
 
 class LicenseApplicableDates(PremisNode):
     field_order = ['startDate',
@@ -3378,6 +3432,9 @@ class LicenseApplicableDates(PremisNode):
 
     def get_endDate(self):
         return self._get_field('endDate')
+
+    startDate = property(get_startDate, set_startDate)
+    endDate = property(get_endDate, set_endDate)
 
 
 class LicenseDocumentationIdentifier(PremisNode):
@@ -3419,6 +3476,10 @@ class LicenseDocumentationIdentifier(PremisNode):
 
     def get_licenseDocumentationRole(self):
         return self._get_field('licenseDocumentationRole')
+
+    licenseDocumentationIdentifierType = property(get_licenseDocumentationIdentifierType, set_licenseDocumentationIdentifierType)
+    licenseDocumentationIdentifierValue = property(get_licenseDocumentationIdentifierValue, set_licenseDocumentationIdentifierValue)
+    licenseDocumentationRole = property(get_licenseDocumentationRole, set_licenseDocumentationRole)
 
 
 class CopyrightInformation(PremisNode):
@@ -3506,6 +3567,13 @@ class CopyrightInformation(PremisNode):
     def get_copyrightApplicableDates(self):
         return self._get_field('copyrightApplicableDates')
 
+    copyrightStatus = property(get_copyrightStatus, set_copyrightStatus)
+    copyrightJurisdiction = property(get_copyrightJurisdiction, set_copyrightJurisdiction)
+    copyrightStatusDeterminationDate = property(get_copyrightStatusDeterminationDate, set_copyrightStatusDeterminationDate)
+    copyrightNote = property(get_copyrightNote, set_copyrightNote)
+    copyrightDocumentationIdentifier = property(get_copyrightDocumentationIdentifier, set_copyrightDocumentationIdentifier)
+    copyrightApplicableDates = property(get_copyrightApplicableDates, set_copyrightApplicableDates)
+
 
 class CopyrightApplicableDates(PremisNode):
     field_order = ['startDate',
@@ -3536,6 +3604,9 @@ class CopyrightApplicableDates(PremisNode):
 
     def get_endDate(self):
         return self._get_field('endDate')
+
+    endDate = property(get_endDate, set_endDate)
+    startDate = property(get_startDate, set_endDate)
 
 
 class CopyrightDocumentationIdentifier(PremisNode):
@@ -3578,6 +3649,10 @@ class CopyrightDocumentationIdentifier(PremisNode):
     def get_copyrightDocumentationRole(self):
         return self._get_field('copyrightDocumentationRole')
 
+    copyrightDocumentationIdentifierType = property(get_copyrightDocumentationIdentifierType, set_copyrightDocumentationIdentifierType)
+    copyrightDocumentationIdentifierValue = property(get_copyrightDocumentationIdentifierValue, set_copyrightDocumentationIdentifierValue)
+    copyrightDocumentationRole = property(get_copyrightDocumentationRole, set_copyrightDocumentationRole)
+
 
 class RightsStatementIdentifier(PremisNode):
     field_order = ['rightsStatementIdentifierType',
@@ -3606,3 +3681,6 @@ class RightsStatementIdentifier(PremisNode):
 
     def get_rightsStatementIdentifierValue(self):
         return self._get_field('rightsStatementIdentifierValue')
+
+    rightsStatementIdentifierType = property(get_rightsStatementIdentifierType, set_rightsStatementIdentifierType)
+    rightsStatementIdentifierValue = property(get_rightsStatementIdentifierValue, set_rightsStatementIdentifierValue)
