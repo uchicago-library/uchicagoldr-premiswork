@@ -43,7 +43,9 @@ class PremisRecord(object):
         xml file
         """
 
-        if (frompath and (objects or events or agents or rights)):
+        if (frompath and (objects or events or agents or rights)) \
+                or \
+                (not frompath and not (objects or events or agents or rights)):
             raise ValueError("Must supply either a valid file or at least "
                              "one array of valid PREMIS objects.")
 
@@ -275,7 +277,7 @@ class PremisRecord(object):
         """
         pass
 
-    def populate_from_file(self, factory, filepath=None):
+    def populate_from_file(self, factory=XMLNodeFactory, filepath=None):
         """
         Populates the object, event, agent, and rights lists from an existing
         premis xml file
@@ -294,6 +296,8 @@ class PremisRecord(object):
         filepath attribute is assumed.
         """
         if filepath is None:
+            if self.get_filepath() is None:
+                raise ValueError("No supplied filepath.")
             filepath = self.get_filepath()
         factory = factory(filepath)
         for event in factory.find_events():
@@ -310,7 +314,44 @@ class PremisRecord(object):
         ET.register_namespace('premis', "")
         ET.register_namespace('xsi', "")
 
-    def write_to_file(self, targetpath):
+    def write(self, targetpath, xml_declaration=True,
+                      encoding="unicode", method='xml'):
+        # Eventually this function might get more complicated and wrap multiple
+        # serializers and what not, but for now it's just XML. If you want your
+        # code to be rock solid forever use .write_to_file(), it's named so
+        # explicitly that even I would have trouble making an argument for
+        # changing its functionality.
+        """
+        Wrap the function with an obnoxiously long name for backwards
+        compatability, see comment note above for more info
+
+        __Args__
+
+        1. targetpath (str): a str corresponding to the intended location on disk
+        to write the premis xml file to.
+        """
+        self.write_to_file(targetpath, xml_declaration=xml_declaration,
+                           encoding=encoding, method=method)
+
+    def to_tree(self):
+        tree = ET.ElementTree(element=ET.Element('premis:premis'))
+        root = tree.getroot()
+        root.set('xmlns:premis', "http://www.loc.gov/premis/v3")
+        root.set('xmlns:xsi', "http://www.w3.org/2001/XMLSchema-instance")
+        root.set('version', "3.0")
+        for entry in self:
+            root.append(entry.toXML())
+        return tree
+
+    def to_xml(self, encoding='unicode', method='xml',
+               short_empty_elements=True):
+        tree = self.to_tree()
+        return ET.tostring(tree.getroot(), encoding=encoding,
+                           method=method,
+                           short_empty_elements=short_empty_elements)
+
+    def write_to_file(self, targetpath, xml_declaration=True,
+                      encoding="unicode", method='xml'):
         """
         Writes the contained premis data structure out to disk as the
         specified path as an xml document.
@@ -320,13 +361,7 @@ class PremisRecord(object):
         1. targetpath (str): a str corresponding to the intended location on disk
         to write the premis xml file to.
         """
-        tree = ET.ElementTree(element=ET.Element('premis:premis'))
-        root = tree.getroot()
-        root.set('xmlns:premis', "http://www.loc.gov/premis/v3")
-        root.set('xmlns:xsi', "http://www.w3.org/2001/XMLSchema-instance")
-        root.set('version', "3.0")
-        for entry in self:
-            root.append(entry.toXML())
+        tree = self.to_tree()
         tree.write(targetpath,
                    xml_declaration=True,
                    encoding='unicode',
