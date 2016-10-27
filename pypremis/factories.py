@@ -1276,16 +1276,20 @@ class LinkingEventIdentifierFactory(LinkingXIdentifierFactory):
         super().set_input_node(x)
 
     def get_input_identifier_type(self):
-        return self.get_input_node().get_eventIdentifier(0).get_eventIdentifierType()
+        return self.get_input_node().get_eventIdentifier().get_eventIdentifierType()
 
     def get_input_identifier_value(self):
-        return self.get_input_node().get_eventIdentifier(0).get_eventIdentifierValue()
+        return self.get_input_node().get_eventIdentifier().get_eventIdentifierValue()
 
     def set_output_node_role(self, node, role):
         node.set_linkingEventRole(role)
 
 
 class LinkingRightsStatementIdentifierFactory(LinkingXIdentifierFactory):
+    # This one ends up being a little funky, requiring you pass it a
+    # rightsStatement instead of just a rights entity.
+    # I complained about incongruities like this on the PREMIS Implementors
+    # Group mailing list - I guess we'll see if anything comes of it.
     def __init__(self, input_node):
         super().__init__(input_node)
         self.set_output_node_type(LinkingRightsStatementIdentifier)
@@ -1298,10 +1302,10 @@ class LinkingRightsStatementIdentifierFactory(LinkingXIdentifierFactory):
         super().set_input_node(x)
 
     def get_input_identifier_type(self):
-        return self.get_input_node().get_rightsStatementIdentifier(0).get_rightsStatementIdentifierType()
+        return self.get_input_node().get_rightsStatementIdentifier().get_rightsStatementIdentifierType()
 
     def get_input_identifier_value(self):
-        return self.get_input_node().get_rightsStatementIdentifier(0).get_rightsStatementIdentifierValue()
+        return self.get_input_node().get_rightsStatementIdentifier().get_rightsStatementIdentifierValue()
 
     def set_output_node_role(self, node, role):
         raise NotImplementedError(
