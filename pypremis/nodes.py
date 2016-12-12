@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+from collections import OrderedDict
 
 
 """
@@ -46,7 +47,7 @@ class PremisNode(object):
         of the name attribute.
         """
 
-        self._set_fields({})
+        self._set_fields(OrderedDict())
         self._set_name(nodeName)
 
     def __repr__(self):
@@ -109,7 +110,7 @@ class PremisNode(object):
         1. fields (dict): a dictionary corresponding to the fields internal data
         organization of the class.
         """
-        if not isinstance(fields, dict):
+        if not isinstance(fields, OrderedDict):
             raise TypeError
         self.fields = fields
 
