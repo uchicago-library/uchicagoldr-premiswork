@@ -824,6 +824,22 @@ class Object(PremisNode):
                 raise ValueError
         return root
 
+    objectIdentifier = property(get_objectIdentifier, set_objectIdentifier)
+    objectCategory = property(get_objectCategory, set_objectCategory)
+    preservationLevel = property(get_preservationLevel, set_preservationLevel)
+    significantProperties = property(get_significantProperties, set_significantProperties)
+    objectCharacteristics = property(get_objectCharacteristics, set_objectCharacteristics)
+    originalName = property(get_originalName, set_originalName)
+    storage = property(get_storage, set_storage)
+    signatureInformation = property(get_signatureInformation, set_signatureInformation)
+    environmentFunction = property(get_environmentFunction, set_environmentFunction)
+    enviromentDesignation = property(get_environmentDesignation, set_environmentDesignation)
+    environmentRegistry = property(get_environmentRegistry, set_environmentRegistry)
+    environmentExtension = property(get_environmentExtension, set_environmentExtension)
+    relationship = property(get_relationship, set_relationship)
+    linkingEventIdentifier = property(get_linkingEventIdentifier, set_linkingEventIdentifier)
+    linkingRightsStatementIdentifier = property(get_linkingRightsStatementIdentifier, set_linkingRightsStatementIdentifier)
+
 
 class ObjectIdentifier(PremisNode):
     field_order = ['objectIdentifierType',
@@ -852,6 +868,9 @@ class ObjectIdentifier(PremisNode):
 
     def get_objectIdentifierValue(self):
         return self._get_field('objectIdentifierValue')
+
+    objectIdentifierType = property(get_objectIdentifierType, set_objectIdentifierType)
+    objectIdentifierValue = property(get_objectIdentifierValue, set_objectIdentifierValue)
 
 
 class LinkingObjectIdentifier(PremisNode):
@@ -900,6 +919,10 @@ class LinkingObjectIdentifier(PremisNode):
         self._type_check(linkingObjectRole, str)
         self._add_to_field('linkingObjectRole', linkingObjectRole)
 
+    linkingObjectIdentifierType = property(get_linkingObjectIdentifierType, set_linkingObjectIdentifierType)
+    linkingObjectIdentifierValue = property(get_linkingObjectIdentifierValue, set_linkingObjectIdentifierValue)
+    linkingObjectRole = property(get_linkingObjectRole, set_linkingObjectRole)
+
 
 class EventIdentifier(PremisNode):
     field_order = ['eventIdentifierType',
@@ -928,6 +951,9 @@ class EventIdentifier(PremisNode):
 
     def get_eventIdentifierValue(self):
         return self._get_field('eventIdentifierValue')
+
+    eventIdentifierType = property(get_eventIdentifierType, set_eventIdentifierType)
+    eventIdentifierValue = property(get_eventIdentifierValue, set_eventIdentifierValue)
 
 
 class LinkingEventIdentifier(PremisNode):
@@ -958,6 +984,9 @@ class LinkingEventIdentifier(PremisNode):
     def get_linkingEventIdentifierValue(self):
         return self._get_field('linkingEventIdentifierValue')
 
+    linkingEventIdentifierType = property(get_linkingEventIdentifierType, set_linkingEventIdentifierType)
+    linkingEventIdentifierValue = property(get_linkingEventIdentifierValue, set_linkingEventIdentifierValue)
+
 
 class LinkingRightsStatementIdentifier(PremisNode):
     field_order = ['linkingRightsStatementIdentifierType',
@@ -986,6 +1015,9 @@ class LinkingRightsStatementIdentifier(PremisNode):
 
     def get_linkingRightsStatementIdentifierValue(self):
         return self._get_field('linkingRightsStatementIdentifierValue')
+
+    linkingRightsStatementIdentifierType = property(get_linkingRightsStatementIdentifierType, set_linkingRightsStatementIdentifierType)
+    linkingRightsStatementIdentifierValue = property(get_linkingRightsStatementIdentifierValue, set_linkingRightsStatementIdentifierValue)
 
 
 class Relationship(PremisNode):
@@ -1078,6 +1110,13 @@ class Relationship(PremisNode):
     def get_relatedEnvironmentCharacteristic(self):
         return self._get_field('relatedEnvironmentCharacteristic')
 
+    relationshipType = property(get_relationshipType, set_relationshipType)
+    relationshipSubType = property(get_relationshipSubType, set_relationshipSubType)
+    relatedObjectIdentifier = property(get_relatedObjectIdentifier, set_relatedObjectIdentifier)
+    relatedEventIdentifier = property(get_relatedEventIdentifier, set_relatedEventIdentifier)
+    relatedEnvironmentPurpose = property(get_relatedEnvironmentPurpose, set_relatedEnvironmentPurpose)
+    relatedEnvironmentCharacteristic = property(get_relatedEnvironmentCharacteristic, set_relatedEnvironmentCharacteristic)
+
 
 class RelatedEventIdentifier(PremisNode):
     field_order = ['relatedEventIdentifierType',
@@ -1118,6 +1157,10 @@ class RelatedEventIdentifier(PremisNode):
 
     def get_relatedEventSequence(self):
         return self._get_field('relatedEventSequence')
+
+    relatedEventIdentifierType = property(get_relatedEventIdentifierType, set_relatedEventIdentifierType)
+    relatedEventIdentifierValue = property(get_relatedEventIdentifierValue, set_relatedEventIdentifierValue)
+    relatedEventSequence = property(get_relatedEventSequence, set_relatedEventSequence)
 
 
 class RelatedObjectIdentifier(PremisNode):
@@ -1160,6 +1203,10 @@ class RelatedObjectIdentifier(PremisNode):
     def get_relatedObjectSequence(self):
         return self._get_field('relatedObjectSequence')
 
+    relatedObjectIdentifierType = property(get_relatedObjectIdentifierType, set_relatedObjectIdentifierType)
+    relatedObjectIdentifierValue = property(get_relatedObjectIdentifierValue, set_relatedObjectIdentifierValue)
+    relatedObjectSequence = property(get_relatedObjectSequence, set_relatedObjectSequence)
+
 
 class EnvironmentRegistry(PremisNode):
     field_order = ['environmentRegistryName',
@@ -1200,6 +1247,10 @@ class EnvironmentRegistry(PremisNode):
 
     def get_environmentRegistryRole(self):
         return self._get_field('environmentRegistryRole')
+
+    environmentRegistryName = property(get_environmentRegistryName, set_environmentRegistryName)
+    environmentRegistryKey = property(get_environmentRegistryKey, set_environmentRegistryKey)
+    environmentRegistryRole = property(get_environmentRegistryRole, set_environmentRegistryRole)
 
 
 class EnvironmentDesignation(PremisNode):
@@ -1277,6 +1328,12 @@ class EnvironmentDesignation(PremisNode):
         self._type_check(environmentDesignationExtension, EnvironmentDesignationExtension)
         self._add_to_field('environmentDesignationExtension', environmentDesignationExtension)
 
+    environmentName = property(get_environmentName, set_environmentName)
+    environmentVersion = property(get_environmentVersion, set_environmentVersion)
+    environmentOrigin = property(get_environmentOrigin, set_environmentOrigin)
+    environmentDesignationNote = property(get_environmentDesignationNote, set_environmentDesignationNote)
+    environmentDesignationExtension = property(get_environmentDesignationExtension, set_environmentDesignationExtension)
+
 
 class EnvironmentFunction(PremisNode):
     field_order = ['environmentFunctionType',
@@ -1305,6 +1362,9 @@ class EnvironmentFunction(PremisNode):
 
     def get_environmentFunctionLevel(self):
         return self._get_field('environmentFunctionLevel')
+
+    environmentFunctionType = property(get_environmentFunctionType, set_environmentFunctionType)
+    environmentFunctionLevel = property(get_environmentFunctionLevel, set_environmentFunctionLevel)
 
 
 class SignatureInformation(PremisNode):
@@ -1353,6 +1413,9 @@ class SignatureInformation(PremisNode):
     def add_signatureInformationExtension(self, signatureInformationExtension):
         self._type_check(signatureInformationExtension, SignatureInformationExtension)
         self._add_to_field('signatureInformationExtension', signatureInformationExtension)
+
+    signature = property(get_signature, set_signature)
+    signatureInformationExtension = property(get_signatureInformationExtension, set_signatureInformationExtension)
 
 
 class Signature(PremisNode):
@@ -1443,6 +1506,14 @@ class Signature(PremisNode):
     def get_keyInformation(self):
         return self._get_field('keyInformation')
 
+    signatureEncoding = property(get_signatureEncoding, set_signatureEncoding)
+    signer = property(get_signer, set_signer)
+    signatureMethod = property(get_signatureMethod, set_signatureMethod)
+    signatureValue = property(get_signatureValue, set_signatureValue)
+    signatureValidationRules = property(get_signatureValidationRules, set_signatureValidationRules)
+    signatureProperties = property(get_signatureProperties, set_signatureProperties)
+    keyInformation = property(get_keyInformation, set_keyInformation)
+
 
 class Storage(PremisNode):
     field_order = ['contentLocation',
@@ -1478,6 +1549,9 @@ class Storage(PremisNode):
     def get_storageMedium(self):
         return self._get_field('storageMedium')
 
+    contentLocation = property(get_contentLocation, set_contentLocation)
+    storageMedium = property(get_storageMedium, set_storageMedium)
+
 
 class ContentLocation(PremisNode):
     field_order = ['contentLocationType',
@@ -1506,6 +1580,9 @@ class ContentLocation(PremisNode):
 
     def get_contentLocationValue(self):
         return self._get_field('contentLocationValue')
+
+    contentLocationType = property(get_contentLocationType, set_contentLocationType)
+    contentLocationValue = property(get_contentLocationValue, set_contentLocationValue)
 
 
 class ObjectCharacteristics(PremisNode):
@@ -1624,6 +1701,14 @@ class ObjectCharacteristics(PremisNode):
         self._type_check(objectCharacteristicsExtension, ObjectCharacteristicsExtension)
         self._add_to_field('objectCharacteristicsExtension', objectCharacteristicsExtension)
 
+    compositionLevel = property(get_compositionLevel, set_compositionLevel)
+    fixity = property(get_fixity, set_fixity)
+    size = property(get_size, set_size)
+    format = property(get_format, set_format)
+    creatingApplication = property(get_creatingApplication, set_creatingApplication)
+    inhibitors = property(get_inhibitors, set_inhibitors)
+    objectCharacteristicsExtension = property(get_objectCharacteristicsExtension, set_objectCharacteristicsExtension)
+
 
 class Inhibitors(PremisNode):
     field_order = ['inhibitorType',
@@ -1671,6 +1756,10 @@ class Inhibitors(PremisNode):
 
     def get_inhibitorKey(self):
         return self._get_field('inhibitorKey')
+
+    inhibitorType = property(get_inhibitorType, set_inhibitorType)
+    inhibitorTarget = property(get_inhibitorTarget, set_inhibitorTarget)
+    inhibitorKey = property(get_inhibitorKey, set_inhibitorKey)
 
 
 class CreatingApplication(PremisNode):
@@ -1736,6 +1825,11 @@ class CreatingApplication(PremisNode):
         self._type_check(creatingApplicationExtension, CreatingApplicationExtension)
         self._add_to_field('creatingApplicationExtension', creatingApplicationExtension)
 
+    creatingApplicationName = property(get_creatingApplicationName, set_creatingApplicationName)
+    creatingApplicationVersion = property(get_creatingApplicationVersion, set_creatingApplicationVersion)
+    dateCreatedByApplication = property(get_dateCreatedByApplication, set_dateCreatedByApplication)
+    creatingApplicationExtension = property(get_creatingApplicationExtension, set_creatingApplicationExtension)
+
 
 class Format(PremisNode):
     field_order = ['formatDesignation',
@@ -1787,6 +1881,10 @@ class Format(PremisNode):
         self._type_check(formatNote, str)
         self._add_to_field('formatNote', formatNote)
 
+    formatDesignation = property(get_formatDesignation, set_formatDesignation)
+    formatRegistry = property(get_formatRegistry, set_formatRegistry)
+    formatNote = property(get_formatNote, set_formatNote)
+
 
 class FormatDesignation(PremisNode):
     field_order = ['formatName',
@@ -1816,6 +1914,9 @@ class FormatDesignation(PremisNode):
 
     def get_formatVersion(self):
         return self._get_field('formatVersion')
+
+    formatName = property(get_formatName, set_formatName)
+    formatVersion = property(get_formatVersion, set_formatVersion)
 
 
 class FormatRegistry(PremisNode):
@@ -1857,6 +1958,10 @@ class FormatRegistry(PremisNode):
     def get_formatRegistryRole(self):
         return self._get_field('formatRegistryRole')
 
+    formatRegistryName = property(get_formatRegistryName, set_formatRegistryName)
+    formatRegistryKey = property(get_formatRegistryKey, set_formatRegistryKey)
+    formatRegistryRole = property(get_formatRegistryRole, set_formatRegistryRole)
+
 
 class Fixity(PremisNode):
     field_order = ['messageDigestAlgorithm',
@@ -1896,6 +2001,10 @@ class Fixity(PremisNode):
 
     def get_messageDigestOriginator(self):
         return self._get_field('messageDigestOriginator')
+
+    messageDigestAlgorithm = property(get_messageDigestAlgorithm, set_messageDigestAlgorithm)
+    messageDigest = property(get_messageDigest, set_messageDigest)
+    messageDigestOriginator = property(get_messageDigestOriginator, set_messageDigestOriginator)
 
 
 class SignificantProperties(PremisNode):
@@ -1947,6 +2056,10 @@ class SignificantProperties(PremisNode):
     def add_significantPropertiesExtension(self, significantPropertiesExtension):
         self._type_check(significantPropertiesExtension, SignificantPropertiesExtension)
         self._add_to_field('significantPropertiesExtension', significantPropertiesExtension)
+
+    significantPropertiesType = property(get_significantPropertiesType, set_significantPropertiesType)
+    significantPropertiesValue = property(get_significantPropertiesValue, set_significantPropertiesValue)
+    significantPropertiesExtension = property(get_significantPropertiesExtension, set_significantPropertiesExtension)
 
 
 class PreservationLevel(PremisNode):
@@ -2017,6 +2130,12 @@ class PreservationLevel(PremisNode):
 
     def get_preservationLevelDateAssigned(self):
         return self._get_field('preservationLevelDateAssigned')
+
+    preservationLevelType = property(get_preservationLevelType, set_preservationLevelType)
+    preservationLevelValue = property(get_preservationLevelValue, set_preservationLevelValue)
+    preservationLevelRole = property(get_preservationLevelRole, set_preservationLevelRole)
+    preservationLevelRationale = property(get_preservationLevelRationale, set_preservationLevelRationale)
+    preservationLevelDateAssigned = property(get_preservationLevelDateAssigned, set_preservationLevelDateAssigned)
 
 
 class Event(PremisNode):
@@ -2126,6 +2245,14 @@ class Event(PremisNode):
         self._type_check(linkingObjectIdentifier, LinkingObjectIdentifier)
         self._add_to_field('linkingObjectIdentifier', linkingObjectIdentifier)
 
+    eventIdentifier = property(get_eventIdentifier, set_eventIdentifier)
+    eventType = property(get_eventType, set_eventType)
+    eventDateTime = property(get_eventDateTime, set_eventDateTime)
+    eventDetailInformation = property(get_eventDetailInformation, set_eventDetailInformation)
+    eventOutcomeInformation = property(get_eventOutcomeInformation, set_eventOutcomeInformation)
+    linkingAgentIdentifier = property(get_linkingAgentIdentifier, set_linkingAgentIdentifier)
+    linkingObjectIdentifier = property(get_linkingObjectIdentifier, set_linkingObjectIdentifier)
+
 
 class EventOutcomeInformation(PremisNode):
     field_order = ['eventOutcome',
@@ -2153,19 +2280,6 @@ class EventOutcomeInformation(PremisNode):
     def get_eventOutcome(self):
         return self._get_field('eventOutcome')
 
-    def set_eventDetailInformation(self, eventDetailInformation):
-        eventDetailInformation = self._listify(eventDetailInformation)
-        for x in eventDetailInformation:
-            self._type_check(x, EventDetailInformation)
-        self._set_field('eventDetailInformation', eventDetailInformation)
-
-    def get_eventDetailInformation(self, index=None):
-        return self._list_getter('eventDetailInformation', index)
-
-    def add_eventDetailInformation(self, eventDetailInformation):
-        self._type_check(eventDetailInformation, EventDetailInformation)
-        self._add_to_field('eventDetailInformation', eventDetailInformation)
-
     def set_eventOutcomeDetail(self, eventOutcomeDetail):
         eventOutcomeDetail = self._listify(eventOutcomeDetail)
         for x in eventOutcomeDetail:
@@ -2178,6 +2292,9 @@ class EventOutcomeInformation(PremisNode):
     def add_eventOutcomeDetail(self, eventOutcomeDetail):
         self._type_check(eventOutcomeDetail, EventOutcomeDetail)
         self._add_to_field('eventOutcomeDetail', eventOutcomeDetail)
+
+    eventOutcome = property(get_eventOutcome, set_eventOutcome)
+    eventOutcomeDetail = property(get_eventOutcomeDetail, set_eventOutcomeDetail)
 
 
 class EventDetailInformation(PremisNode):
@@ -2217,6 +2334,9 @@ class EventDetailInformation(PremisNode):
     def add_eventDetailExtension(self, eventDetailExtension):
         self._type_check(eventDetailExtension, EventDetailExtension)
         self._add_to_field('eventDetailExtension', eventDetailExtension)
+
+    eventDetail = property(get_eventDetail, set_eventDetail)
+    eventDetailExtension = property(get_eventDetailExtension, set_eventDetailExtension)
 
 
 class EventOutcomeDetail(PremisNode):
@@ -2258,6 +2378,9 @@ class EventOutcomeDetail(PremisNode):
     def add_eventOutcomeDetailExtension(self, eventOutcomeDetailExtension):
         self._type_check(eventOutcomeDetailExtension, EventOutcomeDetailExtension)
         self._add_to_field('eventOutcomeDetailExtension', eventOutcomeDetailExtension)
+
+    eventOutcomeDetailNote = property(get_eventOutcomeDetailNote, set_eventOutcomeDetailNote)
+    eventOutcomeDetailExtension = property(get_eventOutcomeDetailExtension, set_eventOutcomeDetailExtension)
 
 
 class Agent(PremisNode):
@@ -2409,6 +2532,15 @@ class Agent(PremisNode):
         self._type_check(linkingEnvironmentIdentifier, LinkingEnvironmentIdentifier)
         self._add_to_field('linkingEnvironmentIdentifier', linkingEnvironmentIdentifier)
 
+    agentIdentifier = property(get_agentIdentifier, set_agentIdentifier)
+    agentName = property(get_agentName, set_agentName)
+    agentType = property(get_agentType, set_agentType)
+    agentVersion = property(get_agentVersion, set_agentVersion)
+    agentNote = property(get_agentNote, set_agentNote)
+    agentExtension = property(get_agentExtension, set_agentExtension)
+    linkingEventIdentifier = property(get_linkingEventIdentifier, set_linkingEventIdentifier)
+    linkingRightsStatementIdentifier = property(get_linkingRightsStatementIdentifier, set_linkingRightsStatementIdentifier)
+
 
 class AgentIdentifier(PremisNode):
     field_order = ['agentIdentifierType',
@@ -2437,6 +2569,9 @@ class AgentIdentifier(PremisNode):
 
     def get_agentIdentifierValue(self):
         return self._get_field('agentIdentifierValue')
+
+    agentIdentifierType = property(get_agentIdentifierType, set_agentIdentifierType)
+    agentIdentifierValue = property(get_agentIdentifierValue, set_agentIdentifierValue)
 
 
 class LinkingEnvironmentIdentifier(PremisNode):
@@ -2485,6 +2620,10 @@ class LinkingEnvironmentIdentifier(PremisNode):
         self._type_check(linkingEnvironmentRole, str)
         self._add_to_field('linkingEnvironmentRole', linkingEnvironmentRole)
 
+    linkingEnvironmentIdentifierType = property(get_linkingEnvironmentIdentifierType, set_linkingEnvironmentIdentifierType)
+    linkingEnvironmentIdentifierValue = property(get_linkingEnvironmentIdentifierValue, set_linkingEnvironmentIdentifierValue)
+    linkingEnvironmentRole = property(get_linkingEnvironmentRole, set_linkingEnvironmentRole)
+
 
 class LinkingAgentIdentifier(PremisNode):
     field_order = ['linkingAgentIdentifierType',
@@ -2532,6 +2671,10 @@ class LinkingAgentIdentifier(PremisNode):
         self._type_check(linkingAgentRole, str)
         self._add_to_field('linkingAgentRole', linkingAgentRole)
 
+    linkingAgentIdentifierType = property(get_linkingAgentIdentifierType, set_linkingAgentIdentifierType)
+    linkingAgentIdentifierValue = property(get_linkingAgentIdentifierValue, set_linkingAgentIdentifierValue)
+    linkingAgentRole = property(get_linkingAgentRole, set_linkingAgentRole)
+
 
 class Rights(PremisNode):
     field_order = ['rightsStatement',
@@ -2576,6 +2719,9 @@ class Rights(PremisNode):
     def add_rightsExtension(self, rightsExtension):
         self._type_check(rightsExtension, RightsExtension)
         self._add_to_field('rightsExtension', rightsExtension)
+
+    rightsStatement = property(get_rightsStatement, set_rightsStatement)
+    rightsExtension = property(get_rightsExtension, set_rightsExtension)
 
 
 class RightsStatement(PremisNode):
@@ -2708,6 +2854,16 @@ class RightsStatement(PremisNode):
         self._type_check(linkingAgentIdentifier, LinkingAgentIdentifier)
         self._add_to_field('linkingAgentIdentifier', linkingAgentIdentifier)
 
+    rightsStatementIdentifier = property(get_rightsStatementIdentifier, set_rightsStatementIdentifier)
+    rightsBasis = property(get_rightsBasis, set_rightsBasis)
+    copyrightInformation = property(get_copyrightInformation, set_copyrightInformation)
+    licenseInformation = property(get_licenseInformation, set_licenseInformation)
+    statuteInformation = property(get_statuteInformation, set_statuteInformation)
+    otherRightsInformation = property(get_otherRightsInformation, set_otherRightsInformation)
+    rightsGranted = property(get_rightsGranted, set_rightsGranted)
+    linkingObjectIdentifier = property(get_linkingObjectIdentifier, set_linkingObjectIdentifier)
+    linkingAgentIdentifier = property(get_linkingAgentIdentifier, set_linkingAgentIdentifier)
+
 
 class RightsGranted(PremisNode):
     field_order = ['act',
@@ -2784,6 +2940,12 @@ class RightsGranted(PremisNode):
         self._type_check(rightsGrantedNote, str)
         self._add_to_field('rightsGrantedNote', rightsGrantedNote)
 
+    act = property(get_act, set_act)
+    restriction = property(get_restriction, set_restriction)
+    termOfGrant = property(get_termOfGrant, set_termOfGrant)
+    termOfRestriction = property(get_termOfRestriction, set_termOfRestriction)
+    rightsGrantedNote = property(get_rightsGrantedNote, set_rightsGrantedNote)
+
 
 class TermOfRestriction(PremisNode):
     field_order = ['startDate',
@@ -2815,6 +2977,9 @@ class TermOfRestriction(PremisNode):
     def get_endDate(self):
         return self._get_field('endDate')
 
+    startDate = property(get_startDate, set_startDate)
+    endDate = property(get_endDate, set_endDate)
+
 
 class TermOfGrant(PremisNode):
     field_order = ['startDate',
@@ -2845,6 +3010,9 @@ class TermOfGrant(PremisNode):
 
     def get_endDate(self):
         return self._get_field('endDate')
+
+    startDate = property(get_startDate, set_startDate)
+    endDate = property(get_endDate, set_endDate)
 
 
 class OtherRightsInformation(PremisNode):
@@ -2911,6 +3079,11 @@ class OtherRightsInformation(PremisNode):
         self._type_check(otherRightsNote, str)
         self._add_to_field('otherRightsNote', otherRightsNote)
 
+    otherRightsDocumentationIdentifier = property(get_otherRightsDocumentationIdentifier, set_otherRightsDocumentationIdentifier)
+    otherRightsBasis = property(get_otherRightsBasis, set_otherRightsBasis)
+    otherRightsApplicateDates = property(get_otherRightsApplicableDates, set_otherRightsApplicableDates)
+    otherRightsNote = property(get_otherRightsNote, set_otherRightsNote)
+
 
 class OtherRightsApplicableDates(PremisNode):
     field_order = ['startDate',
@@ -2941,6 +3114,9 @@ class OtherRightsApplicableDates(PremisNode):
 
     def get_endDate(self):
         return self._get_field('endDate')
+
+    startDate = property(get_startDate, set_startDate)
+    endDate = property(get_endDate, set_endDate)
 
 
 class OtherRightsDocumentationIdentifier(PremisNode):
@@ -2982,6 +3158,10 @@ class OtherRightsDocumentationIdentifier(PremisNode):
 
     def get_otherRightsDocumentationRole(self):
         return self._get_field('otherRightsDocumentationRole')
+
+    otherRightsDocumentationIdentifierType = property(get_otherRightsDocumentationIdentifierType, set_otherRightsDocumentationIdentifierType)
+    otherRightsDocumentationIdentifierValue = property(get_otherRightsDocumentationIdentifierValue, set_otherRightsDocumentationIdentifierValue)
+    otherRightsDocumentationRole = property(get_otherRightsDocumentationRole, set_otherRightsDocumentationRole)
 
 
 class StatuteInformation(PremisNode):
@@ -3069,6 +3249,13 @@ class StatuteInformation(PremisNode):
     def get_statuteApplicableDates(self):
         return self._get_field('statuteApplicableDates')
 
+    statuteJurisdiction = property(get_statuteJurisdiction, set_statuteJurisdiction)
+    statuteCitation = property(get_statuteCitation, set_statuteCitation)
+    statuteInformationDeterminationDate = property(get_statuteInformationDeterminationDate, set_statuteInformationDeterminationDate)
+    statuteNote = property(get_statuteNote, set_statuteNote)
+    statuteDocumentationIdentifier = property(get_statuteDocumentationIdentifier, set_statuteDocumentationIdentifier)
+    statuteApplicableDates = property(get_statuteApplicableDates, set_statuteApplicableDates)
+
 
 class StatuteApplicableDates(PremisNode):
     field_order = ['startDate',
@@ -3095,6 +3282,9 @@ class StatuteApplicableDates(PremisNode):
 
     def get_endDate(self):
         return self._get_field('endDate')
+
+    startDate = property(get_startDate, set_startDate)
+    endDate = property(get_endDate, set_endDate)
 
 
 class StatuteDocumentationIdentifier(PremisNode):
@@ -3136,6 +3326,10 @@ class StatuteDocumentationIdentifier(PremisNode):
 
     def get_statuteDocumentationRole(self):
         return self._get_field('statuteDocumentationRole')
+
+    statuteDocumentationIdentifierType = property(get_statuteDocumentationIdentifierType, set_statuteDocumentationIdentifierType)
+    statuteDocumentationIdentifierValue = property(get_statuteDocumentationIdentifierValue, set_statuteDocumentationIdentifierValue)
+    statuteDocumentationRole = property(get_statuteDocumentationRole, set_statuteDocumentationRole)
 
 
 class LicenseInformation(PremisNode):
@@ -3202,6 +3396,11 @@ class LicenseInformation(PremisNode):
     def get_licenseApplicableDates(self):
         return self._get_field('licenseApplicableDates')
 
+    licenseDocumentationIdentifier = property(get_licenseDocumentationIdentifier, set_licenseDocumentationIdentifier)
+    licenseTerms = property(get_licenseTerms, set_licenseTerms)
+    licenseNote = property(get_licenseNote, set_licenseNote)
+    licenseApplicableDates = property(get_licenseApplicableDates, set_licenseApplicableDates)
+
 
 class LicenseApplicableDates(PremisNode):
     field_order = ['startDate',
@@ -3233,6 +3432,9 @@ class LicenseApplicableDates(PremisNode):
 
     def get_endDate(self):
         return self._get_field('endDate')
+
+    startDate = property(get_startDate, set_startDate)
+    endDate = property(get_endDate, set_endDate)
 
 
 class LicenseDocumentationIdentifier(PremisNode):
@@ -3274,6 +3476,10 @@ class LicenseDocumentationIdentifier(PremisNode):
 
     def get_licenseDocumentationRole(self):
         return self._get_field('licenseDocumentationRole')
+
+    licenseDocumentationIdentifierType = property(get_licenseDocumentationIdentifierType, set_licenseDocumentationIdentifierType)
+    licenseDocumentationIdentifierValue = property(get_licenseDocumentationIdentifierValue, set_licenseDocumentationIdentifierValue)
+    licenseDocumentationRole = property(get_licenseDocumentationRole, set_licenseDocumentationRole)
 
 
 class CopyrightInformation(PremisNode):
@@ -3361,6 +3567,13 @@ class CopyrightInformation(PremisNode):
     def get_copyrightApplicableDates(self):
         return self._get_field('copyrightApplicableDates')
 
+    copyrightStatus = property(get_copyrightStatus, set_copyrightStatus)
+    copyrightJurisdiction = property(get_copyrightJurisdiction, set_copyrightJurisdiction)
+    copyrightStatusDeterminationDate = property(get_copyrightStatusDeterminationDate, set_copyrightStatusDeterminationDate)
+    copyrightNote = property(get_copyrightNote, set_copyrightNote)
+    copyrightDocumentationIdentifier = property(get_copyrightDocumentationIdentifier, set_copyrightDocumentationIdentifier)
+    copyrightApplicableDates = property(get_copyrightApplicableDates, set_copyrightApplicableDates)
+
 
 class CopyrightApplicableDates(PremisNode):
     field_order = ['startDate',
@@ -3391,6 +3604,9 @@ class CopyrightApplicableDates(PremisNode):
 
     def get_endDate(self):
         return self._get_field('endDate')
+
+    endDate = property(get_endDate, set_endDate)
+    startDate = property(get_startDate, set_endDate)
 
 
 class CopyrightDocumentationIdentifier(PremisNode):
@@ -3433,6 +3649,10 @@ class CopyrightDocumentationIdentifier(PremisNode):
     def get_copyrightDocumentationRole(self):
         return self._get_field('copyrightDocumentationRole')
 
+    copyrightDocumentationIdentifierType = property(get_copyrightDocumentationIdentifierType, set_copyrightDocumentationIdentifierType)
+    copyrightDocumentationIdentifierValue = property(get_copyrightDocumentationIdentifierValue, set_copyrightDocumentationIdentifierValue)
+    copyrightDocumentationRole = property(get_copyrightDocumentationRole, set_copyrightDocumentationRole)
+
 
 class RightsStatementIdentifier(PremisNode):
     field_order = ['rightsStatementIdentifierType',
@@ -3461,3 +3681,6 @@ class RightsStatementIdentifier(PremisNode):
 
     def get_rightsStatementIdentifierValue(self):
         return self._get_field('rightsStatementIdentifierValue')
+
+    rightsStatementIdentifierType = property(get_rightsStatementIdentifierType, set_rightsStatementIdentifierType)
+    rightsStatementIdentifierValue = property(get_rightsStatementIdentifierValue, set_rightsStatementIdentifierValue)
