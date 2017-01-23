@@ -315,7 +315,7 @@ class PremisRecord(object):
         ET.register_namespace('xsi', "")
 
     def write(self, targetpath, xml_declaration=True,
-                      encoding="unicode", method='xml'):
+                      encoding="UTF-8", method='xml'):
         # Eventually this function might get more complicated and wrap multiple
         # serializers and what not, but for now it's just XML. If you want your
         # code to be rock solid forever use .write_to_file(), it's named so
@@ -343,7 +343,7 @@ class PremisRecord(object):
             root.append(entry.toXML())
         return tree
 
-    def to_xml(self, encoding='unicode', method='xml',
+    def to_xml(self, encoding='UTF-8', method='xml',
                short_empty_elements=True):
         tree = self.to_tree()
         return ET.tostring(tree.getroot(), encoding=encoding,
@@ -351,7 +351,7 @@ class PremisRecord(object):
                            short_empty_elements=short_empty_elements)
 
     def write_to_file(self, targetpath, xml_declaration=True,
-                      encoding="unicode", method='xml'):
+                      encoding="UTF-8", method='xml'):
         """
         Writes the contained premis data structure out to disk as the
         specified path as an xml document.
@@ -364,5 +364,5 @@ class PremisRecord(object):
         tree = self.to_tree()
         tree.write(targetpath,
                    xml_declaration=True,
-                   encoding='unicode',
+                   encoding=encoding,
                    method='xml')
