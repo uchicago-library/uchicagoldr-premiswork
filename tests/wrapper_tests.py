@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 import xml.dom.minidom
 from copy import deepcopy
 from os import getcwd
+from json import dump
 
 from pypremis.nodes import *
 from pypremis.lib import PremisRecord
@@ -954,6 +955,8 @@ class Test(unittest.TestCase):
 
         record_2 = PremisRecord(frompath=getcwd() + '/testrights1.xml')
         record_2.write_to_file(getcwd() + '/testrights2.xml')
+        with open("test.json", 'w') as f:
+            dump(record_2.to_json(), f)
 
         self.assertEqual(record, record_2)
 

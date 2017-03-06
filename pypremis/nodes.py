@@ -321,6 +321,21 @@ class PremisNode(object):
                     raise ValueError
         return root
 
+    def toJSON(self):
+        r = {}
+        for field in self.fields:
+            r[field] = []
+            t = self.fields[field] if isinstance(self.fields[field], list) else [self.fields[field]]
+            for value in t:
+                if isinstance(value, PremisNode):
+                    r[field].append(value.toJSON())
+                else:
+                    r[field].append(value)
+        return r
+
+
+
+
 
 class ExtendedNode(PremisNode):
     def __init__(self, rootName):
