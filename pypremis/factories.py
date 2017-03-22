@@ -1202,6 +1202,12 @@ class JSONNodeFactory(object):
     def buildSignatureInformationExtension(self, d):
         return SignatureInformationExtension()
 
+    def buildEventDetailExtension(self, d):
+        return EventDetailExtension()
+
+    def buildEventOutcomeDetailExtension(self, d):
+        return EventOutcomeDetailExtension()
+
     def buildObject(self, d):
         objectIdentifier = [self.buildObjectIdentifier(x) for x in d['objectIdentifier']]
         objectCategory = d['objectCategory']
@@ -1554,6 +1560,95 @@ class JSONNodeFactory(object):
         linkingRightsStatementIdentifierValue = d['linkingRightsStatementIdentifierValue']
 
         return LinkingRightsStatementIdentifier(linkingRightsStatementIdentifierType, linkingRightsStatementIdentifierValue)
+
+    def buildEvent(self, d):
+        eventIdentifier = self.buildEventIdentifier(d['eventIdentifier'])
+        eventType = d['eventType']
+        eventDateTime = d['eventDateTime']
+
+        event = Event(eventIdentifier, eventType, eventDateTime)
+
+        if d.get('eventDetailInformation'):
+            for x in d['eventDetailInformation']:
+                event.add_eventDetailInformation(self.buildEventDetailInformation(x))
+
+        if d.get('eventOutcomeInformation'):
+            for x in d['eventOutcomeInformation']:
+                event.add_eventOutcomeInformation(self.buildEventOutcomeInformation(x))
+
+        if d.get('linkingAgentIdentifier'):
+            for x in d['linkingAgentIdentifier']:
+                event.add_linkingAgentIdentifier(self.buildLinkingAgentIdentifier(x))
+
+        if d.get('linkingObjectIdentifier'):
+            for x in d['linkingObjectIdentifier']:
+                event.add_linkingObjectIdentifier(self.buildLinkingObjectIdentifier(x))
+
+        return event
+
+    def buildEventIdentifier(self, d):
+        eventIdentifierType = d['eventIdentifierType']
+        eventIdentifierValue = d['eventIdentifierValue']
+        return EventIdentifier(eventIdentifierType, eventIdentifierValue)
+
+    def buildEventDetailInformation(self, d):
+        eventDetail = None
+        if d.get('eventDetail'):
+            eventDetail = d['eventDetail']
+
+        eventDetailExtension = None
+        if d.get('eventDetailExtension'):
+            eventDetailExtension = self.buildEventDetailExtension(d['eventDetailExtension'])
+
+        return EventDetailInformation(eventDetail, eventDetailExtension)
+
+
+    def buildEventOutcomeInformation(self, d):
+
+        eventOutcome = None
+        if d.get('eventOutcome'):
+            eventOutcome = d['eventOutcome']
+
+        eventOutcomeDetail = None
+        if d.get('eventOutcomeDetail'):
+            eventOutcomeDetail = [self.buildEventOutcomeDetail(x) for x in d['eventOutcomeDetail']]
+
+        return EventOutcomeInformation(eventOutcome, eventOutcomeDetail)
+
+    def buildEventOutcomeDetail(self, d):
+        eventOutcomeDetailNote = None
+        if d.get('eventOutcomeDetailNote'):
+            eventOutcomeDetailNote = d['eventOutcomeDetailNote']
+
+        eventOutcomeDetailExtension = None
+        if d.get('eventOutcomeDetailExtension'):
+                eventOutcomeDetailExtension = self.buildEventOutcomeDetailExtension(d['eventOutcomeDetailExtension'])
+
+        return EventOutcomeDetail(eventOutcomeDetailNote, eventOutcomeDetailExtension)
+
+    def buildLinkingAgentIdentifier(self, d):
+        linkingAgentIdentifierType = d['linkingAgentIdentifierType']
+        linkingAgentIdentifierValue = d['linkingAgentIdentifierValue']
+
+        linkingAgentIdentifier = LinkingAgentIdentifier(linkingAgentIdentifierType, linkingAgentIdentifierValue)
+
+        if d.get('linkingAgentRole'):
+            for x in d['linkingAgentRole']:
+                linkingAgentIdentifier.add_linkingAgentRole(x)
+
+        return linkingAgentIdentifier
+
+    def buildLinkingObjectIdentifier(self, d):
+        linkingObjectIdentifierType = d['linkingObjectIdentifierType']
+        linkingObjectIdentifierValue = d['linkingObjectIdentifierValue']
+
+        linkingObjectIdentifier = LinkingObjectIdentifier(linkingObjectIdentifierType, linkingObjectIdentifierValue)
+
+        if d.get('linkingObjectRole'):
+            for x in d['linkingObjectRole']:
+                linkingObjectIdentifier.add_linkingObjectRole(x)
+
+        return linkingObjectIdentifier
 
 
 
