@@ -1208,6 +1208,9 @@ class JSONNodeFactory(object):
     def buildEventOutcomeDetailExtension(self, d):
         return EventOutcomeDetailExtension()
 
+    def buildAgentExtension(self, d):
+        return AgentExtension()
+
     def buildObject(self, d):
         objectIdentifier = [self.buildObjectIdentifier(x) for x in d['objectIdentifier']]
         objectCategory = d['objectCategory']
@@ -1602,7 +1605,6 @@ class JSONNodeFactory(object):
 
         return EventDetailInformation(eventDetail, eventDetailExtension)
 
-
     def buildEventOutcomeInformation(self, d):
 
         eventOutcome = None
@@ -1649,6 +1651,61 @@ class JSONNodeFactory(object):
                 linkingObjectIdentifier.add_linkingObjectRole(x)
 
         return linkingObjectIdentifier
+
+    def buildAgent(self, d):
+        agentIdentifier = [self.buildAgentIdentifier(x) for x in d['agentIdentifier']]
+
+        agent = Agent(agentIdentifier)
+
+        if d.get('agentName'):
+            for x in d['agentName']:
+                agent.add_agentName(x)
+
+        if d.get('agentType'):
+            agent.set_agentType(d['agentType'])
+
+        if d.get('agentVersion'):
+            agent.set_agentVersion(d['agentVersion'])
+
+        if d.get('agentNote'):
+            for x in d['agentNote']:
+                agent.add_agentNote(x)
+
+        if d.get('agentExtension'):
+            agent.set_agentExtension(self.buildAgentExtension(d['agentExtension']))
+
+        if d.get('linkingEventIdentifier'):
+            for x in d['linkingEventIdentifier']:
+                agent.add_linkingEventIdentifier(self.buildLinkingEventIdentifier(x))
+
+        if d.get('linkingRightsStatementIdentifier'):
+            for x in d['linkingRightsStatementIdentifier']:
+                agent.add_linkingRightsStatementIdentifier(self.buildLinkingRightsStatementIdentifier(x))
+
+        if d.get('linkingEnvironmentIdentifier'):
+            for x in d['linkingEnvironmentIdentifier']:
+                agent.add_linkingEnvironmentIdentifier(self.buildLinkingEnvironmentIdentifier(x))
+
+        return agent
+
+    def buildAgentIdentifier(self, d):
+        agentIdentifierType = d['agentIdentifierType']
+        agentIdentifierValue = d['agentIdentifierValue']
+
+        return AgentIdentifier(agentIdentifierType, agentIdentifierValue)
+
+    def buildLinkingEnvironmentIdentifier(self, d):
+        linkingEnvironmentIdentifierType = d['linkingEnvironmentIdentifierType']
+        linkingEnvironmentIdentifierValue = d['linkingEnvironmentIdentifierValue']
+
+        linkingEnvironmentIdentifier = LinkingEnvironmentIdentifier(linkingEnvironmentIdentifierType, linkingEnvironmentIdentifierValue)
+
+        if d.get('linkingEnvironmentRole'):
+            for x in d['linkingEnvironmentRole']:
+                linkingEnvironmentIdentifier.add_linkingEnvironmentRole(x)
+
+        return linkingEnvironmentIdentifier
+
 
 
 
