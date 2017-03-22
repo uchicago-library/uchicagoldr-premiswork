@@ -1187,32 +1187,62 @@ class JSONNodeFactory(object):
             r.append(self.buildAgent(x))
         return r
 
+    def buildExtendedNode(self, extendedNode, d):
+        result = extendedNode()
+        for x in d:
+            if isinstance(d[x], list):
+                for y in d[x]:
+                    if isinstance(y, dict):
+                        result.add_to_field(x, self.buildExtensionNode(y))
+                    else:
+                        result.add_to_field(x, y)
+            elif isinstance(d[x], dict):
+                result.add_to_field(x, self.buildExtensionNode(d[x]))
+            else:
+                result.add_to_field(x, d[x])
+        return result
+
+    def buildExtensionNode(self, d):
+        result = ExtensionNode()
+        for x in d:
+            if isinstance(d[x], list):
+                for y in d[x]:
+                    if isinstance(y, dict):
+                        result.add_to_field(x, self.buildExtensionNode(y))
+                    else:
+                        result.add_to_field(x, y)
+            elif isinstance(d[x], dict):
+                result.add_to_field(x, self.buildExtensionNode(d[x]))
+            else:
+                result.add_to_field(x, d[x])
+        return result
+
     def buildCreatingApplicationExtension(self, d):
-        return CreatingApplicationExtension()
+        return self.buildExtendedNode(CreatingApplicationExtension, d)
 
     def buildObjectCharacteristicsExtension(self, d):
-        return ObjectCharacteristicsExtension()
+        return self.buildExtendedNode(ObjectCharacteristicsExtension, d)
 
     def buildSignificantPropertiesExtension(self, d):
-        return SignificantPropertiesExtension()
+        return self.buildExtendedNode(SignificantPropertiesExtension, d)
 
     def buildKeyInformation(self, d):
         return KeyInformation()
 
     def buildSignatureInformationExtension(self, d):
-        return SignatureInformationExtension()
+        return self.buildExtendedNode(SignatureInformationExtension, d)
 
     def buildEventDetailExtension(self, d):
-        return EventDetailExtension()
+        return self.buildExtendedNode(EventDetailExtension, d)
 
     def buildEventOutcomeDetailExtension(self, d):
-        return EventOutcomeDetailExtension()
+        return self.buildExtendedNode(EventOutcomeDetailExtension, d)
 
     def buildAgentExtension(self, d):
-        return AgentExtension()
+        return self.buildExtendedNode(AgentExtension, d)
 
     def buildRightsExtension(self, d):
-        return RightsExtension()
+        return self.buildExtendedNode(RightsExtension, d)
 
     def buildObject(self, d):
         objectIdentifier = [self.buildObjectIdentifier(x) for x in d['objectIdentifier']]
@@ -1253,7 +1283,8 @@ class JSONNodeFactory(object):
                 obj.add_environmentRegistry(self.buildEnvironmentRegistry(x))
 
         if d.get('environmentExtension'):
-            obj.set_environmentExtension(self.buildEnvironmentExtension(x))
+            for x in d['environmentExtension']:
+                obj.add_environmentExtension(self.buildEnvironmentExtension(x))
 
         if d.get('relationship'):
             for x in d['relationship']:
@@ -1300,7 +1331,7 @@ class JSONNodeFactory(object):
 
         significantPropertiesExtension = None
         if d.get('significantPropertiesExtension'):
-            significantPropertiesExtension = self.buildSignificantPropertiesExtension(d['significantPropertiesExtension'])
+            significantPropertiesExtension = [self.buildSignificantPropertiesExtension(x) for x in d['significantPropertiesExtension']]
 
         significantProperties = SignificantProperties(significantPropertiesValue, significantPropertiesExtension)
 
@@ -1337,9 +1368,10 @@ class JSONNodeFactory(object):
                 objectCharacteristics.add_inhibitors(self.buildInhibitors(x))
 
         if d.get('objectCharacteristicsExtension'):
-            objectCharacteristics.set_objectCharacteristicsExtension(
-                self.buildObjectCharacteristicsExtension(d['objectCharacteristicsExtension'])
-            )
+            for x in d['objectCharacteristicsExtension']:
+                objectCharacteristics.add_objectCharacteristicsExtension(
+                    self.buildObjectCharacteristicsExtension(x)
+                )
 
         return objectCharacteristics
 
@@ -1405,9 +1437,10 @@ class JSONNodeFactory(object):
             creatingApplication.set_dateCreatedByApplication(d['dateCreatedByApplication'])
 
         if d.get('creatingApplicationExtension'):
-            creatingApplication.set_creatingApplicationExtension(
-                self.buildCreatingApplicationExtension(d['creatingApplicationExtension'])
-            )
+            for x in d['creatingApplicationExtension']:
+                creatingApplication.add_creatingApplicationExtension(
+                    self.buildCreatingApplicationExtension(x)
+                )
 
         return creatingApplication
 
@@ -1448,9 +1481,10 @@ class JSONNodeFactory(object):
                 signatureInformation.add_signature(self.buildSignature(x))
 
         if d.get('signatureInformationExtension'):
-            signatureInformation.set_signatureInformationExtension(
-                self.buildSignatureInformationExtension(d['signatureInformationExtension'])
-            )
+            for x in d['signatureInformationExtension']:
+                signatureInformation.add_signatureInformationExtension(
+                    self.buildSignatureInformationExtension(x)
+                )
 
         return signatureInformation
 
@@ -1498,7 +1532,10 @@ class JSONNodeFactory(object):
                 environmentDesignation.add_environmentDesignationNote(x)
 
         if d.get('environmentDesignationExtension'):
-            environmentDesignation.set_environmentDesignationExtension(d['environmentDesignationExtension'])
+            for x in d['environmentDesignationExtension']:
+                environmentDesignation.add_environmentDesignationExtension(
+                    self.buildEnvironmentDesignationExtension(x)
+                )
 
         return environmentDesignation
 
@@ -1604,7 +1641,7 @@ class JSONNodeFactory(object):
 
         eventDetailExtension = None
         if d.get('eventDetailExtension'):
-            eventDetailExtension = self.buildEventDetailExtension(d['eventDetailExtension'])
+            eventDetailExtension = [self.buildEventDetailExtension(x) for x in d['eventDetailExtension']]
 
         return EventDetailInformation(eventDetail, eventDetailExtension)
 
@@ -1627,7 +1664,7 @@ class JSONNodeFactory(object):
 
         eventOutcomeDetailExtension = None
         if d.get('eventOutcomeDetailExtension'):
-                eventOutcomeDetailExtension = self.buildEventOutcomeDetailExtension(d['eventOutcomeDetailExtension'])
+            eventOutcomeDetailExtension = [self.buildEventOutcomeDetailExtension(x) for x in d['eventOutcomeDetailExtension']]
 
         return EventOutcomeDetail(eventOutcomeDetailNote, eventOutcomeDetailExtension)
 
@@ -1675,7 +1712,8 @@ class JSONNodeFactory(object):
                 agent.add_agentNote(x)
 
         if d.get('agentExtension'):
-            agent.set_agentExtension(self.buildAgentExtension(d['agentExtension']))
+            for x in d['agentExtension']:
+                agent.add_agentExtension(self.buildAgentExtension(x))
 
         if d.get('linkingEventIdentifier'):
             for x in d['linkingEventIdentifier']:
@@ -1716,7 +1754,7 @@ class JSONNodeFactory(object):
 
         rightsExtension = None
         if d.get('rightsExtension'):
-            rightsExtension = self.buildRightsExtension(d['rightsExtension'])
+            rightsExtension = [self.buildRightsExtension(x) for x in d['rightsExtension']]
 
         return Rights(rightsStatement, rightsExtension)
 
@@ -1970,12 +2008,6 @@ class JSONNodeFactory(object):
         return termOfRestriction
 
 
-
-
-
-
-
-
 class LinkingXIdentifierFactory(metaclass=ABCMeta):
 
     _input_node = None
@@ -1984,7 +2016,6 @@ class LinkingXIdentifierFactory(metaclass=ABCMeta):
     @abstractmethod
     def __init__(self, input_node):
         self.set_input_node(input_node)
-
 
     @abstractmethod
     def get_input_identifier_type(self):
