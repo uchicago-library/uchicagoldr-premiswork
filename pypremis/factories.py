@@ -1211,6 +1211,9 @@ class JSONNodeFactory(object):
     def buildAgentExtension(self, d):
         return AgentExtension()
 
+    def buildRightsExtension(self, d):
+        return RightsExtension()
+
     def buildObject(self, d):
         objectIdentifier = [self.buildObjectIdentifier(x) for x in d['objectIdentifier']]
         objectCategory = d['objectCategory']
@@ -1705,6 +1708,267 @@ class JSONNodeFactory(object):
                 linkingEnvironmentIdentifier.add_linkingEnvironmentRole(x)
 
         return linkingEnvironmentIdentifier
+
+    def buildRights(self, d):
+        rightsStatement = None
+        if d.get('rightsStatement'):
+            rightsStatement = [self.buildRightsStatement(x) for x in d['rightsStatement']]
+
+        rightsExtension = None
+        if d.get('rightsExtension'):
+            rightsExtension = self.buildRightsExtension(d['rightsExtension'])
+
+        return Rights(rightsStatement, rightsExtension)
+
+    def buildRightsStatement(self, d):
+        rightsStatementIdentifier = self.buildRightsStatementIdentifier(d['rightsStatementIdentifier'])
+        rightsBasis = d['rightsBasis']
+
+        rightsStatement = RightsStatement(rightsStatementIdentifier, rightsBasis)
+
+        if d.get('copyrightInformation'):
+            rightsStatement.set_copyrightInformation(self.buildCopyrightInformation(d['copyrightInformation']))
+
+        if d.get('licenseInformation'):
+            rightsStatement.set_licenseInformation(self.buildLicenseInformation(d['licenseInformation']))
+
+        if d.get('statuteInformation'):
+            for x in d['statuteInformation']:
+                rightsStatement.add_statuteInformation(self.buildStatuteInformation(x))
+
+        if d.get('otherRightsInformation'):
+            rightsStatement.set_otherRightsInformation(self.buildOtherRightsInformation(d['otherRightsInformation']))
+
+        if d.get('rightsGranted'):
+            for x in d['rightsGranted']:
+                rightsStatement.add_rightsGranted(self.buildRightsGranted(x))
+
+        if d.get('linkingObjectIdentifier'):
+            for x in d['linkingObjectIdentifier']:
+                rightsStatement.add_linkingObjectIdentifier(self.buildLinkingObjectIdentifier(x))
+
+        if d.get('linkingAgentIdentifier'):
+            for x in d['linkingAgentIdentifier']:
+                rightsStatement.add_linkingAgentIdentifier(self.buildLinkingAgentIdentifier(x))
+
+        return rightsStatement
+
+    def buildRightsStatementIdentifier(self, d):
+        rightsStatementIdentifierType = d['rightsStatementIdentifierType']
+        rightsStatementIdentifierValue = d['rightsStatementIdentifierValue']
+
+        return RightsStatementIdentifier(rightsStatementIdentifierType, rightsStatementIdentifierValue)
+
+    def buildCopyrightInformation(self, d):
+        copyrightStatus = d['copyrightStatus']
+        copyrightJurisdiction = d['copyrightJurisdiction']
+
+        copyrightInformation = CopyrightInformation(copyrightStatus, copyrightJurisdiction)
+
+        if d.get('copyrightStatusDeterminationDate'):
+            copyrightInformation.set_copyrightStatusDeterminationDate(d['copyrightStatusDeterminationDate'])
+
+        if d.get('copyrightNote'):
+            for x in d['copyrightNote']:
+                copyrightInformation.add_copyrightNote(x)
+
+        if d.get('copyrightDocumentationIdentifier'):
+            for x in d['copyrightDocumentationIdentifier']:
+                copyrightInformation.add_copyrightDocumentationIdentifier(self.buildCopyrightDocumentationIdentifier(x))
+
+        if d.get('copyrightApplicableDates'):
+            copyrightInformation.set_copyrightApplicableDates(self.buildCopyrightApplicableDates(d['copyrightApplicableDates']))
+
+        return copyrightInformation
+
+    def buildCopyrightDocumentationIdentifier(self, d):
+        copyrightDocumentationIdentifierType = d['copyrightDocumentationIdentifierType']
+        copyrightDocumentationIdentifierValue = d['copyrightDocumentationIdentifierValue']
+
+        copyrightDocumentationIdentifier = CopyrightDocumentationIdentifier(copyrightDocumentationIdentifierType, copyrightDocumentationIdentifierValue)
+
+        if d.get('copyrightDocumentationRole'):
+            copyrightDocumentationIdentifier.set_copyrightDocumentationRole(d['copyrightDocumentationRole'])
+
+        return copyrightDocumentationIdentifier
+
+    def buildCopyrightApplicableDates(self, d):
+        copyrightApplicableDates = CopyrightApplicableDates()
+
+        if d.get('startDate'):
+            copyrightApplicableDates.set_startDate(d['startDate'])
+
+        if d.get('endDate'):
+            copyrightApplicableDates.set_endDate(d['endDate'])
+
+        return copyrightApplicableDates
+
+    def buildLicenseInformation(self, d):
+        licenseInformation = LicenseInformation()
+
+        if d.get('licenseDocumentationIdentifier'):
+            for x in d['licenseDocumentationIdentifier']:
+                licenseInformation.add_licenseDocumentationIdentifier(self.buildLicenseDocumentationIdentifier(x))
+
+        if d.get('licenseTerms'):
+            licenseInformation.set_licenseTerms(d['licenseTerms'])
+
+        if d.get('licenseNote'):
+            for x in d['licenseNote']:
+                licenseInformation.add_licenseNote(x)
+
+        if d.get('licenseApplicableDates'):
+            licenseInformation.set_licenseApplicableDates(self.buildLicenseApplicableDates(d['licenseApplicableDates']))
+
+        return licenseInformation
+
+    def buildLicenseDocumentationIdentifier(self, d):
+        licenseDocumentationIdentifierType = d['licenseDocumentationIdentifierType']
+        licenseDocumentationIdentifierValue = d['licenseDocumentationIdentifierValue']
+
+        licenseDocumentationIdentifier = LicenseDocumentationIdentifier(licenseDocumentationIdentifierType, licenseDocumentationIdentifierValue)
+
+        if d.get('licenseDocumentationRole'):
+            licenseDocumentationIdentifier.set_licenseDocumentationRole(d['licenseDocumentationRole'])
+
+        return licenseDocumentationIdentifier
+
+    def buildLicenseApplicableDates(self, d):
+        licenseApplicableDates = LicenseApplicableDates()
+
+        if d.get('startDate'):
+            licenseApplicableDates.set_startDate(d['startDate'])
+
+        if d.get('endDate'):
+            licenseApplicableDates.set_endDate(d['endDate'])
+
+        return licenseApplicableDates
+
+    def buildStatuteInformation(self, d):
+        statuteJurisdiction = d['statuteJurisdiction']
+        statuteCitation = d['statuteCitation']
+
+        statuteInformation = StatuteInformation(statuteJurisdiction, statuteCitation)
+
+        if d.get('statuteInformationDeterminationDate'):
+            statuteInformation.set_statuteInformationDeterminationDate(d['statuteInformationDeterminationDate'])
+
+        if d.get('statuteNote'):
+            for x in d['statuteNote']:
+                statuteInformation.add_statuteNote(x)
+
+        if d.get('statuteDocumentationIdentifier'):
+            for x in d['statuteDocumentationIdentifier']:
+                statuteInformation.add_statuteDocumentationIdentifier(self.buildStatuteDocumentationIdentifier(x))
+
+        if d.get('statuteApplicableDates'):
+            statuteInformation.set_statuteApplicableDates(self.buildStatuteApplicableDates(d['statuteApplicableDates']))
+
+        return statuteInformation
+
+    def buildStatuteDocumentationIdentifier(self, d):
+        statuteDocumentationIdentifierType = d['statuteDocumentationIdentifierType']
+        statuteDocumentationIdentifierValue = d['statuteDocumentationIdentifierValue']
+
+        statuteDocumentationIdentifier = StatuteDocumentationIdentifier(statuteDocumentationIdentifierType, statuteDocumentationIdentifierValue)
+
+        if d.get('statuteDocumentationRole'):
+            statuteDocumentationIdentifier.set_statuteDocumentationRole(d['statuteDocumentationRole'])
+
+        return statuteDocumentationIdentifier
+
+    def buildStatuteApplicableDates(self, d):
+        statuteApplicableDates = StatuteApplicableDates()
+
+        if d.get('startDate'):
+            statuteApplicableDates.set_startDate(d['startDate'])
+
+        if d.get('endDate'):
+            statuteApplicableDates.set_endDate(d['endDate'])
+
+        return statuteApplicableDates
+
+    def buildOtherRightsInformation(self, d):
+        otherRightsBasis = d['otherRightsBasis']
+
+        otherRightsInformation = OtherRightsInformation(otherRightsBasis)
+
+        if d.get('otherRightsDocumentationIdentifier'):
+            for x in d['otherRightsDocumentationIdentifier']:
+                otherRightsInformation.add_otherRightsDocumentationIdentifier(self.buildOtherRightsDocumentationIdentifier(x))
+
+        if d.get('otherRightsApplicableDates'):
+            otherRightsInformation.set_otherRightsApplicableDates(self.buildOtherRightsApplicableDates(d['otherRightsApplicableDates']))
+
+        if d.get('otherRightsNote'):
+            for x in d['otherRightsNote']:
+                otherRightsInformation.add_otherRightsNote(x)
+
+        return otherRightsInformation
+
+    def buildOtherRightsDocumentationIdentifier(self, d):
+        otherRightsDocumentationIdentifierType = d['otherRightsDocumentationIdentifierType']
+        otherRightsDocumentationIdentifierValue = d['otherRightsDocumentationIdentifierValue']
+
+        otherRightsDocumentationIdentifier = OtherRightsDocumentationIdentifier(otherRightsDocumentationIdentifierType, otherRightsDocumentationIdentifierValue)
+
+        if d.get('otherRightsDocumentationRole'):
+            otherRightsDocumentationIdentifier.set_otherRightsDocumentationRole(d['otherRightsDocumentationRole'])
+
+        return otherRightsDocumentationIdentifier
+
+    def buildOtherRightsApplicableDates(self, d):
+        otherRightsApplicableDates = OtherRightsApplicableDates()
+
+        if d.get('startDate'):
+            otherRightsApplicableDates.set_startDate(d['startDate'])
+
+        if d.get('endDate'):
+            otherRightsApplicableDates.set_endDate(d['endDate'])
+
+        return otherRightsApplicableDates
+
+    def buildRightsGranted(self, d):
+        act = d['act']
+
+        rightsGranted = RightsGranted(act)
+
+        if d.get('restriction'):
+            for x in d['restriction']:
+                rightsGranted.add_restriction(x)
+
+        if d.get('termOfGrant'):
+            rightsGranted.set_termOfGrant(self.buildTermOfGrant(d['termOfGrant']))
+
+        if d.get('termOfRestriction'):
+            rightsGranted.set_termOfRestriction(self.buildTermOfRestriction(d['termOfRestriction']))
+
+        if d.get('rightsGrantedNote'):
+            for x in d['rightsGrantedNote']:
+                rightsGranted.add_rightsGrantedNote(x)
+
+        return rightsGranted
+
+    def buildTermOfGrant(self, d):
+        startDate = d['startDate']
+
+        termOfGrant = TermOfGrant(startDate)
+
+        if d.get('endDate'):
+            termOfGrant.set_endDate(d['endDate'])
+
+        return termOfGrant
+
+    def buildTermOfRestriction(self, d):
+        startDate = d['startDate']
+
+        termOfRestriction = TermOfRestriction(startDate)
+
+        if d.get('endDate'):
+            termOfRestriction.set_endDate(d['endDate'])
+
+        return termOfRestriction
+
 
 
 
