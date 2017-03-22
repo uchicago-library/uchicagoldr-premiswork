@@ -1159,6 +1159,407 @@ class XMLNodeFactory(object):
         return termOfRestriction
 
 
+class JSONNodeFactory(object):
+    def __init__(self, j):
+        self.j = j
+
+    def find_objects(self):
+        r = []
+        for x in self.j['object']:
+            r.append(self.buildObject(x))
+        return r
+
+    def find_events(self):
+        r = []
+        for x in self.j['event']:
+            r.append(self.buildEvent(x))
+        return r
+
+    def find_rights(self):
+        r = []
+        for x in self.j['rights']:
+            r.append(self.buildRights(x))
+        return r
+
+    def find_agents(self):
+        r = []
+        for x in self.j['agent']:
+            r.append(self.buildAgent(x))
+        return r
+
+    def buildCreatingApplicationExtension(self, d):
+        return CreatingApplicationExtension()
+
+    def buildObjectCharacteristicsExtension(self, d):
+        return ObjectCharacteristicsExtension()
+
+    def buildSignificantPropertiesExtension(self, d):
+        return SignificantPropertiesExtension()
+
+    def buildKeyInformation(self, d):
+        return KeyInformation()
+
+    def buildSignatureInformationExtension(self, d):
+        return SignatureInformationExtension()
+
+    def buildObject(self, d):
+        objectIdentifier = [self.buildObjectIdentifier(x) for x in d['objectIdentifier']]
+        objectCategory = d['objectCategory']
+        objectCharacteristics = [self.buildObjectCharacteristics(x) for x in d['objectCharacteristics']]
+
+        obj = Object(objectIdentifier, objectCategory, objectCharacteristics)
+
+        if d.get('preservationLevel'):
+            for x in d['preservationLevel']:
+                obj.add_preservationLevel(self.buildPreservationLevel(x))
+
+        if d.get('significantProperties'):
+            for x in d['significantProperties']:
+                obj.add_significantProperties(self.buildSignificantProperties(x))
+
+        if d.get('originalName'):
+            obj.set_originalName(d['originalName'])
+
+        if d.get('storage'):
+            for x in d['storage']:
+                obj.add_storage(self.buildStorage(x))
+
+        if d.get('signatureInformation'):
+            for x in d['signatureInformation']:
+                obj.add_signatureInformation(self.buildSignatureInformation(x))
+
+        if d.get('environmentFunction'):
+            for x in d['environmentFunction']:
+                obj.add_environmentFunction(self.buildEnvironmentFunction(x))
+
+        if d.get('environmentDesignation'):
+            for x in d['environmentDesignation']:
+                obj.add_environmentDesignation(self.buildEnvironmentDesignation(x))
+
+        if d.get('environmentRegistry'):
+            for x in d['environmentRegistry']:
+                obj.add_environmentRegistry(self.buildEnvironmentRegistry(x))
+
+        if d.get('environmentExtension'):
+            obj.set_environmentExtension(self.buildEnvironmentExtension(x))
+
+        if d.get('relationship'):
+            for x in d['relationship']:
+                obj.add_relationship(self.buildRelationship(x))
+
+        if d.get('linkingEventIdentifier'):
+            for x in d['linkingEventIdentifier']:
+                obj.add_linkingEventIdentifier(self.buildLinkingEventIdentifier(x))
+
+        if d.get('linkingRightsStatementIdentifier'):
+            for x in d['linkingRightsStatementIdentifier']:
+                obj.add_linkingRightsStatementIdentifier(self.buildLinkingRightsStatementIdentifier(x))
+
+        return obj
+
+    def buildObjectIdentifier(self, d):
+        objectIdentifierType = d['objectIdentifierType']
+        objectIdentifierValue = d['objectIdentifierValue']
+        return ObjectIdentifier(objectIdentifierType, objectIdentifierValue)
+
+    def buildPreservationLevel(self, d):
+        preservationLevelValue = d['preservationLevelValue']
+        preservationLevel = PreservationLevel(preservationLevelValue)
+
+        if d.get('preservationLevelType'):
+            preservationLevel.set_preservationLevelType(d['preservationLevelType'])
+
+        if d.get('preservationLevelRole'):
+            preservationLevel.set_preservationLevelRole(d['preservationLevelRole'])
+
+        if d.get('preservationLevelRationale'):
+            for x in d['preservationLevelRationale']:
+                preservationLevel.add_preservationLevelRationale(x)
+
+        if d.get('preservationLevelDateAssigned'):
+            preservationLevel.set_preservationLevelDateAssigned(d['preservationLevelDateAssigned'])
+
+        return preservationLevel
+
+    def buildSignificantProperties(self, d):
+        significantPropertiesValue = None
+        if d.get('significantPropertiesValue'):
+            significantPropertiesValue = d['significantPropertiesValue']
+
+        significantPropertiesExtension = None
+        if d.get('significantPropertiesExtension'):
+            significantPropertiesExtension = self.buildSignificantPropertiesExtension(d['significantPropertiesExtension'])
+
+        significantProperties = SignificantProperties(significantPropertiesValue, significantPropertiesExtension)
+
+        if d.get('significantPropertiesType'):
+            significantProperties.set_significantPropertiesType(d['significantPropertiesType'])
+
+        return significantProperties
+
+    def buildObjectCharacteristics(self, d):
+        format = [self.buildFormat(x) for x in d['format']]
+
+        objectCharacteristics = ObjectCharacteristics(format)
+
+        if d.get('compositionLevel'):
+            objectCharacteristics.set_compositionLevel(d['compositionLevel'])
+
+        if d.get('fixity'):
+            for x in d['fixity']:
+                objectCharacteristics.add_fixity(self.buildFixity(x))
+
+        if d.get('size'):
+            objectCharacteristics.set_size(d['size'])
+
+        if d.get('format'):
+            for x in d['format']:
+                objectCharacteristics.add_format(self.buildFormat(x))
+
+        if d.get('creatingApplication'):
+            for x in d['creatingApplication']:
+                objectCharacteristics.add_creatingApplication(self.buildCreatingApplication(x))
+
+        if d.get('inhibitors'):
+            for x in d['inhibitors']:
+                objectCharacteristics.add_inhibitors(self.buildInhibitors(x))
+
+        if d.get('objectCharacteristicsExtension'):
+            objectCharacteristics.set_objectCharacteristicsExtension(
+                self.buildObjectCharacteristicsExtension(d['objectCharacteristicsExtension'])
+            )
+
+        return objectCharacteristics
+
+    def buildFixity(self, d):
+        messageDigestAlgorithm = d['messageDigestAlgorithm']
+        messageDigest = d['messageDigest']
+
+        fixity = Fixity(messageDigestAlgorithm, messageDigest)
+
+        if d.get('messageDigestOriginator'):
+            fixity.set_messageDigestOriginator(d.get('messageDigestOriginator'))
+
+        return fixity
+
+    def buildFormat(self, d):
+        formatDesignation = None
+        if d.get('formatDesignation'):
+            formatDesignation = self.buildFormatDesignation(d['formatDesignation'])
+
+        formatRegistry = None
+        if d.get('formatRegistry'):
+            formatRegistry = self.buildFormatRegistry(d['formatRegistry'])
+
+        format = Format(formatDesignation, formatRegistry)
+
+        if d.get('formatNote'):
+            for x in d['formatNote']:
+                format.add_formatNote(x)
+
+        return format
+
+    def buildFormatDesignation(self, d):
+        formatName = d['formatName']
+
+        formatDesignation = FormatDesignation(formatName)
+
+        if d.get('formatVersion'):
+            formatDesignation.set_formatVersion(d['formatVersion'])
+
+        return formatDesignation
+
+    def buildFormatRegistry(self, d):
+        formatRegistryName = d['formatRegistryName']
+        formatRegistryKey = d['formatRegistryKey']
+
+        formatRegistry = FormatRegistry(formatRegistryName, formatRegistryKey)
+
+        if d.get('formatRegistryRole'):
+            formatRegistry.set_formatRegistryRole(d['formatRegistryRole'])
+
+        return formatRegistry
+
+    def buildCreatingApplication(self, d):
+        creatingApplication = CreatingApplication()
+
+        if d.get('creatingApplicationName'):
+            creatingApplication.set_creatingApplicationName(d['creatingApplicationName'])
+
+        if d.get('creatingApplicationVersion'):
+            creatingApplication.set_creatingApplicationVersion(d['creatingApplicationVersion'])
+
+        if d.get('dateCreatedByApplication'):
+            creatingApplication.set_dateCreatedByApplication(d['dateCreatedByApplication'])
+
+        if d.get('creatingApplicationExtension'):
+            creatingApplication.set_creatingApplicationExtension(
+                self.buildCreatingApplicationExtension(d['creatingApplicationExtension'])
+            )
+
+        return creatingApplication
+
+    def buildInhibitors(self, d):
+        inhibitorType = d['inhibitorType']
+        inhibitors = Inhibitors(inhibitorType)
+
+        if d.get('inhibitorTarget'):
+            for x in d['inhibitorTarget']:
+                inhibitors.add_inhibitorTarget(x)
+
+        if d.get('inhibitorKey'):
+            inhibitors.set_inhibitorKey(d['inhibitorKey'])
+
+        return inhibitors
+
+    def buildStorage(self, d):
+        storage = Storage()
+
+        if d.get('contentLocation'):
+            storage.set_contentLocation(self.buildContentLocation(d['contentLocation']))
+
+        if d.get('storageMedium'):
+            storage.set_storageMedium(d['storageMedium'])
+
+        return storage
+
+    def buildContentLocation(self, d):
+        contentLocationType = d['contentLocationType']
+        contentLocationValue = d['contentLocationValue']
+
+        return ContentLocation(contentLocationType, contentLocationValue)
+
+    def buildSignatureInformation(self, d):
+        signatureInformation = SignatureInformation()
+        if d.get('signature'):
+            for x in d['signature']:
+                signatureInformation.add_signature(self.buildSignature(x))
+
+        if d.get('signatureInformationExtension'):
+            signatureInformation.set_signatureInformationExtension(
+                self.buildSignatureInformationExtension(d['signatureInformationExtension'])
+            )
+
+        return signatureInformation
+
+    def buildSignature(self, d):
+        signatureEncoding = d['signatureEncoding']
+        signatureMethod = d['signatureMethod']
+        signatureValue = d['signatureValue']
+        signatureValidationRules = d['signatureValidationRules']
+
+        signature = Signature(signatureEncoding, signatureMethod, signatureValue, signatureValidationRules)
+
+        if d.get('signer'):
+            signature.set_signer(d['signer'])
+
+        if d.get('signatureProperties'):
+            for x in d['signatureProperties']:
+                signature.add_signatureProperties(x)
+
+        if d.get('keyInformation'):
+            signature.set_keyInformation(
+                self.buildKeyInformation(d['keyInformation'])
+            )
+
+        return signature
+
+    def buildEnvironmentFunction(self, d):
+        environmentFunctionType = d['environmentFunctionType']
+        environmentFunctionLevel = d['environmentFunctionLevel']
+
+        return EnvironmentFunction(environmentFunctionType, environmentFunctionLevel)
+
+    def buildEnvironmentDesignation(self, d):
+        environmentName = d['environmentName']
+
+        environmentDesignation = EnvironmentDesignation(environmentName)
+
+        if d.get('environmentVersion'):
+            environmentDesignation.set_environmentVersion(d['environmentVersion'])
+
+        if d.get('environmentOrigin'):
+            environmentDesignation.set_environmentOrigin(d['environmentOrigin'])
+
+        if d.get('environmentDesignationNote'):
+            for x in d['environmentDesignationNote']:
+                environmentDesignation.add_environmentDesignationNote(x)
+
+        if d.get('environmentDesignationExtension'):
+            environmentDesignation.set_environmentDesignationExtension(d['environmentDesignationExtension'])
+
+        return environmentDesignation
+
+    def buildEnvironmentRegistry(self, d):
+        environmentRegistryName = d['environmentRegistryName']
+        environmentRegistryKey = d['environmentRegistryKey']
+
+        environmentRegistry = EnvironmentRegistry(environmentRegistryName, environmentRegistryKey)
+
+        if d.get('environmentRegistryRole'):
+            environmentRegistry.set_environmentRegistryRole(d['environmentRegistryRole'])
+
+        return environmentRegistry
+
+    def buildRelationship(self, d):
+        relationshipType = d['relationshipType']
+        relationshipSubType = d['relationshipSubType']
+        relatedObjectIdentifier = [self.buildRelatedObjectIdentifier(x) for x in d['relatedObjectIdentifier']]
+
+        relationship = Relationship(relationshipType, relationshipSubType, relatedObjectIdentifier)
+
+        if d.get('relatedEventIdentifier'):
+            for x in d['relatedEventIdentifier']:
+                relationship.add_relatedEventIdentifier(self.buildRelatedEventIdentifier(x))
+
+        if d.get('relatedEnvironmentPurpose'):
+            for x in d['relatedEnvironmentPurpose']:
+                relationship.add_relatedEnvironmentPurpose(x)
+
+        if d.get('relatedEnvironmentCharacteristic'):
+            relationship.set_relatedEnvironmentCharacteristic(d['relatedEnvironmentCharacteristic'])
+
+        return relationship
+
+    def buildRelatedObjectIdentifier(self, d):
+        relatedObjectIdentifierType = d['relatedObjectIdentifierType']
+        relatedObjectIdentifierValue = d['relatedObjectIdentifierValue']
+
+        relatedObjectIdentifier = RelatedObjectIdentifier(relatedObjectIdentifierType, relatedObjectIdentifierValue)
+
+        if d.get('relatedObjectSequence'):
+            relatedObjectIdentifier.set_relatedObjectSequence(d['relatedObjectSequence'])
+
+        return relatedObjectIdentifier
+
+    def buildRelatedEventIdentifier(self, d):
+        relatedEventIdentifierType = d['relatedEventIdentifierType']
+        relatedEventIdentifierValue = d['relatedEventIdentifierValue']
+
+        relatedEventIdentifier = RelatedEventIdentifier(relatedEventIdentifierType, relatedEventIdentifierValue)
+
+        if d.get('relatedEventSequence'):
+            relatedEventIdentifier.set_relatedEventSequence(d['relatedEventSequence'])
+
+        return relatedEventIdentifier
+
+    def buildLinkingEventIdentifier(self, d):
+        linkingEventIdentifierType = d['linkingEventIdentifierType']
+        linkingEventIdentifierValue = d['linkingEventIdentifierValue']
+
+        return LinkingEventIdentifier(linkingEventIdentifierType, linkingEventIdentifierValue)
+
+    def buildLinkingRightsStatementIdentifier(self, d):
+        linkingRightsStatementIdentifierType = d['linkingRightsStatementIdentifierType']
+        linkingRightsStatementIdentifierValue = d['linkingRightsStatementIdentifierValue']
+
+        return LinkingRightsStatementIdentifier(linkingRightsStatementIdentifierType, linkingRightsStatementIdentifierValue)
+
+
+
+
+
+
 class LinkingXIdentifierFactory(metaclass=ABCMeta):
 
     _input_node = None
