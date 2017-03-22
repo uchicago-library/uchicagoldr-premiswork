@@ -324,13 +324,17 @@ class PremisNode(object):
     def toJSON(self):
         r = {}
         for field in self.fields:
-            r[field] = []
-            t = self.fields[field] if isinstance(self.fields[field], list) else [self.fields[field]]
-            for value in t:
-                if isinstance(value, PremisNode):
-                    r[field].append(value.toJSON())
-                else:
-                    r[field].append(value)
+            if isinstance(self.fields[field], list):
+                r[field] = []
+                for value in self.fields[field]:
+                    if isinstance(value, PremisNode):
+                        r[field].append(value.toJSON())
+                    else:
+                        r[field].append(value)
+            elif isinstance(self.fields[field], PremisNode):
+                r[field] = self.fields[field].toJSON()
+            else:
+                r[field] = self.fields[field]
         return r
 
 

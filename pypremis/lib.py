@@ -353,21 +353,21 @@ class PremisRecord(object):
     def to_json(self):
         r = {}
         for x in self.get_object_list():
-            if not r.get('objects'):
-                r['objects'] = []
-            r['objects'].append(x.toJSON())
+            if not r.get('object'):
+                r['object'] = []
+            r['object'].append(x.toJSON())
         for x in self.get_agent_list():
-            if not r.get('agents'):
-                r['agents'] = []
-            r['agents'].append(x.toJSON())
+            if not r.get('agent'):
+                r['agent'] = []
+            r['agent'].append(x.toJSON())
         for x in self.get_rights_list():
             if not r.get('rights'):
                 r['rights'] = []
             r['rights'].append(x.toJSON())
         for x in self.get_event_list():
-            if not r.get('events'):
-                r['events'] = []
-            r['events'].append(x.toJSON())
+            if not r.get('event'):
+                r['event'] = []
+            r['event'].append(x.toJSON())
         return r
 
     def write_to_file(self, targetpath, xml_declaration=True,
