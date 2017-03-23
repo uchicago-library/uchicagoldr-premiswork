@@ -426,7 +426,7 @@ class Test(unittest.TestCase):
         record = PremisRecord(objects=[obj])
         record.write_to_file(getcwd() + '/testobject1.xml')
 
-        record_2 = PremisRecord(frompath=getcwd() + '/testobject1.xml')
+        record_2 = PremisRecord.from_xml_file(getcwd() + '/testobject1.xml')
         record_2.write_to_file(getcwd() + '/testobject2.xml')
 
         self.assertEqual(record, record_2)
@@ -565,7 +565,7 @@ class Test(unittest.TestCase):
         record = PremisRecord(events=[event])
         record.write_to_file(getcwd() + '/testevent1.xml')
 
-        record_2 = PremisRecord(frompath=getcwd() + '/testevent1.xml')
+        record_2 = PremisRecord.from_xml_file(getcwd() + '/testevent1.xml')
         record_2.write_to_file(getcwd() + '/testevent2.xml')
 
         self.assertEqual(record, record_2)
@@ -672,7 +672,7 @@ class Test(unittest.TestCase):
         record = PremisRecord(agents=[agent])
         record.write_to_file(getcwd() + '/testagent1.xml')
 
-        record_2 = PremisRecord(frompath=getcwd() + '/testagent1.xml')
+        record_2 = PremisRecord.from_xml_file(getcwd() + '/testagent1.xml')
         record_2.write_to_file(getcwd() + '/testagent2.xml')
 
         self.assertEqual(record, record_2)
@@ -953,7 +953,7 @@ class Test(unittest.TestCase):
         record = PremisRecord(rights=[rights])
         record.write_to_file(getcwd() + '/testrights1.xml')
 
-        record_2 = PremisRecord(frompath=getcwd() + '/testrights1.xml')
+        record_2 = PremisRecord.from_xml_file(getcwd() + '/testrights1.xml')
         record_2.write_to_file(getcwd() + '/testrights2.xml')
         with open("test.json", 'w') as f:
             dump(record_2.to_json(), f)

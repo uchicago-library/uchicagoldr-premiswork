@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 from pypremis.factories import XMLNodeFactory
 from pypremis.nodes import *
+from json import loads, load
 
 
 """
@@ -25,9 +26,53 @@ class PremisRecord(object):
     5. filepath is a string which correlates to the location on disk
     of a premis.xml file.
     """
-    def __init__(self,
-                 objects=None, events=None, agents=None, rights=None,
-                 frompath=None):
+    @classmethod
+    def from_xml_file(cls, fp):
+        with open(fp) as f:
+            return cls.from_xml_stream(f)
+
+    @classmethod
+    def from_json_file(cls, fp):
+        with open(fp) as f:
+            return cls.from_json_stream(f)
+
+    @classmethod
+    def from_xml_str(cls, s):
+        return cls.from_etree(ET.ElementTree(ET.fromstring(s)))
+
+    @classmethod
+    def from_json_str(cls, s):
+        return cls.from_dict(loads(s))
+
+    @classmethod
+    def from_xml_stream(cls, s):
+        return cls.from_etree(ET.parse(s))
+
+    @classmethod
+    def from_json_stream(cls, s):
+        return from_dict(load(s))
+
+    @classmethod
+    def from_dict(cls, d):
+        fac = JSONNodeFactory(d)
+        return PremisRecord(
+            objects=fac.find_objects(),
+            events=fac.find_events(),
+            rights=fac.find_rights(),
+            agents=fac.find_agents()
+        )
+
+    @classmethod
+    def from_etree(cls, tree):
+        fac = XMLNodeFactory(tree)
+        return PremisRecord(
+            objects=fac.find_objects(),
+            events=fac.find_events(),
+            rights=fac.find_rights(),
+            agents=fac.find_agents()
+        )
+
+    def __init__(self, objects=None, events=None, agents=None, rights=None):
         """
         Initializes a PremisRecord object from either a list of
         pre-existing nodes or an existing xml file on disk. Requires
@@ -39,38 +84,26 @@ class PremisRecord(object):
         * events (list):  a list to initially populate events_list
         * agents (list):  a list to initially populate agents_list
         * rights (list):  a list to initially populate rights_list
-        * frompath (list): a string meant to set the location of an originating
-        xml file
         """
-
-        if (frompath and (objects or events or agents or rights)) \
-                or \
-                (not frompath and not (objects or events or agents or rights)):
-            raise ValueError("Must supply either a valid file or at least "
-                             "one array of valid PREMIS objects.")
-
         self.events_list = []
         self.objects_list = []
         self.agents_list = []
         self.rights_list = []
-        self.filepath = None
 
-        if frompath:
-            self.filepath = frompath
-            self.populate_from_file(XMLNodeFactory)
-        else:
-            if objects:
-                for x in objects:
-                    self.add_object(x)
-            if events:
-                for x in events:
-                    self.add_event(x)
-            if agents:
-                for x in agents:
-                    self.add_agent(x)
-            if rights:
-                for x in rights:
-                    self.add_rights(x)
+        ET.register_namespace('premis', "")
+        ET.register_namespace('xsi', "")
+        if objects:
+            for x in objects:
+                self.add_object(x)
+        if events:
+            for x in events:
+                self.add_event(x)
+        if agents:
+            for x in agents:
+                self.add_agent(x)
+        if rights:
+            for x in rights:
+                self.add_rights(x)
 
     def __iter__(self):
         """
@@ -246,27 +279,6 @@ class PremisRecord(object):
         """
         return self.rights_list
 
-    def set_filepath(self, filepath):
-        """
-        Sets the filepath attribute.
-
-        __Args__
-
-        1. filepath (str): A string corresponding to a filepath on disk that specifies
-        the location of a pre-existing premis xml record
-        """
-        self.filepath = filepath
-
-    def get_filepath(self):
-        """
-        Returns the filepath attribute.
-
-        __Returns__
-
-        * (str): the self.filepath attribute
-        """
-        return self.filepath
-
     def validate(self):
         """
         Validates the contained record against the PREMIS specification.
@@ -277,45 +289,8 @@ class PremisRecord(object):
         """
         pass
 
-    def populate_from_file(self, factory=XMLNodeFactory, filepath=None):
-        """
-        Populates the object, event, agent, and rights lists from an existing
-        premis xml file
-
-        __Args__
-
-        1. factory (cls): A factory class which implements .find_events(),
-        .find_agents(), .find_rights, and .find_objects(), which return
-        iterators consisting of Event, Agent, Rights, and Object PremisNode
-        instances respectively.
-
-        __KWArgs__
-
-        * filepath (str): A string which specifies the location of a serialization
-        supported by the given factory class. If not provided the instances
-        filepath attribute is assumed.
-        """
-        if filepath is None:
-            if self.get_filepath() is None:
-                raise ValueError("No supplied filepath.")
-            filepath = self.get_filepath()
-        factory = factory(filepath)
-        for event in factory.find_events():
-            self.add_event(event)
-        for agent in factory.find_agents():
-            self.add_agent(agent)
-        for rights in factory.find_rights():
-            self.add_rights(rights)
-        for obj in factory.find_objects():
-            self.add_object(obj)
-        # This fixes a weird bug where the premis xmlns was being written twice
-        # in the attributes of the root tag when calling .write_to_file() in
-        # cases where extension nodes contain children that are PremisNodes
-        ET.register_namespace('premis', "")
-        ET.register_namespace('xsi', "")
-
     def write(self, targetpath, xml_declaration=True,
-                      encoding="UTF-8", method='xml'):
+              encoding="UTF-8", method='xml'):
         # Eventually this function might get more complicated and wrap multiple
         # serializers and what not, but for now it's just XML. If you want your
         # code to be rock solid forever use .write_to_file(), it's named so

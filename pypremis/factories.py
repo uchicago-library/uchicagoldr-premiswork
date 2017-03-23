@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 from abc import ABCMeta, abstractmethod
+from os.path import exists
 
 from pypremis.nodes import *
 
@@ -21,7 +22,7 @@ class XMLNodeFactory(object):
     1. xml: an ElementTree xml Element object meant to act as the root to attach
     objects too from the xml.
     """
-    def __init__(self, xmlfile):
+    def __init__(self, tree):
         """
         Initializes an XML node factory and points it to a PREMIS xml file
         to be used to build PremisNode instances.
@@ -32,7 +33,6 @@ class XMLNodeFactory(object):
         """
         ET.register_namespace('premis', "http://www.loc.gov/premis/v3")
         ET.register_namespace('xsi', "http://www.w3.org/2001/XMLSchema-instance")
-        tree = ET.parse(xmlfile)
         self.xml = tree.getroot()
 
     def _find_all(self, node, tag, req=False):
