@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-from pypremis.factories import XMLNodeFactory
+from pypremis.factories import XMLNodeFactory, JSONNodeFactory
 from pypremis.nodes import *
 from json import loads, load
 
@@ -50,7 +50,7 @@ class PremisRecord(object):
 
     @classmethod
     def from_json_stream(cls, s):
-        return from_dict(load(s))
+        return cls.from_dict(load(s))
 
     @classmethod
     def from_dict(cls, d):

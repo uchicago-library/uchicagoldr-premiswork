@@ -1165,25 +1165,25 @@ class JSONNodeFactory(object):
 
     def find_objects(self):
         r = []
-        for x in self.j['object']:
+        for x in self.j.get('object', []):
             r.append(self.buildObject(x))
         return r
 
     def find_events(self):
         r = []
-        for x in self.j['event']:
+        for x in self.j.get('event', []):
             r.append(self.buildEvent(x))
         return r
 
     def find_rights(self):
         r = []
-        for x in self.j['rights']:
+        for x in self.j.get('rights', []):
             r.append(self.buildRights(x))
         return r
 
     def find_agents(self):
         r = []
-        for x in self.j['agent']:
+        for x in self.j.get('agent', []):
             r.append(self.buildAgent(x))
         return r
 
@@ -1354,10 +1354,6 @@ class JSONNodeFactory(object):
 
         if d.get('size'):
             objectCharacteristics.set_size(d['size'])
-
-        if d.get('format'):
-            for x in d['format']:
-                objectCharacteristics.add_format(self.buildFormat(x))
 
         if d.get('creatingApplication'):
             for x in d['creatingApplication']:
