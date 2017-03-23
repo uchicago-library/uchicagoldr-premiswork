@@ -1227,7 +1227,7 @@ class JSONNodeFactory(object):
         return self.buildExtendedNode(SignificantPropertiesExtension, d)
 
     def buildKeyInformation(self, d):
-        return KeyInformation()
+        return self.buildExtendedNode(KeyInformation, d)
 
     def buildSignatureInformationExtension(self, d):
         return self.buildExtendedNode(SignatureInformationExtension, d)
