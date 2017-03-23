@@ -85,10 +85,10 @@ class PremisRecord(object):
         * agents (list):  a list to initially populate agents_list
         * rights (list):  a list to initially populate rights_list
         """
-        self.events_list = []
-        self.objects_list = []
-        self.agents_list = []
-        self.rights_list = []
+        self._event_list = []
+        self._object_list = []
+        self._agent_list = []
+        self._rights_list = []
 
         ET.register_namespace('premis', "")
         ET.register_namespace('xsi', "")
@@ -147,7 +147,9 @@ class PremisRecord(object):
 
         1. event (PremisNode): an Event PremisNode instance.
         """
-        self.events_list.append(event)
+        if not isinstance(event, Event):
+            raise ValueError()
+        self._event_list.append(event)
 
     def get_event(self, eventID):
         """
@@ -172,7 +174,15 @@ class PremisRecord(object):
 
         * (list): the self.events_list attribute
         """
-        return self.events_list
+        return self._event_list
+
+    def set_event_list(self, l):
+        del self.event_list
+        for x in l:
+            self.add_event(x)
+
+    def del_event_list(self):
+        self._event_list = []
 
     def add_object(self, obj):
         """
@@ -182,7 +192,9 @@ class PremisRecord(object):
 
         1. obj (PremisNode): an Object PremisNode instance
         """
-        self.objects_list.append(obj)
+        if not isinstance(obj, Object):
+            raise ValueError()
+        self._object_list.append(obj)
 
     def get_object(self, objID):
         """
@@ -207,7 +219,15 @@ class PremisRecord(object):
 
         * (list): the self.objects_list attribute
         """
-        return self.objects_list
+        return self._object_list
+
+    def set_object_list(self, l):
+        del self.object_list
+        for x in l:
+            self.add_object(x)
+
+    def del_object_list(self):
+        self._object_list = []
 
     def add_agent(self, agent):
         """
@@ -217,7 +237,9 @@ class PremisRecord(object):
 
         1. agent (PremisNode): an Agent PremisNode instance
         """
-        self.agents_list.append(agent)
+        if not isinstance(agent, Agent):
+            raise ValueError()
+        self._agent_list.append(agent)
 
     def get_agent(self, agentID):
         """
@@ -242,7 +264,15 @@ class PremisRecord(object):
 
         * (list): the self.agents_list attribute
         """
-        return self.agents_list
+        return self._agent_list
+
+    def set_agent_list(self, l):
+        del self.agent_list
+        for x in l:
+            self.add_agent(l)
+
+    def del_agent_list(self):
+        self._agent_list = []
 
     def add_rights(self, rights):
         """
@@ -252,7 +282,9 @@ class PremisRecord(object):
 
         1. rights (PremisNode): a Rights PremisNode instance
         """
-        self.rights_list.append(rights)
+        if not isinstance(rights, Rights):
+            raise ValueError()
+        self._rights_list.append(rights)
 
     def get_rights(self, rightsID):
         """
@@ -277,38 +309,17 @@ class PremisRecord(object):
 
         * (list): the self.rights_list attribute
         """
-        return self.rights_list
+        return self._rights_list
 
-    def validate(self):
-        """
-        Validates the contained record against the PREMIS specification.
+    def set_rights_list(self, l):
+        del self.rights_list
+        for x in l:
+            self.add_rights(x)
 
-        __Returns__
+    def del_rights_list(self):
+        self._rights_list = []
 
-        * (bool): A bool denoting validity
-        """
-        pass
-
-    def write(self, targetpath, xml_declaration=True,
-              encoding="UTF-8", method='xml'):
-        # Eventually this function might get more complicated and wrap multiple
-        # serializers and what not, but for now it's just XML. If you want your
-        # code to be rock solid forever use .write_to_file(), it's named so
-        # explicitly that even I would have trouble making an argument for
-        # changing its functionality.
-        """
-        Wrap the function with an obnoxiously long name for backwards
-        compatability, see comment note above for more info
-
-        __Args__
-
-        1. targetpath (str): a str corresponding to the intended location on disk
-        to write the premis xml file to.
-        """
-        self.write_to_file(targetpath, xml_declaration=xml_declaration,
-                           encoding=encoding, method=method)
-
-    def to_tree(self):
+    def to_etree(self):
         tree = ET.ElementTree(element=ET.Element('premis:premis'))
         root = tree.getroot()
         root.set('xmlns:premis', "http://www.loc.gov/premis/v3")
@@ -317,13 +328,6 @@ class PremisRecord(object):
         for entry in self:
             root.append(entry.toXML())
         return tree
-
-    def to_xml(self, encoding='UTF-8', method='xml',
-               short_empty_elements=True):
-        tree = self.to_tree()
-        return ET.tostring(tree.getroot(), encoding=encoding,
-                           method=method,
-                           short_empty_elements=short_empty_elements)
 
     def to_json(self):
         r = {}
@@ -345,19 +349,7 @@ class PremisRecord(object):
             r['event'].append(x.toJSON())
         return r
 
-    def write_to_file(self, targetpath, xml_declaration=True,
-                      encoding="UTF-8", method='xml'):
-        """
-        Writes the contained premis data structure out to disk as the
-        specified path as an xml document.
-
-        __Args__
-
-        1. targetpath (str): a str corresponding to the intended location on disk
-        to write the premis xml file to.
-        """
-        tree = self.to_tree()
-        tree.write(targetpath,
-                   xml_declaration=True,
-                   encoding=encoding,
-                   method='xml')
+    object_list = property(get_object_list, set_object_list, del_object_list)
+    event_list = property(get_event_list, set_event_list, del_event_list)
+    agent_list = property(get_agent_list, set_agent_list, del_agent_list)
+    rights_list = property(get_rights_list, set_rights_list, del_rights_list)

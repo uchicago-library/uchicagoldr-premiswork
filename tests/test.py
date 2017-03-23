@@ -16,7 +16,6 @@ from json import dump, dumps
 object_rec = PremisRecord.from_xml_file("testobject1.xml")
 object_rec2 = PremisRecord.from_dict(object_rec.to_json())
 print(object_rec.to_json() == object_rec2.to_json())
-object_rec2.write_to_file("comp_object1.xml")
 
 event_rec = PremisRecord.from_xml_file("testevent1.xml")
 event_rec2 = PremisRecord.from_dict(event_rec.to_json())
